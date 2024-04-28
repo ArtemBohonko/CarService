@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -53,10 +54,10 @@ namespace CarService
             setCategoriesInCB();
             setTableInDGV();
 
-            comboBox1.SelectedIndex = comboBox2.SelectedIndex = comboBox3.SelectedIndex = comboBox4.SelectedIndex = 
-            comboBox5.SelectedIndex =comboBox6.SelectedIndex=comboBox7.SelectedIndex=comboBox8.SelectedIndex =comboBox9.SelectedIndex= -1;
+            //comboBox1.SelectedIndex = comboBox2.SelectedIndex = comboBox3.SelectedIndex = comboBox4.SelectedIndex = 
+            //comboBox5.SelectedIndex =comboBox6.SelectedIndex=comboBox7.SelectedIndex=comboBox8.SelectedIndex =comboBox9.SelectedIndex= -1;
             
-            
+            ClearFields();
             //comboBox1.Text=comboBox2.Text=comboBox3.Text=comboBox4.Text=comboBox5.Text=comboBox6.Text=comboBox7.Text=comboBox8.Text = "";
             IsOpened = true;
         }
@@ -334,8 +335,6 @@ namespace CarService
 
         private void button5_Click(object sender, EventArgs e)
         {
-            
-
             if (!CheckNullField())
             {
                 MessageBox.Show("Некорректные данные! Пожалуйста проверьте правильность заполнения полей. Возможно не все поля были заполнены\n",
@@ -345,19 +344,37 @@ namespace CarService
                 return;
             }
 
+            SqlConnection sqlConnection = new SqlConnection(dataBase.connectionString);
+            sqlConnection.Open();
+            SqlCommand sqlCommand = sqlConnection.CreateCommand();
+            SqlTransaction transaction = sqlConnection.BeginTransaction();
+            sqlCommand.Transaction = transaction;
+
+           
+
             try
             {
                 this.order = new Order();
                 order.DateTime = DateTime.Now;
-                order.Client = getIdClient();
-                order.Car = getIdDetail();
+                order.Client = getIdClient(sqlCommand);
+                order.Car = getIdDetail(sqlCommand);
                 order.Employee = this.IdImployee;
                 order.Master = getIdMaster();
                 order.TotalCost = float.Parse(textBox6.Text);
                 order.Status = 1;
                 order.Comment = textBox2.Text;
 
-                dataBase.AddOrder(order, selectedServices);
+                dataBase.AddOrder(order, selectedServices,sqlCommand);
+
+                transaction.Commit();
+                if(this.IsClientNew)
+                    this.clientsTable = dataBase.LoadClients();
+                IsClientNew = false;
+                MessageBox.Show("Заказ успешно оформлен!\n",
+                     "Оформление услуг",
+                     MessageBoxButtons.OK,
+                     MessageBoxIcon.Error);
+                ClearFields();
             }
             catch(Exception ex)
             {
@@ -365,13 +382,14 @@ namespace CarService
                      "Оформление услуг",
                      MessageBoxButtons.OK,
                      MessageBoxIcon.Error);
+                transaction.Rollback();
             }
 
                
            
         }
 
-        private int getIdClient()
+        private int getIdClient(SqlCommand command)
         {
             int id;
             
@@ -382,19 +400,18 @@ namespace CarService
                 client.MName = textBox3.Text;
                 client.Phone = ConvertPhoneNumber(maskedTextBox1.Text);
 
-                id = dataBase.AddNewClient(client);
+                id = dataBase.AddNewClient(client,command);
             }
             else
             {
 
                 id = (int)clientsTable.Select(string.Format("Phone={0}", ConvertPhoneNumber(maskedTextBox1.Text)))[0].ItemArray[0];
             }
-            IsClientNew = false;
 
             return id;
         }
 
-        private int getIdDetail()
+        private int getIdDetail(SqlCommand command)
         {
             int id=-1;
             try
@@ -408,7 +425,7 @@ namespace CarService
                 carDetails.Mileage = textBox4.Text==string.Empty? 0:Convert.ToInt32(textBox4.Text);
 
 
-                id = dataBase.AddCarDetails(carDetails);
+                id = dataBase.AddCarDetails(carDetails,command);
             }
             catch (Exception ex)
             {
@@ -457,6 +474,35 @@ namespace CarService
                 return true;
         }
 
+        private void ClearFields()
+        {
+            comboBox1.SelectedIndex = comboBox2.SelectedIndex = 
+            comboBox3.SelectedIndex = comboBox4.SelectedIndex =
+            comboBox5.SelectedIndex = comboBox6.SelectedIndex = 
+            comboBox7.SelectedIndex = comboBox8.SelectedIndex = 
+            comboBox9.SelectedIndex = -1;
+            textBox1.Clear();
+            textBox2.Clear();
+            textBox3.Clear();
+            textBox4.Clear();
+            textBox5.Clear();
+            textBox6.Clear();
+            selectedServices.Rows.Clear();
+
+
+            comboBox2.Enabled = false;
+            comboBox6.Enabled = false;
+
+            comboBox7.SelectedIndex = -1;
+            comboBox7.Visible = true;
+            label10.Visible = label11.Visible = 
+            maskedTextBox1.Visible = textBox3.Visible = 
+            textBox5.Visible = false;
+            label8.Text = "Поиск";
+            maskedTextBox1.Text = textBox3.Text = textBox5.Text = "";
+            IsClientNew = false;
+        }
+
         private void comboBox3_KeyPress(object sender, KeyPressEventArgs e)
         {
             char ch = e.KeyChar;
@@ -485,6 +531,13 @@ namespace CarService
             {
                 e.Handled = true;// то событие не обрабатывается. ch!=8 (8 - это Backspace)
             }
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            ViewOrders viewOrders = new ViewOrders();
+            viewOrders.ShowDialog(this);
+            //dataBase.LoadOrders();
         }
     }
 }

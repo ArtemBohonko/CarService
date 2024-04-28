@@ -64,6 +64,18 @@
     <Compile Include="Objects\Client.cs" />
     <Compile Include="Objects\Employee.cs" />
     <Compile Include="Objects\Order.cs" />
+    <Compile Include="Objects\OrderDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Objects\OrderDetails.Designer.cs">
+      <DependentUpon>OrderDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\ViewOrders.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Objects\ViewOrders.Designer.cs">
+      <DependentUpon>ViewOrders.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="LoginForm.resx">
@@ -71,6 +83,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Objects\OrderDetails.resx">
+      <DependentUpon>OrderDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Objects\ViewOrders.resx">
+      <DependentUpon>ViewOrders.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

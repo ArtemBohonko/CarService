@@ -9,12 +9,13 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using CarService.Objects;
 using System.IO;
+using System.Net.Sockets;
 
 namespace CarService
 {
     internal class DB
     {
-        private const string connectionString = "Data Source=DESKTOP-UN6IMVL\\SQLEXPRESS;Initial Catalog=CarService;Integrated Security=True";
+        public string connectionString = "Data Source=DESKTOP-UN6IMVL\\SQLEXPRESS;Initial Catalog=CarService;Integrated Security=True";
         private SqlConnection sqlConnection;
 
         public DB()
@@ -336,42 +337,45 @@ namespace CarService
 
         }
 
-        public int AddNewClient(Client client)
+        public int AddNewClient(Client client, SqlCommand command)
         {
-            using (sqlConnection = new SqlConnection(connectionString))
-            {
-                sqlConnection.Open();
+            //using (sqlConnection = new SqlConnection(connectionString))
+            //{
+            //sqlConnection.Open();
 
-                SqlCommand command = sqlConnection.CreateCommand();
-                command.CommandText = "addClient";
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@FName", client.FName);
-                command.Parameters.AddWithValue("@MName", client.MName);
-                command.Parameters.AddWithValue("@Phone", client.Phone);
+            //SqlCommand command = sqlConnection.CreateCommand();
+            if (command.Parameters.Count != 0) command.Parameters.Clear();
+
+            command.CommandText = "addClient";
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@FName", client.FName);
+            command.Parameters.AddWithValue("@MName", client.MName);
+            command.Parameters.AddWithValue("@Phone", client.Phone);
 
 
-                command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int, 4));
-                command.Parameters["@id"].Direction = ParameterDirection.Output;
+            command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int, 4));
+            command.Parameters["@id"].Direction = ParameterDirection.Output;
 
-                command.ExecuteNonQuery();
+            command.ExecuteNonQuery();
 
-                int id = (int)command.Parameters["@id"].Value;
+            int id = (int)command.Parameters["@id"].Value;
 
-                sqlConnection.Close();
-                return id;
-            }
+            //sqlConnection.Close();
+            return id;
+            //}
         }
 
-        public int AddCarDetails(CarDetails carDetails)
+        public int AddCarDetails(CarDetails carDetails, SqlCommand command)
         {
 
 
-            sqlConnection = new SqlConnection(connectionString);
+            //sqlConnection = new SqlConnection(connectionString);
 
 
-            sqlConnection.Open();
+            //sqlConnection.Open();
 
-            SqlCommand command = sqlConnection.CreateCommand();
+            //SqlCommand command = sqlConnection.CreateCommand();
+            if (command.Parameters.Count != 0) command.Parameters.Clear();
             command.CommandText = "addCarDetails";
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@Car", carDetails.CarId);
@@ -389,20 +393,21 @@ namespace CarService
 
             int id = (int)command.Parameters["@id"].Value;
 
-            sqlConnection.Close();
+            //sqlConnection.Close();
             return id;
 
 
         }
 
-        public int AddOrder(Order order, DataTable service)
+        public int AddOrder(Order order, DataTable service,SqlCommand command)
         {
-            sqlConnection = new SqlConnection(connectionString);
+            //sqlConnection = new SqlConnection(connectionString);
 
 
-            sqlConnection.Open();
+            //sqlConnection.Open();
 
-            SqlCommand command = sqlConnection.CreateCommand();
+            //SqlCommand command = sqlConnection.CreateCommand();
+            if (command.Parameters.Count != 0) command.Parameters.Clear();
             command.CommandText = "addOrder";
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@Date", order.DateTime);
@@ -421,20 +426,21 @@ namespace CarService
 
             int id = (int)command.Parameters["@id"].Value;
 
-            AddServiceDetails(id, service, sqlConnection);
+            AddServiceDetails(id, service, command);
 
-            sqlConnection.Close();
+            //sqlConnection.Close();
             return id;
         }
 
-        public void AddServiceDetails(int id, DataTable serviceDetails, SqlConnection connection)
+        public void AddServiceDetails(int id, DataTable serviceDetails, SqlCommand command)
         {
-            
-                string comandText = CreateComandToAddServiceDetails(id, serviceDetails);
-                SqlCommand command = connection.CreateCommand();
-                command.CommandText = comandText;
-                command.ExecuteNonQuery();
-            
+
+            string comandText = CreateComandToAddServiceDetails(id, serviceDetails);
+            //SqlCommand command = connection.CreateCommand();
+            command.CommandType = CommandType.Text;
+            command.CommandText = comandText;
+            command.ExecuteNonQuery();
+
         }
         public string CreateComandToAddServiceDetails(int idOrder,DataTable service) 
         {
@@ -451,5 +457,134 @@ namespace CarService
             return result;
         }
 
+        public DataSet LoadOrders()
+        {
+            //DataTable allInfoAboutOrders
+            //IdOrder, Date, 
+            //IdClient, FNameClient, MNameClient, PhoneClient,
+            //IdCar, Brand, Model, Year, Engine, Value, Mileage, VIN, 
+            //IdEmp, FNameEmp,MNameEmp, LNameEmp, PhoneEmp,
+            //IdMaster, FNameMaster, MNameMaster, LNameMaster, PhoneMaster,
+            //TotalCost, Status, Comment
+            
+            DataTable orders = new DataTable();
+            DataSet dataSet = new DataSet();
+            DataTable dataTableOrders = new DataTable();
+            DataTable dataTableServiceDetails = new DataTable();
+            DataTable shortOrdersTable = new DataTable();
+
+            using (sqlConnection = new SqlConnection(connectionString))
+            {
+                
+                
+
+                string sqlQuery1 = "SELECT * FROM allInfoAboutOrders", sqlQuery2 = "SELECT * FROM allInfoAboutServicesInOrders";
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlQuery1,sqlConnection);
+                dataAdapter.Fill(dataTableOrders);
+                
+                dataSet.Tables.Add(dataTableOrders);
+                dataAdapter.SelectCommand.CommandText = sqlQuery2;
+                dataAdapter.Fill(dataTableServiceDetails);
+                dataSet.Tables.Add(dataTableServiceDetails);
+
+                dataSet.Tables[0].TableName = "OrdersFull";
+                dataSet.Tables[1].TableName = "Services";
+            }
+
+            shortOrdersTable = CreateShortOrdersTable(dataSet);
+            dataSet.Tables.Add(shortOrdersTable);
+            dataSet.Tables[2].TableName = "OrdersShort";
+
+            
+
+            return dataSet;
+        }
+
+        private DataTable CreateShortOrdersTable(DataSet dataSet)
+        {
+            //DataTable allInfoAboutOrders
+            //0-IdOrder,1-Date, 
+            //2-IdClient,3-FNameClient,4-MNameClient,5-PhoneClient,
+            //6-IdCar,7-Brand,8-Model,9-Year,10-Engine,11-Value,12-Mileage,13-VIN, 
+            //14-IdEmp,15-FNameEmp,16-MNameEmp,17-LNameEmp,18-PhoneEmp,
+            //19-IdMaster,20-FNameMaster,21-MNameMaster,22-LNameMaster,23-PhoneMaster,
+            //24-TotalCost,25-Status,26-Comment
+            DataTable orders = new DataTable();
+            orders.Columns.Add("Id", typeof(int));
+            orders.Columns.Add("Date", typeof(DateTime));
+            orders.Columns.Add("Brand", typeof(string));
+            orders.Columns.Add("Model", typeof(string));
+            orders.Columns.Add("Year", typeof(int));
+            orders.Columns.Add("Service", typeof(string));
+            orders.Columns.Add("Price", typeof(string));
+            orders.Columns.Add("TotalPrice", typeof(int));
+            orders.Columns.Add("Comment", typeof(string));
+            orders.Columns.Add("Status", typeof(string));
+
+            DataRow newRow;
+
+            foreach (DataRow row in dataSet.Tables[0].Rows)
+            {
+                newRow = orders.NewRow();
+                newRow[orders.Columns[0].ColumnName] = Convert.ToInt32(row.ItemArray[0]);
+                newRow[orders.Columns[1].ColumnName] = Convert.ToDateTime(row.ItemArray[1]);
+                newRow[orders.Columns[2].ColumnName] = Convert.ToString(row.ItemArray[7]);
+                newRow[orders.Columns[3].ColumnName] = Convert.ToString(row.ItemArray[8]);
+                newRow[orders.Columns[4].ColumnName] = Convert.ToInt32(row.ItemArray[9]);
+
+                newRow[orders.Columns[5].ColumnName] = CreateServicesString(dataSet.Tables[1], Convert.ToInt32(row.ItemArray[0]));
+                newRow[orders.Columns[6].ColumnName] = CreatePricesString(dataSet.Tables[1], Convert.ToInt32(row.ItemArray[0]));
+                newRow[orders.Columns[7].ColumnName] = Convert.ToInt32(row.ItemArray[24]);
+                newRow[orders.Columns[8].ColumnName] = Convert.ToString(row.ItemArray[26]);
+                newRow[orders.Columns[9].ColumnName] = Convert.ToString(ConvertStatus(Convert.ToInt32( row.ItemArray[25])));
+
+                orders.Rows.Add(newRow);
+            }
+
+            return orders;
+        }
+
+        private string CreateServicesString(DataTable table,int id)
+        {
+            string result = "";
+            DataRow[] serviceRows = table.Select(string.Format("{0}={1}", table.Columns[0].ColumnName, id));
+            foreach(DataRow row in serviceRows)
+            {
+                result += row.ItemArray[1].ToString() + Environment.NewLine;
+            }
+            return result;
+        
+        }
+
+        private string CreatePricesString(DataTable table, int id)
+        {
+            string result = "";
+            DataRow[] serviceRows = table.Select(string.Format("{0}={1}", table.Columns[0].ColumnName, id));
+            foreach (DataRow row in serviceRows)
+            {
+                result += row.ItemArray[2].ToString() + Environment.NewLine;
+            }
+            return result;
+
+        }
+
+        private string ConvertStatus(int status)
+        {
+            string result = "";
+            switch (status)
+            {
+                case 1:
+
+                    result = "Оформлен";
+                    break;
+                case 2:
+                    result = "В процессе";
+                    break;
+                case 3:
+                    result = "Выполнен";
+                    break;
+            }
+            return result;
+        }
     }
 }
