@@ -47,6 +47,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DB.cs" />
+    <Compile Include="InProgerssForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InProgerssForm.Designer.cs">
+      <DependentUpon>InProgerssForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -64,31 +70,34 @@
     <Compile Include="Objects\Client.cs" />
     <Compile Include="Objects\Employee.cs" />
     <Compile Include="Objects\Order.cs" />
-    <Compile Include="Objects\OrderDetails.cs">
+    <Compile Include="OrderDetailsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Objects\OrderDetails.Designer.cs">
-      <DependentUpon>OrderDetails.cs</DependentUpon>
+    <Compile Include="OrderDetailsForm.Designer.cs">
+      <DependentUpon>OrderDetailsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Objects\ViewOrders.cs">
+    <Compile Include="ViewOrdersForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Objects\ViewOrders.Designer.cs">
-      <DependentUpon>ViewOrders.cs</DependentUpon>
+    <Compile Include="ViewOrdersForm.Designer.cs">
+      <DependentUpon>ViewOrdersForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="InProgerssForm.resx">
+      <DependentUpon>InProgerssForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Objects\OrderDetails.resx">
-      <DependentUpon>OrderDetails.cs</DependentUpon>
+    <EmbeddedResource Include="OrderDetailsForm.resx">
+      <DependentUpon>OrderDetailsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Objects\ViewOrders.resx">
-      <DependentUpon>ViewOrders.cs</DependentUpon>
+    <EmbeddedResource Include="ViewOrdersForm.resx">
+      <DependentUpon>ViewOrdersForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

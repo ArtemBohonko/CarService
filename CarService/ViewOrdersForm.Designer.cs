@@ -1,6 +1,6 @@
 ﻿namespace CarService.Objects
 {
-    partial class ViewOrders
+    partial class ViewOrdersForm
     {
         /// <summary>
         /// Required designer variable.

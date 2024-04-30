@@ -13,7 +13,8 @@ namespace CarService.Objects
         public string MName { get; set; }
         public string LName { get; set; }
         public string Phone { get; set; }
-        public string Position { get; set; }
+        public string PositionName { get; set; }
+        public string PositionId { get; set; }
         public string Password { get; set; }
 
 

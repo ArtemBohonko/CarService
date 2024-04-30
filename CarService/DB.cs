@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using CarService.Objects;
 using System.IO;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 
 namespace CarService
 {
@@ -105,8 +106,9 @@ namespace CarService
                         employee.MName = reader.GetString(2);
                         employee.LName = reader.GetString(3);
                         employee.Phone = reader.GetString(4);
-                        employee.Position = reader.GetString(5);
-                        employee.Password = reader.GetString(6);
+                        employee.PositionName = reader.GetString(5);
+                        employee.PositionId = reader.GetInt32(6).ToString();
+                        employee.Password = reader.GetString(7);
 
                     }
                 }
@@ -147,7 +149,7 @@ namespace CarService
                         employee.MName = reader.GetString(2);
                         employee.LName = reader.GetString(3);
                         employee.Phone = reader.GetString(4);
-                        employee.Position = reader.GetString(5);
+                        employee.PositionName = reader.GetString(5);
                         employee.Password = reader.GetString(6);
                         employees.Add(employee);
 
@@ -188,34 +190,9 @@ namespace CarService
             }
         }
 
-        public List<Category> getCategories() {
-            List<Category> categories = new List<Category>();
-            Category category;
+    
 
-            string sqlExpression = "SELECT * FROM getServiceCategories";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                var reader = command.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        category = new Category();
-                        category.Id = reader.GetInt32(0);
-                        category.Name = reader.GetString(1);
-                        categories.Add(category);
-
-                    }
-                }
-                reader.Close();
-                return categories;
-            }
-        }
-
-        public DataTable getCategories1()
+        public DataTable getCategories()
         {
             DataSet dataSet = new DataSet();
 
@@ -339,11 +316,7 @@ namespace CarService
 
         public int AddNewClient(Client client, SqlCommand command)
         {
-            //using (sqlConnection = new SqlConnection(connectionString))
-            //{
-            //sqlConnection.Open();
 
-            //SqlCommand command = sqlConnection.CreateCommand();
             if (command.Parameters.Count != 0) command.Parameters.Clear();
 
             command.CommandText = "addClient";
@@ -360,21 +333,12 @@ namespace CarService
 
             int id = (int)command.Parameters["@id"].Value;
 
-            //sqlConnection.Close();
             return id;
-            //}
         }
 
         public int AddCarDetails(CarDetails carDetails, SqlCommand command)
         {
 
-
-            //sqlConnection = new SqlConnection(connectionString);
-
-
-            //sqlConnection.Open();
-
-            //SqlCommand command = sqlConnection.CreateCommand();
             if (command.Parameters.Count != 0) command.Parameters.Clear();
             command.CommandText = "addCarDetails";
             command.CommandType = CommandType.StoredProcedure;
@@ -393,7 +357,6 @@ namespace CarService
 
             int id = (int)command.Parameters["@id"].Value;
 
-            //sqlConnection.Close();
             return id;
 
 
@@ -401,12 +364,6 @@ namespace CarService
 
         public int AddOrder(Order order, DataTable service,SqlCommand command)
         {
-            //sqlConnection = new SqlConnection(connectionString);
-
-
-            //sqlConnection.Open();
-
-            //SqlCommand command = sqlConnection.CreateCommand();
             if (command.Parameters.Count != 0) command.Parameters.Clear();
             command.CommandText = "addOrder";
             command.CommandType = CommandType.StoredProcedure;
@@ -427,8 +384,6 @@ namespace CarService
             int id = (int)command.Parameters["@id"].Value;
 
             AddServiceDetails(id, service, command);
-
-            //sqlConnection.Close();
             return id;
         }
 
@@ -544,7 +499,7 @@ namespace CarService
             return orders;
         }
 
-        private string CreateServicesString(DataTable table,int id)
+        public string CreateServicesString(DataTable table,int id)
         {
             string result = "";
             DataRow[] serviceRows = table.Select(string.Format("{0}={1}", table.Columns[0].ColumnName, id));
@@ -556,7 +511,7 @@ namespace CarService
         
         }
 
-        private string CreatePricesString(DataTable table, int id)
+        public string CreatePricesString(DataTable table, int id)
         {
             string result = "";
             DataRow[] serviceRows = table.Select(string.Format("{0}={1}", table.Columns[0].ColumnName, id));
@@ -568,7 +523,7 @@ namespace CarService
 
         }
 
-        private string ConvertStatus(int status)
+        public string ConvertStatus(int status)
         {
             string result = "";
             switch (status)
@@ -585,6 +540,44 @@ namespace CarService
                     break;
             }
             return result;
+        }
+
+        public void UpdateMasterInOrder(string oldId, string newId)
+        {
+            string sqlExpression = "updateMasterInOrder";
+            using (sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                SqlCommand command = new SqlCommand(sqlExpression, sqlConnection);
+                command.CommandType = CommandType.StoredProcedure;
+
+             
+                command.Parameters.AddWithValue("@oldId",oldId);
+                command.Parameters.AddWithValue("@newId", newId);
+
+                command.ExecuteNonQuery();
+
+
+            }
+        }
+
+        public void UpdateOrderStatus(int idOrder, int newStatus)
+        {
+            string sqlExpression = "updateOrderStatus";
+            using (sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                SqlCommand command = new SqlCommand(sqlExpression, sqlConnection);
+                command.CommandType = CommandType.StoredProcedure;
+
+
+                command.Parameters.AddWithValue("@IdOrder", idOrder);
+                command.Parameters.AddWithValue("@newStatus", newStatus);
+
+                command.ExecuteNonQuery();
+
+
+            }
         }
     }
 }

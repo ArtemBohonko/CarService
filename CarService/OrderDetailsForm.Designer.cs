@@ -1,6 +1,6 @@
 ﻿namespace CarService.Objects
 {
-    partial class OrderDetails
+    partial class OrderDetailsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OrderDetails));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OrderDetailsForm));
             this.FNameCl_textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -101,6 +101,7 @@
             this.FNameCl_textBox1.ReadOnly = true;
             this.FNameCl_textBox1.Size = new System.Drawing.Size(187, 27);
             this.FNameCl_textBox1.TabIndex = 0;
+            this.FNameCl_textBox1.TabStop = false;
             // 
             // label1
             // 
@@ -128,7 +129,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox1.Location = new System.Drawing.Point(0, 27);
+            this.groupBox1.Location = new System.Drawing.Point(0, 31);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(1262, 106);
             this.groupBox1.TabIndex = 2;
@@ -146,11 +147,12 @@
             // 
             // Date_textBox1
             // 
-            this.Date_textBox1.Location = new System.Drawing.Point(826, 56);
+            this.Date_textBox1.Location = new System.Drawing.Point(803, 56);
             this.Date_textBox1.Name = "Date_textBox1";
             this.Date_textBox1.ReadOnly = true;
-            this.Date_textBox1.Size = new System.Drawing.Size(161, 27);
+            this.Date_textBox1.Size = new System.Drawing.Size(222, 27);
             this.Date_textBox1.TabIndex = 26;
+            this.Date_textBox1.TabStop = false;
             // 
             // label25
             // 
@@ -168,6 +170,7 @@
             this.Status_textBox2.ReadOnly = true;
             this.Status_textBox2.Size = new System.Drawing.Size(187, 27);
             this.Status_textBox2.TabIndex = 24;
+            this.Status_textBox2.TabStop = false;
             // 
             // label24
             // 
@@ -185,6 +188,7 @@
             this.OrderNumber_textBox1.ReadOnly = true;
             this.OrderNumber_textBox1.Size = new System.Drawing.Size(140, 27);
             this.OrderNumber_textBox1.TabIndex = 21;
+            this.OrderNumber_textBox1.TabStop = false;
             // 
             // label23
             // 
@@ -204,6 +208,7 @@
             this.PhoneCl_maskedTextBox1.ReadOnly = true;
             this.PhoneCl_maskedTextBox1.Size = new System.Drawing.Size(199, 27);
             this.PhoneCl_maskedTextBox1.TabIndex = 20;
+            this.PhoneCl_maskedTextBox1.TabStop = false;
             // 
             // label3
             // 
@@ -221,6 +226,7 @@
             this.MNameCl_textBox2.ReadOnly = true;
             this.MNameCl_textBox2.Size = new System.Drawing.Size(187, 27);
             this.MNameCl_textBox2.TabIndex = 2;
+            this.MNameCl_textBox2.TabStop = false;
             // 
             // label2
             // 
@@ -249,7 +255,7 @@
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox2.Location = new System.Drawing.Point(0, 133);
+            this.groupBox2.Location = new System.Drawing.Point(0, 137);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(1262, 100);
             this.groupBox2.TabIndex = 3;
@@ -263,6 +269,7 @@
             this.Value_textBox9.ReadOnly = true;
             this.Value_textBox9.Size = new System.Drawing.Size(96, 27);
             this.Value_textBox9.TabIndex = 14;
+            this.Value_textBox9.TabStop = false;
             // 
             // label10
             // 
@@ -280,6 +287,7 @@
             this.Engine_textBox8.ReadOnly = true;
             this.Engine_textBox8.Size = new System.Drawing.Size(145, 27);
             this.Engine_textBox8.TabIndex = 12;
+            this.Engine_textBox8.TabStop = false;
             // 
             // label9
             // 
@@ -297,6 +305,7 @@
             this.VIN_textBox7.ReadOnly = true;
             this.VIN_textBox7.Size = new System.Drawing.Size(198, 27);
             this.VIN_textBox7.TabIndex = 10;
+            this.VIN_textBox7.TabStop = false;
             // 
             // label8
             // 
@@ -314,6 +323,7 @@
             this.Mileage_textBox6.ReadOnly = true;
             this.Mileage_textBox6.Size = new System.Drawing.Size(187, 27);
             this.Mileage_textBox6.TabIndex = 8;
+            this.Mileage_textBox6.TabStop = false;
             // 
             // label7
             // 
@@ -331,6 +341,7 @@
             this.Year_textBox5.ReadOnly = true;
             this.Year_textBox5.Size = new System.Drawing.Size(97, 27);
             this.Year_textBox5.TabIndex = 6;
+            this.Year_textBox5.TabStop = false;
             // 
             // label6
             // 
@@ -348,6 +359,7 @@
             this.Model_textBox4.ReadOnly = true;
             this.Model_textBox4.Size = new System.Drawing.Size(187, 27);
             this.Model_textBox4.TabIndex = 4;
+            this.Model_textBox4.TabStop = false;
             // 
             // label5
             // 
@@ -365,6 +377,7 @@
             this.Brand_textBox3.ReadOnly = true;
             this.Brand_textBox3.Size = new System.Drawing.Size(187, 27);
             this.Brand_textBox3.TabIndex = 2;
+            this.Brand_textBox3.TabStop = false;
             // 
             // label4
             // 
@@ -384,7 +397,7 @@
             this.groupBox3.Controls.Add(this.dataGridView1);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox3.Location = new System.Drawing.Point(0, 233);
+            this.groupBox3.Location = new System.Drawing.Point(0, 237);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(1262, 252);
             this.groupBox3.TabIndex = 4;
@@ -416,6 +429,7 @@
             this.Cost_textBox10.ReadOnly = true;
             this.Cost_textBox10.Size = new System.Drawing.Size(101, 27);
             this.Cost_textBox10.TabIndex = 6;
+            this.Cost_textBox10.TabStop = false;
             // 
             // label11
             // 
@@ -450,6 +464,7 @@
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(1256, 180);
             this.dataGridView1.TabIndex = 1;
+            this.dataGridView1.TabStop = false;
             // 
             // groupBox4
             // 
@@ -473,9 +488,9 @@
             this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox4.Location = new System.Drawing.Point(0, 485);
+            this.groupBox4.Location = new System.Drawing.Point(0, 489);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(1262, 188);
+            this.groupBox4.Size = new System.Drawing.Size(1262, 184);
             this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Работники";
@@ -487,6 +502,7 @@
             this.LNameMast_textBox16.ReadOnly = true;
             this.LNameMast_textBox16.Size = new System.Drawing.Size(187, 27);
             this.LNameMast_textBox16.TabIndex = 35;
+            this.LNameMast_textBox16.TabStop = false;
             // 
             // label21
             // 
@@ -504,6 +520,7 @@
             this.LNameEmp_textBox15.ReadOnly = true;
             this.LNameEmp_textBox15.Size = new System.Drawing.Size(187, 27);
             this.LNameEmp_textBox15.TabIndex = 33;
+            this.LNameEmp_textBox15.TabStop = false;
             // 
             // label20
             // 
@@ -522,6 +539,7 @@
             this.PhoneMast_maskedTextBox3.ReadOnly = true;
             this.PhoneMast_maskedTextBox3.Size = new System.Drawing.Size(199, 27);
             this.PhoneMast_maskedTextBox3.TabIndex = 32;
+            this.PhoneMast_maskedTextBox3.TabStop = false;
             // 
             // label17
             // 
@@ -539,6 +557,7 @@
             this.MNameMast_textBox13.ReadOnly = true;
             this.MNameMast_textBox13.Size = new System.Drawing.Size(187, 27);
             this.MNameMast_textBox13.TabIndex = 29;
+            this.MNameMast_textBox13.TabStop = false;
             // 
             // label18
             // 
@@ -556,6 +575,7 @@
             this.FNameMast_textBox14.ReadOnly = true;
             this.FNameMast_textBox14.Size = new System.Drawing.Size(187, 27);
             this.FNameMast_textBox14.TabIndex = 27;
+            this.FNameMast_textBox14.TabStop = false;
             // 
             // label19
             // 
@@ -574,6 +594,7 @@
             this.PhoneEmp_maskedTextBox2.ReadOnly = true;
             this.PhoneEmp_maskedTextBox2.Size = new System.Drawing.Size(199, 27);
             this.PhoneEmp_maskedTextBox2.TabIndex = 26;
+            this.PhoneEmp_maskedTextBox2.TabStop = false;
             // 
             // label12
             // 
@@ -591,6 +612,7 @@
             this.MNameEmp_textBox11.ReadOnly = true;
             this.MNameEmp_textBox11.Size = new System.Drawing.Size(187, 27);
             this.MNameEmp_textBox11.TabIndex = 23;
+            this.MNameEmp_textBox11.TabStop = false;
             // 
             // label15
             // 
@@ -608,6 +630,7 @@
             this.FNameEmp_textBox12.ReadOnly = true;
             this.FNameEmp_textBox12.Size = new System.Drawing.Size(187, 27);
             this.FNameEmp_textBox12.TabIndex = 21;
+            this.FNameEmp_textBox12.TabStop = false;
             // 
             // label16
             // 
@@ -643,7 +666,7 @@
             this.toolStripButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1262, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(1262, 31);
             this.toolStrip1.TabIndex = 21;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -653,10 +676,10 @@
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(62, 24);
+            this.toolStripButton1.Size = new System.Drawing.Size(62, 28);
             this.toolStripButton1.Text = "Печать";
             // 
-            // OrderDetails
+            // OrderDetailsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -666,7 +689,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.toolStrip1);
-            this.Name = "OrderDetails";
+            this.Name = "OrderDetailsForm";
             this.Text = "OrderDetails";
             this.Load += new System.EventHandler(this.OrderDetails_Load);
             this.groupBox1.ResumeLayout(false);

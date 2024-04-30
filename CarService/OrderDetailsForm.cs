@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace CarService.Objects
 {
-    public partial class OrderDetails : Form
+    public partial class OrderDetailsForm : Form
     {
         //List fullInfo
         //0-IdOrder,1-Date, 
@@ -16,7 +16,7 @@ namespace CarService.Objects
         //24-TotalCost,25-StatusInt,26-Comment, 27-Services, 28-Prices, 29-StatusString
         List<string> fullInfo;
         DataTable services;
-        public OrderDetails(List<string> fullInfo)
+        public OrderDetailsForm(List<string> fullInfo)
         {
             InitializeComponent();
             this.fullInfo = fullInfo;

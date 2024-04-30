@@ -10,12 +10,12 @@ using System.Windows.Forms;
 
 namespace CarService.Objects
 {
-    public partial class ViewOrders : Form
+    public partial class ViewOrdersForm : Form
     {
         bool IsOpened = false;
         DB dataBase;
         DataSet allAboutOrders;
-        //DataTable ordersFull
+        //DataTable ordersShort
         //0-IdOrder,1-Date, 
         //2-Brand,3-Model,4-Year
         //5-Service, 6-Price, 7-TotalPrice, 8-Comment, 9-Status
@@ -29,7 +29,7 @@ namespace CarService.Objects
         //24-TotalCost,25-Status,26-Comment
         DataTable ordersFull;
         DataView ordersView;
-        public ViewOrders()
+        public ViewOrdersForm()
         {
             InitializeComponent();
             dataBase = new DB();
@@ -209,36 +209,8 @@ namespace CarService.Objects
             fullInfo.Add(GetValueFromShortOrdersTable(idOrder, 6));
             fullInfo.Add(GetValueFromShortOrdersTable(idOrder,9));
 
-            OrderDetails orderDetails = new OrderDetails(fullInfo);
+            OrderDetailsForm orderDetails = new OrderDetailsForm(fullInfo);
             orderDetails.ShowDialog(this);
-
-            //string date = GetValueFromFullOrdersTable(idOrder,1);
-            //string idCln = GetValueFromFullOrdersTable(idOrder, 2);
-            //string FNameCLn = GetValueFromFullOrdersTable(idOrder, 3);
-            //string MNameCln = GetValueFromFullOrdersTable(idOrder, 4);
-            //string PhoneCln = GetValueFromFullOrdersTable(idOrder, 5);
-            //string IdCar = GetValueFromFullOrdersTable(idOrder, 6);
-            //string Brand = GetValueFromFullOrdersTable(idOrder, 7);
-            //string Model = GetValueFromFullOrdersTable(idOrder, 8);
-            //string Year = GetValueFromFullOrdersTable(idOrder, 9);
-            //string Engine = GetValueFromFullOrdersTable(idOrder, 10);
-            //string Value = GetValueFromFullOrdersTable(idOrder, 11);
-            //string Mileage = GetValueFromFullOrdersTable(idOrder, 12);
-            //string VIN = GetValueFromFullOrdersTable(idOrder, 13);
-            //string IdEmp = GetValueFromFullOrdersTable(idOrder, 14);
-            //string FNameEmp = GetValueFromFullOrdersTable(idOrder, 15);
-            //string MNameEmp = GetValueFromFullOrdersTable(idOrder, 16);
-            //string LNameEmp = GetValueFromFullOrdersTable(idOrder, 17);
-            //string PhoneEmp = GetValueFromFullOrdersTable(idOrder, 18);
-            //string IdMast = GetValueFromFullOrdersTable(idOrder, 19);
-            //string FNameMast = GetValueFromFullOrdersTable(idOrder, 20);
-            //string MNameMast = GetValueFromFullOrdersTable(idOrder, 21);
-            //string LNameMast = GetValueFromFullOrdersTable(idOrder, 22);
-            //string PhoneMast = GetValueFromFullOrdersTable(idOrder, 23);
-            //string Cost = GetValueFromFullOrdersTable(idOrder, 24);
-            //string Status = GetValueFromFullOrdersTable(idOrder, 25);
-            //string Comment = GetValueFromFullOrdersTable(idOrder, 26);
-
 
 
         }

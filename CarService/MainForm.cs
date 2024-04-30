@@ -13,7 +13,7 @@ namespace CarService
     {
         private bool IsOpened = false;
         private bool IsClientNew = false;
-        public int IdImployee;
+        public int IdEmployee;
         private Order order;
         private Employee employee;
         private DB dataBase;
@@ -25,12 +25,10 @@ namespace CarService
         private DataTable categoryTable;
         private DataTable clientsTable;
         private DataTable employeesTable;
-        private List<Employee> employeeList;
-        //private List<Client> clientList;
         public MainForm(int Id)
         {
             InitializeComponent();
-            this.IdImployee = Id;
+            this.IdEmployee = Id;
             dataBase = new DB();
         }
 
@@ -41,7 +39,7 @@ namespace CarService
 
             this.carDataTable=dataBase.LoadCars();
             this.serviceTable=dataBase.LoadServices();
-            this.categoryTable=dataBase.getCategories1();
+            this.categoryTable=dataBase.getCategories();
             this.clientsTable=dataBase.LoadClients();
             this.employeesTable = dataBase.LoadEmployees();
 
@@ -49,16 +47,12 @@ namespace CarService
             setYearInCB();
             setEngineInCB();
             setValueInCB();
-            setEmployeesInCB(this.employeesTable);
+            setMastersInCB(this.employeesTable);
             setClientsInCB(this.clientsTable);
             setCategoriesInCB();
             setTableInDGV();
 
-            //comboBox1.SelectedIndex = comboBox2.SelectedIndex = comboBox3.SelectedIndex = comboBox4.SelectedIndex = 
-            //comboBox5.SelectedIndex =comboBox6.SelectedIndex=comboBox7.SelectedIndex=comboBox8.SelectedIndex =comboBox9.SelectedIndex= -1;
-            
             ClearFields();
-            //comboBox1.Text=comboBox2.Text=comboBox3.Text=comboBox4.Text=comboBox5.Text=comboBox6.Text=comboBox7.Text=comboBox8.Text = "";
             IsOpened = true;
         }
 
@@ -77,7 +71,7 @@ namespace CarService
 
         private void setEmployee()
         {
-            this.employee = dataBase.getEmployeeById(this.IdImployee);
+            this.employee = dataBase.getEmployeeById(this.IdEmployee);
             this.Text = "Сотрудник: " + this.employee.FName + ' ' + this.employee.MName + ' ' + this.employee.LName;
 
         }
@@ -144,12 +138,12 @@ namespace CarService
             comboBox5.DataSource = value;
         }
 
-        private void setEmployeesInCB(DataTable employees)
+        private void setMastersInCB(DataTable employees)
         {
             List<string> namesEmployee= new List<string>(); 
             string fullName;
 
-            foreach(DataRow row in employees.Rows)
+            foreach (DataRow row in employees.Select(string.Format("{0}={1}", employees.Columns[5].ColumnName,3)))
             {
                 fullName = row.ItemArray[1].ToString() + ' ' + row.ItemArray[2].ToString() + ' ' + row.ItemArray[3].ToString();
                 namesEmployee.Add(fullName);
@@ -358,7 +352,7 @@ namespace CarService
                 order.DateTime = DateTime.Now;
                 order.Client = getIdClient(sqlCommand);
                 order.Car = getIdDetail(sqlCommand);
-                order.Employee = this.IdImployee;
+                order.Employee = this.IdEmployee;
                 order.Master = getIdMaster();
                 order.TotalCost = float.Parse(textBox6.Text);
                 order.Status = 1;
@@ -535,9 +529,15 @@ namespace CarService
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            ViewOrders viewOrders = new ViewOrders();
+            ViewOrdersForm viewOrders = new ViewOrdersForm();
             viewOrders.ShowDialog(this);
             //dataBase.LoadOrders();
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            InProgerssForm inProgerss = new InProgerssForm(5);   
+            inProgerss.ShowDialog(this);
         }
     }
 }
