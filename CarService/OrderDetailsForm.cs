@@ -10,10 +10,10 @@ namespace CarService.Objects
         //List fullInfo
         //0-IdOrder,1-Date, 
         //2-IdClient,3-FNameClient,4-MNameClient,5-PhoneClient,
-        //6-IdCar,7-Brand,8-Model,9-Year,10-Engine,11-Value,12-Mileage,13-VIN, 
-        //14-IdEmp,15-FNameEmp,16-MNameEmp,17-LNameEmp,18-PhoneEmp,
-        //19-IdMaster,20-FNameMaster,21-MNameMaster,22-LNameMaster,23-PhoneMaster,
-        //24-TotalCost,25-StatusInt,26-Comment, 27-Services, 28-Prices, 29-StatusString
+        //6-IdCar,7-Brand,8-Model,9-Year,10-EngineID,11-EngineName,12-Value,13-Mileage,14-VIN, 
+        //15-IdEmp,16-FNameEmp,17-MNameEmp,18-LNameEmp,18-PhoneEmp,
+        //20-IdMaster,21-FNameMaster,22-MNameMaster,23-LNameMaster,24-PhoneMaster,
+        //25-TotalCost,26-Status,27-Comment, 28-Services, 29-Prices, 30-StatusString
         List<string> fullInfo;
         DataTable services;
         public OrderDetailsForm(List<string> fullInfo)
@@ -40,22 +40,22 @@ namespace CarService.Objects
             Brand_textBox3.Text = fullInfo[7];
             Model_textBox4.Text = fullInfo[8];
             Year_textBox5.Text = fullInfo[9];
-            Engine_textBox8.Text = fullInfo[10];
-            Value_textBox9.Text = fullInfo[11];
-            Mileage_textBox6.Text = fullInfo[12];
-            VIN_textBox7.Text = fullInfo[13];
-            FNameEmp_textBox12.Text = fullInfo[15];
-            MNameEmp_textBox11.Text = fullInfo[16];
-            LNameEmp_textBox15.Text = fullInfo[17];
-            PhoneEmp_maskedTextBox2.Text = fullInfo[18];
-            FNameMast_textBox14.Text = fullInfo[20];
-            MNameMast_textBox13.Text = fullInfo[21];
-            LNameMast_textBox16.Text = fullInfo[22];
-            PhoneMast_maskedTextBox3.Text = fullInfo[23];
-            Cost_textBox10.Text = fullInfo[24];
-            Status_textBox2.Text = fullInfo[29];
-            comboBox1.Items.Add(fullInfo[26]);
-            services = CreateServiceTable(fullInfo[27], fullInfo[28]);
+            Engine_textBox8.Text = fullInfo[11];
+            Value_textBox9.Text = fullInfo[12];
+            Mileage_textBox6.Text = fullInfo[13] == "0" ? "-" : fullInfo[13];
+            VIN_textBox7.Text = fullInfo[14];
+            FNameEmp_textBox12.Text = fullInfo[16];
+            MNameEmp_textBox11.Text = fullInfo[17];
+            LNameEmp_textBox15.Text = fullInfo[18];
+            PhoneEmp_maskedTextBox2.Text = fullInfo[19];
+            FNameMast_textBox14.Text = fullInfo[21];
+            MNameMast_textBox13.Text = fullInfo[22];
+            LNameMast_textBox16.Text = fullInfo[23];
+            PhoneMast_maskedTextBox3.Text = fullInfo[24];
+            Cost_textBox10.Text = fullInfo[25];
+            Status_textBox2.Text = fullInfo[30];
+            comboBox1.Items.Add(fullInfo[27]);
+            services = CreateServiceTable(fullInfo[28], fullInfo[29]);
             dataGridView1.DataSource = services;
             dataGridView1.Columns[0].HeaderText = "Услуга";
             dataGridView1.Columns[1].HeaderText = "Цена";

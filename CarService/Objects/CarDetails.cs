@@ -11,7 +11,7 @@ namespace CarService.Objects
         public int Id { get; set; }
         public int CarId { get; set; }
         public int Year { get; set; }
-        public string Engine { get; set; }
+        public int Engine { get; set; }
         public string Value { get; set; }
         public string VIN {  get; set; }
         public int Mileage { get; set; }

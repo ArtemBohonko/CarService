@@ -14,6 +14,9 @@ namespace CarService.Objects
     {
         bool IsOpened = false;
         DB dataBase;
+
+        Employee employee;
+
         DataSet allAboutOrders;
         //DataTable ordersShort
         //0-IdOrder,1-Date, 
@@ -23,16 +26,17 @@ namespace CarService.Objects
         //DataTable allInfoAboutOrders
         //0-IdOrder,1-Date, 
         //2-IdClient,3-FNameClient,4-MNameClient,5-PhoneClient,
-        //6-IdCar,7-Brand,8-Model,9-Year,10-Engine,11-Value,12-Mileage,13-VIN, 
-        //14-IdEmp,15-FNameEmp,16-MNameEmp,17-LNameEmp,18-PhoneEmp,
-        //19-IdMaster,20-FNameMaster,21-MNameMaster,22-LNameMaster,23-PhoneMaster,
-        //24-TotalCost,25-Status,26-Comment
+        //6-IdCar,7-Brand,8-Model,9-Year,10-EngineID,11-EngineName,12-Value,13-Mileage,14-VIN, 
+        //15-IdEmp,16-FNameEmp,17-MNameEmp,18-LNameEmp,18-PhoneEmp,
+        //20-IdMaster,21-FNameMaster,22-MNameMaster,23-LNameMaster,24-PhoneMaster,
+        //25-TotalCost,26-Status,27-Comment
         DataTable ordersFull;
         DataView ordersView;
-        public ViewOrdersForm()
+        public ViewOrdersForm(int idEmployee=2)
         {
             InitializeComponent();
             dataBase = new DB();
+            employee=dataBase.getEmployeeById(idEmployee);
         }
 
         private void ViewOrders_Load(object sender, EventArgs e)
@@ -116,25 +120,12 @@ namespace CarService.Objects
         {
             List<string> status = new List<string>
             {
-                "Выполнен",
-                "Оформлен",
-                "В процессе"
+                dataBase.ConvertStatus(1),
+                dataBase.ConvertStatus(2),
+                dataBase.ConvertStatus(3),
             };
 
             comboBox4.DataSource = status;
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-            //string condition1 = string.Format("{0}={1}",
-            //    ordersShort.Columns[0].ColumnName, comboBox1.SelectedValue.ToString());
-            //string condition2= string.Format("{0}={1}",
-            //    ordersShort.Columns[0].ColumnName, ordersFull.Select(ordersFull.Columns[5].ColumnName+"="+comboBox2.SelectedValue.ToString().Split(new char[] {' ' })[2])[0].ItemArray[0].ToString());
-            ////if(comboBox1.SelectedValue==null)
-            //string filter = condition1+" OR "+condition2;
-            //ordersView.RowFilter = filter;
 
         }
 
@@ -193,10 +184,10 @@ namespace CarService.Objects
             //List fullInfo
             //0-IdOrder,1-Date, 
             //2-IdClient,3-FNameClient,4-MNameClient,5-PhoneClient,
-            //6-IdCar,7-Brand,8-Model,9-Year,10-Engine,11-Value,12-Mileage,13-VIN, 
-            //14-IdEmp,15-FNameEmp,16-MNameEmp,17-LNameEmp,18-PhoneEmp,
-            //19-IdMaster,20-FNameMaster,21-MNameMaster,22-LNameMaster,23-PhoneMaster,
-            //24-TotalCost,25-StatusInt,26-Comment, 27-Services, 28-Prices,29-StatusString
+            //6-IdCar,7-Brand,8-Model,9-Year,10-EngineID,11-EngineName,12-Value,13-Mileage,14-VIN, 
+            //15-IdEmp,16-FNameEmp,17-MNameEmp,18-LNameEmp,18-PhoneEmp,
+            //20-IdMaster,21-FNameMaster,22-MNameMaster,23-LNameMaster,24-PhoneMaster,
+            //25-TotalCost,26-Status,27-Comment, 28-Services, 29-Prices,30-StatusString
 
             int idOrder = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value);
             List<string> fullInfo = new List<string>();

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing.Imaging;
 using System.Windows.Forms;
 
 namespace CarService
@@ -21,10 +22,10 @@ namespace CarService
         //DataTable 1 from DataSet
         //0-IdOrder,1-Date, 
         //2-IdClient,3-FNameClient,4-MNameClient,5-PhoneClient,
-        //6-IdCar,7-Brand,8-Model,9-Year,10-Engine,11-Value,12-Mileage,13-VIN, 
-        //14-IdEmp,15-FNameEmp,16-MNameEmp,17-LNameEmp,18-PhoneEmp,
-        //19-IdMaster,20-FNameMaster,21-MNameMaster,22-LNameMaster,23-PhoneMaster,
-        //24-TotalCost,25-Status,26-Comment
+        //6-IdCar,7-Brand,8-Model,9-Year,10-EngineID,11-EngineName,12-Value,13-Mileage,14-VIN, 
+        //15-IdEmp,16-FNameEmp,17-MNameEmp,18-LNameEmp,18-PhoneEmp,
+        //20-IdMaster,21-FNameMaster,22-MNameMaster,23-LNameMaster,24-PhoneMaster,
+        //25-TotalCost,26-Status,27-Comment
         
         //Таблица сотрудников
         DataTable employeesTable;
@@ -36,7 +37,7 @@ namespace CarService
         DataTable serviceMasterInProgress;
         //Таблица для выполненных заказов
         DataTable serviceMasterDone;
-
+        
         public InProgerssForm(int employeeId)
         {
             InitializeComponent();
@@ -57,11 +58,13 @@ namespace CarService
             {
                 toolStrip1.Visible=false;
                 groupBox1.Visible = true;
-                groupBox2.Visible = false;
+                groupBox2.Visible = true;
                 InitTableOrdersMaster();
                 SetValueInOrdersMaster(allAboutOrders.Tables[0]);
                 SetDataInDGV(ordersMaster);
                 SetMastersInCB(employeesTable);
+                SetTextInUpdateStatusButons();
+
             }
             else
             {
@@ -88,6 +91,7 @@ namespace CarService
             ordersMaster.Columns.Add("Car", typeof(string));
             ordersMaster.Columns.Add("Service", typeof(string));
             ordersMaster.Columns.Add("Master",typeof (string));
+            ordersMaster.Columns.Add("Status", typeof(string));
 
         }
 
@@ -95,15 +99,15 @@ namespace CarService
         {
             DataRow row;
 
-            foreach(DataRow r in fullInfo.Select(string.Format("{0}={1}", fullInfo.Columns[25].ColumnName,2)))
+            foreach(DataRow r in fullInfo.Rows)
             {
                 row = ordersMaster.NewRow();
                 row[ordersMaster.Columns[0].ColumnName] = r.ItemArray[0];
                 row[ordersMaster.Columns[1].ColumnName] = r.ItemArray[1];
                 row[ordersMaster.Columns[2].ColumnName] = Convert.ToString( r.ItemArray[7]+" " + r.ItemArray[8]+" (" + r.ItemArray[9]+")");
                 row[ordersMaster.Columns[3].ColumnName] = dataBase.CreateServicesString(allAboutOrders.Tables[1], Convert.ToInt32(r.ItemArray[0]));
-                row[ordersMaster.Columns[4].ColumnName] = Convert.ToString(r.ItemArray[20]+" " + r.ItemArray[21] + " " + r.ItemArray[22]);
-
+                row[ordersMaster.Columns[4].ColumnName] = Convert.ToString(r.ItemArray[21]+" " + r.ItemArray[22] + " " + r.ItemArray[23]);
+                row[ordersMaster.Columns[5].ColumnName] = dataBase.ConvertStatus(Convert.ToInt32(r.ItemArray[26]));
                 ordersMaster.Rows.Add(row);
             }
         }
@@ -139,7 +143,7 @@ namespace CarService
             button1.Visible = false;
             string idOrder = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
             string columnName = allAboutOrders.Tables[0].Columns[0].ColumnName;
-            int IdSelectedMaster = Convert.ToInt32(allAboutOrders.Tables[0].Select(string.Format("{0}={1}", columnName, idOrder))[0].ItemArray[19]);
+            int IdSelectedMaster = Convert.ToInt32(allAboutOrders.Tables[0].Select(string.Format("{0}={1}", columnName, idOrder))[0].ItemArray[20]);
             comboBox1.SelectedValue = IdSelectedMaster;
             textBox1.Text = idOrder;
 
@@ -162,7 +166,7 @@ namespace CarService
         {
             string idOrder = textBox1.Text;
             string oldMaster = ordersMaster.Select(string.Format("{0}={1}", ordersMaster.Columns[0].ColumnName, idOrder))[0].ItemArray[4].ToString();
-            string idOldMaster = allAboutOrders.Tables[0].Select(string.Format("{0}={1}", allAboutOrders.Tables[0].Columns[0].ColumnName, idOrder))[0].ItemArray[19].ToString();
+            string idOldMaster = allAboutOrders.Tables[0].Select(string.Format("{0}={1}", allAboutOrders.Tables[0].Columns[0].ColumnName, idOrder))[0].ItemArray[20].ToString();
             string idNewMaster = comboBox1.SelectedValue.ToString();
 
             string phoneNewMaster = employeesTable.Select(string.Format("{0}={1}", employeesTable.Columns[0], idNewMaster))[0].ItemArray[4].ToString();
@@ -190,11 +194,11 @@ namespace CarService
                     object[] newItemArray1 = new object[] {
                         oldRow1.ItemArray[0], oldRow1.ItemArray[1], oldRow1.ItemArray[2], oldRow1.ItemArray[3],
                         oldRow1.ItemArray[4], oldRow1.ItemArray[5], oldRow1.ItemArray[6],oldRow1.ItemArray[7],
-                        oldRow1.ItemArray[8], oldRow1.ItemArray[9], oldRow1.ItemArray[10],oldRow1.ItemArray[11],
-                        oldRow1.ItemArray[12], oldRow1.ItemArray[13], oldRow1.ItemArray[14],oldRow1.ItemArray[15],
-                        oldRow1.ItemArray[16], oldRow1.ItemArray[17], oldRow1.ItemArray[18],idNewMaster,
+                        oldRow1.ItemArray[8], oldRow1.ItemArray[9], oldRow1.ItemArray[10],oldRow1.ItemArray[11],oldRow1.ItemArray[12],
+                        oldRow1.ItemArray[13], oldRow1.ItemArray[14], oldRow1.ItemArray[15],oldRow1.ItemArray[16],
+                        oldRow1.ItemArray[17], oldRow1.ItemArray[18], oldRow1.ItemArray[19],idNewMaster,
                         newMaster.Split(' ')[0], newMaster.Split(' ')[1], newMaster.Split(' ')[2],phoneNewMaster,
-                        oldRow1.ItemArray[24], oldRow1.ItemArray[25], oldRow1.ItemArray[26]
+                        oldRow1.ItemArray[25], oldRow1.ItemArray[26], oldRow1.ItemArray[27]
                     };
 
                     DataRow oldRow2 = ordersMaster.Select(string.Format("{0}={1}", ordersMaster.Columns[0].ColumnName, idOrder))[0];
@@ -294,14 +298,14 @@ namespace CarService
         {
             DataRow row;
 
-            foreach (DataRow r in fullInfo.Select(string.Format("{0}={1}", fullInfo.Columns[19].ColumnName, EmployeeId)))
+            foreach (DataRow r in fullInfo.Select(string.Format("{0}={1}", fullInfo.Columns[20].ColumnName, EmployeeId)))
             {
                 row = serviceMasterFull.NewRow();
                 row[serviceMasterFull.Columns[0].ColumnName] = r.ItemArray[0];
                 row[serviceMasterFull.Columns[1].ColumnName] = r.ItemArray[1];
                 row[serviceMasterFull.Columns[2].ColumnName] = Convert.ToString(r.ItemArray[7] + " " + r.ItemArray[8] + " (" + r.ItemArray[9] + ")");
                 row[serviceMasterFull.Columns[3].ColumnName] = dataBase.CreateServicesString(allAboutOrders.Tables[1], Convert.ToInt32(r.ItemArray[0]));
-                row[serviceMasterFull.Columns[4].ColumnName] = dataBase.ConvertStatus(Convert.ToInt32(r.ItemArray[25]));
+                row[serviceMasterFull.Columns[4].ColumnName] = dataBase.ConvertStatus(Convert.ToInt32(r.ItemArray[26]));
 
                 serviceMasterFull.Rows.Add(row);
             }
@@ -349,7 +353,7 @@ namespace CarService
         {
             button7.Visible = button8.Visible = button6.Visible = true;
             button5.Enabled = false;
-            string currentStatus = dataGridView1.SelectedRows[0].Cells[4].Value.ToString();
+            string currentStatus = dataGridView1.SelectedRows[0].Cells[5].Value.ToString();
             SetEnabledFalseButtonForCurrentStatus(currentStatus);
         }
 
@@ -360,7 +364,8 @@ namespace CarService
             int newStatus = 1;
 
             UpdateStatus(idOrder, newStatus);
-            if (oldStatus == dataBase.ConvertStatus(3))
+            
+            if (oldStatus == dataBase.ConvertStatus(3) && EmployeeId==3)
                 MoveOrderInOtherTable(idOrder, "Done");
         }
 
@@ -371,7 +376,7 @@ namespace CarService
             int newStatus = 2;
 
             UpdateStatus(idOrder, newStatus);
-            if (oldStatus == dataBase.ConvertStatus(3))
+            if (oldStatus == dataBase.ConvertStatus(3) && EmployeeId == 3)
                 MoveOrderInOtherTable(idOrder,"Done");
         }
 
@@ -381,7 +386,8 @@ namespace CarService
             int newStatus = 3;
 
             UpdateStatus(idOrder, newStatus);
-            MoveOrderInOtherTable(idOrder, "InProgress");
+            if(EmployeeId == 3)
+                MoveOrderInOtherTable(idOrder, "InProgress");
         }
 
         //Меняет статус заказа
@@ -392,14 +398,30 @@ namespace CarService
                 dataBase.UpdateOrderStatus(idOrder, newStatus);
                 DataTable table=dataGridView1.DataSource as DataTable;
                 DataRow oldRow = table.Select(string.Format("{0}={1}", table.Columns[0].ColumnName, idOrder))[0];
-                object[] newItemArray = new object[]
+                if (EmployeeId == 3)
                 {
+                    object[] newItemArray = new object[]
+              {
                          oldRow.ItemArray[0], oldRow.ItemArray[1], oldRow.ItemArray[2], oldRow.ItemArray[3],dataBase.ConvertStatus(newStatus)
-                };
-                table.Select(string.Format("{0}={1}", table.Columns[0].ColumnName, idOrder))[0].ItemArray = newItemArray;
+              };
+                    table.Select(string.Format("{0}={1}", table.Columns[0].ColumnName, idOrder))[0].ItemArray = newItemArray;
 
-                DataRow row = serviceMasterFull.Select(string.Format("{0}={1}", table.Columns[0].ColumnName, idOrder))[0];
-                row.ItemArray = newItemArray;
+                    DataRow row = serviceMasterFull.Select(string.Format("{0}={1}", table.Columns[0].ColumnName, idOrder))[0];
+                    row.ItemArray = newItemArray;
+                }
+                else
+                {
+                    object[] newItemArray = new object[]
+              {
+                         oldRow.ItemArray[0], oldRow.ItemArray[1], oldRow.ItemArray[2], oldRow.ItemArray[3],oldRow.ItemArray[4],dataBase.ConvertStatus(newStatus)
+              };
+                    table.Select(string.Format("{0}={1}", table.Columns[0].ColumnName, idOrder))[0].ItemArray = newItemArray;
+
+                    DataRow row = ordersMaster.Select(string.Format("{0}={1}", table.Columns[0].ColumnName, idOrder))[0];
+                    row.ItemArray = newItemArray;
+                }
+                
+              
                 //DataRow newRowInServiceMasterFull = serviceMasterFull.NewRow();
                 //newRowInServiceMasterFull.ItemArray = newItemArray;
 
@@ -497,6 +519,8 @@ namespace CarService
                 dataGridView1.Columns[2].HeaderText = "Автомобиль";
                 dataGridView1.Columns[3].HeaderText = "Услуги";
                 dataGridView1.Columns[4].HeaderText = "Мастер";
+                dataGridView1.Columns[5].HeaderText = "Статус";
+
             }
             else
             {

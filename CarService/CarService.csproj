@@ -35,6 +35,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,6 +47,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddedUpdatedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddedUpdatedForm.Designer.cs">
+      <DependentUpon>AddedUpdatedForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdminForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminForm.Designer.cs">
+      <DependentUpon>AdminForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DB.cs" />
     <Compile Include="InProgerssForm.cs">
       <SubType>Form</SubType>
@@ -65,16 +78,26 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Objects\Car.cs" />
     <Compile Include="Objects\CarDetails.cs" />
     <Compile Include="Objects\Category.cs" />
     <Compile Include="Objects\Client.cs" />
     <Compile Include="Objects\Employee.cs" />
+    <Compile Include="Objects\Engine.cs" />
     <Compile Include="Objects\Order.cs" />
+    <Compile Include="Objects\Position.cs" />
+    <Compile Include="Objects\Service.cs" />
     <Compile Include="OrderDetailsForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="OrderDetailsForm.Designer.cs">
       <DependentUpon>OrderDetailsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StatisticForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StatisticForm.Designer.cs">
+      <DependentUpon>StatisticForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewOrdersForm.cs">
       <SubType>Form</SubType>
@@ -84,6 +107,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AddedUpdatedForm.resx">
+      <DependentUpon>AddedUpdatedForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdminForm.resx">
+      <DependentUpon>AdminForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="InProgerssForm.resx">
       <DependentUpon>InProgerssForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -95,6 +124,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="OrderDetailsForm.resx">
       <DependentUpon>OrderDetailsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StatisticForm.resx">
+      <DependentUpon>StatisticForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ViewOrdersForm.resx">
       <DependentUpon>ViewOrdersForm.cs</DependentUpon>

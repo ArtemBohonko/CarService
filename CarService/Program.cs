@@ -16,7 +16,7 @@ namespace CarService
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm(1));
+            Application.Run(new AdminForm(1)/*MainForm(1)*/);
         }
     }
 }

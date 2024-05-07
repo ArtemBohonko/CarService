@@ -21,6 +21,7 @@ namespace CarService
 
         private DataTable selectedServices;
         private DataTable carDataTable;
+        private DataTable engineTable;
         private DataTable serviceTable;
         private DataTable categoryTable;
         private DataTable clientsTable;
@@ -38,18 +39,19 @@ namespace CarService
             setEmployee();
 
             this.carDataTable=dataBase.LoadCars();
+            this.engineTable = dataBase.LoadEngine();
             this.serviceTable=dataBase.LoadServices();
-            this.categoryTable=dataBase.getCategories();
+            this.categoryTable=dataBase.LoadCategories();
             this.clientsTable=dataBase.LoadClients();
             this.employeesTable = dataBase.LoadEmployees();
 
             setCarsInCB(this.carDataTable);
             setYearInCB();
-            setEngineInCB();
+            setEngineInCB2();
             setValueInCB();
             setMastersInCB(this.employeesTable);
             setClientsInCB(this.clientsTable);
-            setCategoriesInCB();
+            setCategoriesInCB(this.categoryTable);
             setTableInDGV();
 
             ClearFields();
@@ -118,13 +120,14 @@ namespace CarService
             comboBox3.DataSource = years;
         }
 
-        private void setEngineInCB()
+        private void setEngineInCB2()
         {
-            List<string> engine = new List<string>();
-            string[] s = new string[7] { "Бензин", "Бензин(пропан-бутан)", "Бензин(метан)", "Бензин(гибрид)", "Дизель", "Дизель(гибрид)", "Электро" };
-            engine.AddRange(s);
-            comboBox4.DataSource = engine;
-        }
+            comboBox4.DataSource = engineTable;
+            comboBox4.DisplayMember = engineTable.Columns[1].ColumnName;
+            comboBox4.ValueMember = engineTable.Columns[0].ColumnName;
+        } 
+
+       
 
         private void setValueInCB()
         {
@@ -178,11 +181,11 @@ namespace CarService
             textBox3.Text = surname;
             maskedTextBox1.Text = phone;
         }
-        private void setCategoriesInCB()
+        private void setCategoriesInCB(DataTable category)
         {
-            comboBox9.DataSource = categoryTable;
-            comboBox9.DisplayMember= categoryTable.Columns[1].ColumnName;
-            comboBox9.ValueMember = categoryTable.Columns[0].ColumnName;
+            comboBox9.DataSource = category;
+            comboBox9.DisplayMember= category.Columns[1].ColumnName;
+            comboBox9.ValueMember = category.Columns[0].ColumnName;
         }
 
         private void setServiceInCB(DataTable services)
@@ -413,7 +416,7 @@ namespace CarService
                 CarDetails carDetails = new CarDetails();
                 carDetails.CarId = Convert.ToInt32(comboBox2.SelectedValue);
                 carDetails.Year = Convert.ToInt32(comboBox3.SelectedValue);
-                carDetails.Engine = comboBox4.SelectedValue==null?null:comboBox4.SelectedValue.ToString();
+                carDetails.Engine = Convert.ToInt32(comboBox4.SelectedValue);
                 carDetails.Value = comboBox5.SelectedValue==null?null:comboBox5.SelectedValue.ToString();
                 carDetails.VIN = textBox1.Text;
                 carDetails.Mileage = textBox4.Text==string.Empty? 0:Convert.ToInt32(textBox4.Text);

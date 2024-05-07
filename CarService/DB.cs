@@ -11,6 +11,8 @@ using CarService.Objects;
 using System.IO;
 using System.Net.Sockets;
 using System.Security.Cryptography;
+using System.Reflection;
+using System.Drawing;
 
 namespace CarService
 {
@@ -21,7 +23,6 @@ namespace CarService
 
         public DB()
         {
-            //sqlConnection = new SqlConnection(connectionString);
         }
 
         public DataTable getPasswordsEmployee()
@@ -71,6 +72,7 @@ namespace CarService
                 command.Parameters.Add(id);
 
                 command.ExecuteNonQuery();
+
                 return (int)command.Parameters["@id"].Value;
 
             }
@@ -117,82 +119,53 @@ namespace CarService
             }
         }
 
-        public List<Employee> getEmployeeByPosition(int position)
+        public DataTable LoadPositions()
         {
-            List<Employee> employees = new List<Employee>();
-            Employee employee;
 
-            string sqlExpression = "getEmployeeByPosition";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            DataSet dataSet = new DataSet();
+
+            using (sqlConnection = new SqlConnection(connectionString))
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                // указываем, что команда представляет хранимую процедуру
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                // параметр для ввода имени
-                SqlParameter nameParam = new SqlParameter
-                {
-                    ParameterName = "@position",
-                    Value = position
-                };
-                // добавляем параметр
-                command.Parameters.Add(nameParam);
-                var reader = command.ExecuteReader();
 
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        employee=new Employee();
-                        employee.Id = reader.GetInt32(0);
-                        employee.FName = reader.GetString(1);
-                        employee.MName = reader.GetString(2);
-                        employee.LName = reader.GetString(3);
-                        employee.Phone = reader.GetString(4);
-                        employee.PositionName = reader.GetString(5);
-                        employee.Password = reader.GetString(6);
-                        employees.Add(employee);
+                SqlCommand command = sqlConnection.CreateCommand();
+                command.CommandText = "SELECT * FROM Positions ORDER BY Name;";
 
-                    }
-                }
-                reader.Close();
-                return employees;
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                adapter.Fill(dataSet);
+
+                DataTable table = dataSet.Tables[0];
+                table.TableName = "Positions";
+
+
+                return table;
+            }
+
+
+
+        }
+
+        public DataTable LoadEngine()
+        {
+            DataSet dataSet = new DataSet();
+
+            using (sqlConnection = new SqlConnection(connectionString))
+            {
+
+                SqlCommand command = sqlConnection.CreateCommand();
+                command.CommandText = "SELECT * FROM Engine";
+
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                adapter.Fill(dataSet);
+
+                DataTable table = dataSet.Tables[0];
+                table.TableName = "Engine";
+
+
+                return table;
             }
         }
 
-        public List<Client> getClients()
-        {
-            List<Client> clients = new List<Client>();
-            Client client;
-
-            string sqlExpression = "SELECT * FROM Clients";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                var reader = command.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        client = new Client();
-                        client.Id = reader.GetInt32(0);
-                        client.FName = reader.GetString(1);
-                        client.MName = reader.GetString(2);
-                        client.Phone = reader.GetString(3);
-                        clients.Add(client);
-
-                    }
-                }
-                reader.Close();
-                return clients;
-            }
-        }
-
-    
-
-        public DataTable getCategories()
+        public DataTable LoadCategories()
         {
             DataSet dataSet = new DataSet();
 
@@ -206,12 +179,13 @@ namespace CarService
                 adapter.Fill(dataSet);
 
                 DataTable table = dataSet.Tables[0];
-
+                table.TableName = "Categories";
 
 
                 return table;
             }
         }
+
         public DataTable LoadCars()
         {
             
@@ -219,7 +193,6 @@ namespace CarService
 
             using (sqlConnection = new SqlConnection(connectionString))
             {
-                string tableName = "Cars";
 
                 SqlCommand command = sqlConnection.CreateCommand();
                 command.CommandText = "SELECT * FROM Cars ORDER BY Brand;";
@@ -229,7 +202,7 @@ namespace CarService
 
                 DataTable table = dataSet.Tables[0];
 
-                table.TableName = tableName;
+                table.TableName = "Cars";
 
                
                 return table;
@@ -254,7 +227,7 @@ namespace CarService
                 adapter.Fill(dataSet);
 
                 DataTable table = dataSet.Tables[0];
-
+                table.TableName = "Services";
 
 
                 return table;
@@ -279,7 +252,7 @@ namespace CarService
                 adapter.Fill(dataSet);
 
                 DataTable table = dataSet.Tables[0];
-
+                table.TableName = "Clients";
 
 
                 return table;
@@ -304,7 +277,7 @@ namespace CarService
                 adapter.Fill(dataSet);
 
                 DataTable table = dataSet.Tables[0];
-
+                table.TableName = "Employees";
 
 
                 return table;
@@ -397,6 +370,7 @@ namespace CarService
             command.ExecuteNonQuery();
 
         }
+
         public string CreateComandToAddServiceDetails(int idOrder,DataTable service) 
         {
             string result = "INSERT INTO ServiceDetails VALUES ";
@@ -422,7 +396,6 @@ namespace CarService
             //IdMaster, FNameMaster, MNameMaster, LNameMaster, PhoneMaster,
             //TotalCost, Status, Comment
             
-            DataTable orders = new DataTable();
             DataSet dataSet = new DataSet();
             DataTable dataTableOrders = new DataTable();
             DataTable dataTableServiceDetails = new DataTable();
@@ -431,8 +404,6 @@ namespace CarService
             using (sqlConnection = new SqlConnection(connectionString))
             {
                 
-                
-
                 string sqlQuery1 = "SELECT * FROM allInfoAboutOrders", sqlQuery2 = "SELECT * FROM allInfoAboutServicesInOrders";
                 SqlDataAdapter dataAdapter = new SqlDataAdapter(sqlQuery1,sqlConnection);
                 dataAdapter.Fill(dataTableOrders);
@@ -460,10 +431,10 @@ namespace CarService
             //DataTable allInfoAboutOrders
             //0-IdOrder,1-Date, 
             //2-IdClient,3-FNameClient,4-MNameClient,5-PhoneClient,
-            //6-IdCar,7-Brand,8-Model,9-Year,10-Engine,11-Value,12-Mileage,13-VIN, 
-            //14-IdEmp,15-FNameEmp,16-MNameEmp,17-LNameEmp,18-PhoneEmp,
-            //19-IdMaster,20-FNameMaster,21-MNameMaster,22-LNameMaster,23-PhoneMaster,
-            //24-TotalCost,25-Status,26-Comment
+            //6-IdCar,7-Brand,8-Model,9-Year,10-EngineID,11-EngineName,12-Value,13-Mileage,14-VIN, 
+            //15-IdEmp,16-FNameEmp,17-MNameEmp,18-LNameEmp,18-PhoneEmp,
+            //20-IdMaster,21-FNameMaster,22-MNameMaster,23-LNameMaster,24-PhoneMaster,
+            //25-TotalCost,26-Status,27-Comment
             DataTable orders = new DataTable();
             orders.Columns.Add("Id", typeof(int));
             orders.Columns.Add("Date", typeof(DateTime));
@@ -489,9 +460,9 @@ namespace CarService
 
                 newRow[orders.Columns[5].ColumnName] = CreateServicesString(dataSet.Tables[1], Convert.ToInt32(row.ItemArray[0]));
                 newRow[orders.Columns[6].ColumnName] = CreatePricesString(dataSet.Tables[1], Convert.ToInt32(row.ItemArray[0]));
-                newRow[orders.Columns[7].ColumnName] = Convert.ToInt32(row.ItemArray[24]);
-                newRow[orders.Columns[8].ColumnName] = Convert.ToString(row.ItemArray[26]);
-                newRow[orders.Columns[9].ColumnName] = Convert.ToString(ConvertStatus(Convert.ToInt32( row.ItemArray[25])));
+                newRow[orders.Columns[7].ColumnName] = Convert.ToInt32(row.ItemArray[25]);
+                newRow[orders.Columns[8].ColumnName] = Convert.ToString(row.ItemArray[27]);
+                newRow[orders.Columns[9].ColumnName] = Convert.ToString(ConvertStatus(Convert.ToInt32( row.ItemArray[26])));
 
                 orders.Rows.Add(newRow);
             }
@@ -542,6 +513,32 @@ namespace CarService
             return result;
         }
 
+        public string getEngineNameByIdEngine(int idEngine)
+        {
+            string nameEngine= string.Empty;
+
+            string sqlExpression = "SELECT Name FROM Engine WHERE IdEngine="+idEngine.ToString();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sqlExpression, connection);
+                // указываем, что команда представляет хранимую процедуру
+                command.CommandType = System.Data.CommandType.Text;
+               
+                var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        nameEngine = reader.GetString(0);
+                    }
+                }
+                reader.Close();
+                return nameEngine;
+            }
+        }
+
         public void UpdateMasterInOrder(string oldId, string newId)
         {
             string sqlExpression = "updateMasterInOrder";
@@ -579,5 +576,685 @@ namespace CarService
 
             }
         }
+
+        public string AddCar(Car car)
+        {
+            //OK, ex.Message - Error 
+            string result;
+            try
+            {
+                string sqlExpression = string.Format("INSERT INTO Cars VALUES ('{0}','{1}')", car.Brand, car.Model);
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand(sqlExpression, sqlConnection);
+                    command.CommandType = CommandType.Text;
+
+                    command.ExecuteNonQuery();
+
+                }
+                result = "OK";
+            }
+
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+            
+        }
+
+        public string UpdateCar(Car oldCar, Car newCar)
+        {
+            //OK, ex.Message - Error 
+            string result;
+            try
+            {
+                string sqlExpression;
+                if (oldCar.Model == newCar.Model || newCar.Model==string.Empty)
+                {
+                    sqlExpression = string.Format("update Cars set Brand='{0}' where Brand='{1}'", newCar.Brand, oldCar.Brand);
+                }
+                else
+                {
+                    sqlExpression= string.Format("update Cars set Brand='{0}', Model='{1}' where Brand='{2}' AND Model='{3}'", newCar.Brand, newCar.Model,oldCar.Brand,oldCar.Model);
+                }
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand(sqlExpression, sqlConnection);
+                    command.CommandType = CommandType.Text;
+
+                    command.ExecuteNonQuery();
+
+                }
+                result = "OK";
+            }
+
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+
+        }
+
+        public string AddEngine(Engine newEngine)
+        {
+            //OK, ex.Message - Error 
+            string result;
+            try
+            {
+                string sqlExpression = string.Format("INSERT INTO Engine VALUES ('{0}')", newEngine.Name);
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand(sqlExpression, sqlConnection);
+                    command.CommandType = CommandType.Text;
+
+                    command.ExecuteNonQuery();
+
+                }
+                result = "OK";
+            }
+
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+
+        }
+        public string UpdateEngine(Engine oldEngine, Engine newEngine)
+        {
+            //OK, ex.Message - Error 
+            string result;
+            try
+            {
+                string sqlExpression=string.Format("update Engine set Name='{0}' where Name='{1}'", newEngine.Name, oldEngine.Name);
+             
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand(sqlExpression, sqlConnection);
+                    command.CommandType = CommandType.Text;
+
+                    command.ExecuteNonQuery();
+
+                }
+                result = "OK";
+            }
+
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+
+        }
+
+        public string AddClient (Client client)
+        {
+            //OK, ex.Message - Error 
+            string result;
+            try
+            {
+                string sqlExpression = string.Format("INSERT INTO Clients VALUES ('{0}','{1}','{2}')", client.FName,client.MName,client.Phone);
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand(sqlExpression, sqlConnection);
+                    command.CommandType = CommandType.Text;
+
+                    command.ExecuteNonQuery();
+
+                }
+                result = "OK";
+            }
+
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+
+        }
+
+        public string UpdateClient(Client oldClient, Client newClient)
+        {
+            //OK, ex.Message - Error 
+            string result;
+            try
+            {
+                string sqlExpression = string.Format("update Clients set FName='{0}', MName='{1}', Phone='{2}' where Phone='{3}'", newClient.FName,newClient.MName,newClient.Phone,oldClient.Phone);
+
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand(sqlExpression, sqlConnection);
+                    command.CommandType = CommandType.Text;
+
+                    command.ExecuteNonQuery();
+
+                }
+                result = "OK";
+            }
+
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+
+        }
+
+        public string AddCategory(Category category)
+        {
+            //OK, ex.Message - Error 
+            string result;
+            try
+            {
+                string sqlExpression = string.Format("INSERT INTO ServiceCategory VALUES ('{0}')", category.Name);
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand(sqlExpression, sqlConnection);
+                    command.CommandType = CommandType.Text;
+
+                    command.ExecuteNonQuery();
+
+                }
+                result = "OK";
+            }
+
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+
+        }
+
+        public string UpdateCategory(Category oldCategory, Category newCategory)
+        {
+            //OK, ex.Message - Error 
+            string result;
+            try
+            {
+                string sqlExpression = string.Format("update ServiceCategory set Name='{0}' where Name='{1}'", newCategory.Name,oldCategory.Name);
+
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand(sqlExpression, sqlConnection);
+                    command.CommandType = CommandType.Text;
+
+                    command.ExecuteNonQuery();
+
+                }
+                result = "OK";
+            }
+
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+
+        }
+        public string AddService(Service service)
+        {
+            //OK, ex.Message - Error 
+            string result;
+            try
+            {
+                string sqlExpression = string.Format("INSERT INTO Services VALUES ('{0}',{1},{2})", service.Name,service.Price,service.IdCategory);
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand(sqlExpression, sqlConnection);
+                    command.CommandType = CommandType.Text;
+
+                    command.ExecuteNonQuery();
+
+                }
+                result = "OK";
+            }
+
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+
+        }
+
+        public string UpdateService(Service oldService, Service newService)
+        {
+            //OK, ex.Message - Error 
+            string result;
+            try
+            {
+                string sqlExpression = string.Format("update Services set Name='{0}',Price={1} where Name='{2}'",newService.Name,newService.Price,oldService.Name);
+
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand(sqlExpression, sqlConnection);
+                    command.CommandType = CommandType.Text;
+
+                    command.ExecuteNonQuery();
+
+                }
+                result = "OK";
+            }
+
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+
+        }
+
+        public string AddPosition(Position newPosition)
+        {
+            //OK, ex.Message - Error 
+            string result;
+            try
+            {
+                string sqlExpression = string.Format("INSERT INTO Positions VALUES ('{0}')", newPosition.Name);
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand(sqlExpression, sqlConnection);
+                    command.CommandType = CommandType.Text;
+
+                    command.ExecuteNonQuery();
+
+                }
+                result = "OK";
+            }
+
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+
+        }
+
+        public string UpdatePosition(Position oldPosition, Position newPosition)
+        {
+            //OK, ex.Message - Error 
+            string result;
+            try
+            {
+                string sqlExpression = string.Format("update Positions set Name='{0}' where Name='{1}'", newPosition.Name, oldPosition.Name);
+
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand(sqlExpression, sqlConnection);
+                    command.CommandType = CommandType.Text;
+
+                    command.ExecuteNonQuery();
+
+                }
+                result = "OK";
+            }
+
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+
+        }
+
+        public string AddEmployee(Employee employee)
+        {
+            //OK, ex.Message - Error 
+            string result;
+            try
+            {
+                string sqlExpression = string.Format("INSERT INTO Employees VALUES ('{0}','{1}','{2}','{3}', {4}, '{5}')", employee.FName, employee.MName, employee.LName, employee.Phone,employee.PositionId,employee.Password);
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand(sqlExpression, sqlConnection);
+                    command.CommandType = CommandType.Text;
+
+                    command.ExecuteNonQuery();
+
+                }
+                result = "OK";
+            }
+
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+
+        }
+
+        public string UpdateEmployee(Employee oldEmployee, Employee newEmployee)
+        {
+            //OK, ex.Message - Error 
+            string result;
+            try
+            {
+                string sqlExpression = string.Format("update Employees set FName='{0}', MName='{1}',LName='{2}', Phone='{3}', Position={4}, Password='{5}' where Phone='{6}'", newEmployee.FName, newEmployee.MName, newEmployee.LName, newEmployee.Phone, newEmployee.PositionId, newEmployee.Password, oldEmployee.Phone);
+
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand(sqlExpression, sqlConnection);
+                    command.CommandType = CommandType.Text;
+
+                    command.ExecuteNonQuery();
+
+                }
+                result = "OK";
+            }
+
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+
+        }
+
+
+
+        #region Statistic
+        public int GetMinOrderYear()
+        {
+
+            int result = -1;
+
+            SqlCommand sqlCommand = new SqlCommand();
+
+            using (sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                sqlCommand.Connection = sqlConnection;
+
+                sqlCommand.CommandText = "select DATEPART(YYYY,min(Date)) from Orders";
+                result = Convert.ToInt32(sqlCommand.ExecuteScalar());
+
+            }
+
+            return result;
+        }
+
+        public int GetMaxOrderYear()
+        {
+
+            int result = -1;
+
+            SqlCommand sqlCommand = new SqlCommand();
+
+            using (sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                sqlCommand.Connection = sqlConnection;
+
+                sqlCommand.CommandText = "select DATEPART(YYYY,max(Date)) from Orders";
+                result = Convert.ToInt32(sqlCommand.ExecuteScalar());
+
+            }
+
+            return result;
+        }
+
+        Dictionary<string, int> resultDictionary;
+        SqlDataAdapter sqlDataAdapter;
+        SqlCommand sqlCommand;
+        DataSet dataSet;
+
+        private string getMonthNameByNumber(int number)
+        {
+            string monthS;
+            switch (number)
+            {
+                case 1:
+                    monthS = "Январь";
+                    break;
+                case 2:
+                    monthS = "Февраль";
+                    break;
+                case 3:
+                    monthS = "Март";
+                    break;
+                case 4:
+                    monthS = "Апрель";
+                    break;
+                case 5:
+                    monthS = "Май";
+                    break;
+                case 6:
+                    monthS = "Июнь";
+                    break;
+                case 7:
+                    monthS = "Июль";
+                    break;
+                case 8:
+                    monthS = "Август";
+                    break;
+                case 9:
+                    monthS = "Сентябрь";
+                    break;
+                case 10:
+                    monthS = "Октябрь";
+                    break;
+                case 11:
+                    monthS = "Ноябрь";
+                    break;
+                case 12:
+                    monthS = "Декабрь";
+                    break;
+                default:
+                    monthS = "";
+                    break;
+            }
+            return monthS;
+        }
+
+        public Dictionary<string, int> LoadOrdersForMonth(int month, int year)
+        {
+            resultDictionary = new Dictionary<string, int>();
+
+            sqlCommand = new SqlCommand();
+            dataSet = new DataSet();
+
+            string tableName = "OrderForMonth";
+
+            using (sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                sqlCommand.Connection = sqlConnection;
+
+                sqlCommand.CommandText = $"select * from OrderForMonth({month},{year})";
+
+                sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+
+                sqlDataAdapter.Fill(dataSet);
+
+                dataSet.Tables[0].TableName = tableName;
+            }
+
+            string date;
+            foreach (DataRow row in dataSet.Tables[0].Rows)
+            {
+                date = ((DateTime)row.ItemArray[0]).ToString("dd.MM");
+                resultDictionary.Add(date, Convert.ToInt32(row.ItemArray[1]));
+            }
+
+            return resultDictionary;
+        }
+
+        public Dictionary<string, int> LoadOrdersForYear(int year)
+        {
+            resultDictionary = new Dictionary<string, int>();
+
+            sqlCommand = new SqlCommand();
+            dataSet = new DataSet();
+
+            string tableName = "OrderForYear";
+
+            using (sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                sqlCommand.Connection = sqlConnection;
+
+                sqlCommand.CommandText = $"select * from OrderForYear({year})";
+
+                sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+
+                sqlDataAdapter.Fill(dataSet);
+
+                dataSet.Tables[0].TableName = tableName;
+            }
+
+            int monthInt;
+            string monthString;
+            foreach (DataRow row in dataSet.Tables[0].Rows)
+            {
+                monthInt = Convert.ToInt32(row.ItemArray[0]);
+                monthString=getMonthNameByNumber(monthInt);
+
+                resultDictionary.Add(monthString, Convert.ToInt32(row.ItemArray[1]));
+            }
+
+            return resultDictionary;
+
+        }
+
+        public Dictionary<string, int> LoadOrdersSumForMonth(int month, int year)
+        {
+            resultDictionary = new Dictionary<string, int>();
+
+            sqlCommand = new SqlCommand();
+            dataSet = new DataSet();
+
+            string tableName = "OrdersSumForMonth";
+
+            using (sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                sqlCommand.Connection = sqlConnection;
+
+                sqlCommand.CommandText = $"select * from OrdersSumForMonth({month},{year})";
+
+                sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+
+                sqlDataAdapter.Fill(dataSet);
+
+                dataSet.Tables[0].TableName = tableName;
+            }
+
+            string date;
+            foreach (DataRow row in dataSet.Tables[0].Rows)
+            {
+                date = ((DateTime)row.ItemArray[0]).ToString("dd.MM");
+                resultDictionary.Add(date, Convert.ToInt32(row.ItemArray[1]));
+            }
+
+            return resultDictionary;
+        }
+
+        public Dictionary<string, int> LoadOrdersSumForYear(int year)
+        {
+            resultDictionary = new Dictionary<string, int>();
+
+            sqlCommand = new SqlCommand();
+            dataSet = new DataSet();
+
+            string tableName = "OrdersSumForYear";
+
+            using (sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                sqlCommand.Connection = sqlConnection;
+
+                sqlCommand.CommandText = $"select * from OrdersSumForYear({year})";
+
+                sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+
+                sqlDataAdapter.Fill(dataSet);
+
+                dataSet.Tables[0].TableName = tableName;
+            }
+            int monthNumber;
+            string monthName;
+            foreach (DataRow row in dataSet.Tables[0].Rows)
+            {
+                monthNumber = Convert.ToInt32(row.ItemArray[0]);
+                monthName=getMonthNameByNumber(monthNumber);
+               
+
+                resultDictionary.Add(monthName, Convert.ToInt32(row.ItemArray[1]));
+            }
+
+            return resultDictionary;
+
+        }
+
+
+        public DataTable LoadTops(string nameTable)
+        {
+
+            sqlCommand = new SqlCommand();
+            dataSet = new DataSet();
+
+            string[] NamesViews = new string[] { "TopCars", "ClientsOrdersCount", "TopService" };
+            string table;
+
+            if (nameTable == "cars")
+                table = NamesViews[0];
+            else if (nameTable == "clients")
+                table = NamesViews[1];
+            else 
+                table = NamesViews[2];
+            
+
+            using (sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                sqlCommand.Connection = sqlConnection;
+
+                sqlCommand.CommandText = $"select * from {table}";
+
+                sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+
+                sqlDataAdapter.Fill(dataSet);
+
+                dataSet.Tables[0].TableName = table;
+            }
+
+
+
+            return dataSet.Tables[0];
+        }
+
+        #endregion
+
     }
 }
