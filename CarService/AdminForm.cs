@@ -1,16 +1,9 @@
 ﻿using CarService.Objects;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CarService
 {
@@ -63,10 +56,11 @@ namespace CarService
             Categories_comboBox.SelectedIndex = -1;
             Positions_comboBox.SelectedIndex = -1;
             Employees_comboBox.SelectedIndex = -1;
+            this.Text = "Администратор " + employee.FName + ' ' + employee.MName + ' ' + employee.LName;
             IsOpened = true;
         }
 
-
+        #region Set catalogs
         public void setCarsInCB(DataTable cars)
         {
             BindingSource source = new BindingSource();
@@ -118,16 +112,22 @@ namespace CarService
 
         public void setClientsInCB(DataTable clients)
         {
-            List<string> clientsFullName = new List<string>();
-            string fullName;
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("IdClient", typeof(int));
+            dataTable.Columns.Add("FullInfo", typeof(string));
+            DataRow newRow;
 
             foreach (DataRow row in clients.Rows)
             {
-                fullName = row.ItemArray[1].ToString() + ' ' + row.ItemArray[2].ToString() + ' ' + row.ItemArray[3].ToString();
-                clientsFullName.Add(fullName);
+                newRow=dataTable.NewRow();
+                newRow.ItemArray = new object[] { Convert.ToInt32(row.ItemArray[0]), row.ItemArray[1].ToString() + ' ' + row.ItemArray[2].ToString() + ' ' + row.ItemArray[3].ToString() };
+                dataTable.Rows.Add(newRow);
             }
 
-            Clients_comboBox.DataSource = clientsFullName;
+            Clients_comboBox.DataSource = dataTable;
+            Clients_comboBox.DisplayMember = dataTable.Columns[1].ColumnName;
+            Clients_comboBox.ValueMember = dataTable.Columns[0].ColumnName;
+
         }
 
 
@@ -196,6 +196,31 @@ namespace CarService
             Employees_comboBox.DisplayMember = emp.Columns[1].ColumnName;
             Employees_comboBox.ValueMember = emp.Columns[0].ColumnName;
         }
+        private void Brand_comboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Brand_comboBox.SelectedIndex != -1 && IsOpened)
+            {
+                setModelInCB(carDataTable);
+            }
+        }
+
+        private void Categories_comboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Categories_comboBox.SelectedIndex != -1 && IsOpened)
+            {
+                setServiceInCB(serviceTable);
+                Service_comboBox.SelectedIndex = -1;
+            }
+
+        }
+        private void Positions_comboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!IsOpened || Positions_comboBox.SelectedIndex == -1) return;
+            setEmployeesInCB(employeesTable);
+        }
+
+        #endregion
+
 
         private void AddOrder_button_Click(object sender, EventArgs e)
         {
@@ -209,6 +234,20 @@ namespace CarService
             viewOrdersForm.ShowDialog();
         }
 
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            StatisticForm statisticForm = new StatisticForm();
+            statisticForm.ShowDialog();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            InProgerssForm inProgerssForm = new InProgerssForm(employee.Id);
+            inProgerssForm.ShowDialog();
+        }
+
+        #region Add update actions
         private void AddCar_button_Click(object sender, EventArgs e)
         {
             AddedUpdatedForm addedUpdatedForm = new AddedUpdatedForm(this, carDataTable, addActions);
@@ -232,64 +271,7 @@ namespace CarService
             addedUpdatedForm.ShowDialog(this);
         }
 
-        private bool CheckCarsField()
-        {
-            bool res = true;
-            if (Brand_comboBox.Text == string.Empty)
-                res = false;
-            return res;
-        }
-        private bool CheckEngineField()
-        {
-            bool res = true;
-            if (Engine_comboBox.Text == string.Empty)
-                res = false;
-            return res;
-        }
-        private bool CheckClientField()
-        {
-            bool res = true;
-            if (Clients_comboBox.Text == string.Empty)
-                res = false;
-            return res;
-        }
-        private bool CheckCategoryField()
-        {
-            bool res = true;
-            if (Categories_comboBox.Text == string.Empty)
-                res = false;
-            return res;
-        }
-        private bool CheckServiceyField()
-        {
-            bool res = true;
-            if (Service_comboBox.Text == string.Empty)
-                res = false;
-            return res;
-        }
-        private void Brand_comboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (Brand_comboBox.SelectedIndex != -1 && IsOpened)
-            {
-                setModelInCB(carDataTable);
-            }
-        }
-        private bool CheckPositionField()
-        {
-            bool res = true;
-            if (Positions_comboBox.Text == string.Empty)
-                res = false;
-            return res;
-        }
-
-        private bool CheckEmployeeField()
-        {
-            bool res = true;
-            if (Employees_comboBox.Text == string.Empty)
-                res = false;
-            return res;
-        }
-
+        
         private void AddEngine_button_Click(object sender, EventArgs e)
         {
             AddedUpdatedForm addedUpdatedForm = new AddedUpdatedForm(this, engineTable, addActions);
@@ -334,16 +316,6 @@ namespace CarService
             List<string> client = new List<string>() { Clients_comboBox.Text };
             AddedUpdatedForm addedUpdatedForm = new AddedUpdatedForm(this, clientsTable, client, updateActions);
             addedUpdatedForm.ShowDialog(this);
-        }
-
-        private void Categories_comboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (Categories_comboBox.SelectedIndex != -1 && IsOpened)
-            {
-                setServiceInCB(serviceTable);
-                Service_comboBox.SelectedIndex = -1;
-            }
-            
         }
 
         private void AddService_button_Click(object sender, EventArgs e)
@@ -408,8 +380,8 @@ namespace CarService
 
         private void AddPosition_button_Click(object sender, EventArgs e)
         {
-            AddedUpdatedForm addedUpdatedForm = new AddedUpdatedForm(this, positionsTable, addActions);
-            addedUpdatedForm.ShowDialog(this);
+            //AddedUpdatedForm addedUpdatedForm = new AddedUpdatedForm(this, positionsTable, addActions);
+            //addedUpdatedForm.ShowDialog(this);
         }
         private void UpdatePosition_button_Click(object sender, EventArgs e)
         {
@@ -477,23 +449,400 @@ namespace CarService
 
         }
 
+        #endregion
+       
 
-        private void Positions_comboBox_SelectedIndexChanged(object sender, EventArgs e)
+
+        #region Delete actions
+
+        private void DeleteCar_button_Click(object sender, EventArgs e)
         {
-            if (!IsOpened || Positions_comboBox.SelectedIndex==-1) return;
-            setEmployeesInCB(employeesTable);
+            DeleteCar();
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void DeleteCar()
         {
-            StatisticForm statisticForm = new StatisticForm();
-            statisticForm.ShowDialog();
+            if (!CheckCarsField())
+            {
+                MessageBox.Show(
+                         string.Format("Не все поля были заполнены! Проверьте поле \"Марка\" и \"Модель\""),
+                         "Неверные данные",
+                         MessageBoxButtons.OK,
+                         MessageBoxIcon.Information,
+                         MessageBoxDefaultButton.Button1);
+                return;
+            }
+
+            DialogResult dialog = MessageBox.Show(
+                          $"Вы действительно хотите удалить автомобиль {Brand_comboBox.Text} {Model_comboBox.Text}?",
+                          "Подтверждение удаления",
+                          MessageBoxButtons.YesNo,
+                          MessageBoxIcon.Information,
+                          MessageBoxDefaultButton.Button1);
+            if (dialog == DialogResult.No) return;
+
+            string result;
+            int idCar = Convert.ToInt32(Model_comboBox.SelectedValue);
+
+            result = dataBase.DeleteCar(idCar);
+
+            if (result == "OK")
+            {
+                MessageBox.Show(
+                       string.Format("Автомобиль успешно удалён!"),
+                       "Результат удаления автомобиля",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Information,
+                       MessageBoxDefaultButton.Button1);
+                DataRow deletedRow = carDataTable.Select(string.Format("{0}={1}", carDataTable.Columns[0].ColumnName, idCar))[0];
+                carDataTable.Rows.Remove(deletedRow);
+            }
+            else
+            {
+                MessageBox.Show(
+                       string.Format("В результате удаления автомобиля произошла ошибка!\n", result),
+                       "Результат удаления автомобиля",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Error,
+                       MessageBoxDefaultButton.Button1);
+            }
+            Brand_comboBox.SelectedIndex = Model_comboBox.SelectedIndex = -1;
+
+
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void DeleteEngine_button_Click(object sender, EventArgs e)
         {
-            InProgerssForm inProgerssForm = new InProgerssForm(employee.Id);
-            inProgerssForm.ShowDialog();
+            DeleteEngine();
         }
+        private void DeleteEngine()
+        {
+            if (!CheckEngineField())
+            {
+                MessageBox.Show(
+                         string.Format("Не все поля были заполнены! Проверьте поле \"Тип двигателя\""),
+                         "Неверные данные",
+                         MessageBoxButtons.OK,
+                         MessageBoxIcon.Information,
+                         MessageBoxDefaultButton.Button1);
+                return;
+            }
+
+            DialogResult dialog = MessageBox.Show(
+                          $"Вы действительно хотите удалить тип двигателя {Engine_comboBox.Text}",
+                          "Подтверждение удаления",
+                          MessageBoxButtons.YesNo,
+                          MessageBoxIcon.Information,
+                          MessageBoxDefaultButton.Button1);
+            if (dialog == DialogResult.No) return;
+
+            string result;
+            int idEngine = Convert.ToInt32(Engine_comboBox.SelectedValue);
+
+            result = dataBase.DeleteEngine(idEngine);
+
+            if (result == "OK")
+            {
+                MessageBox.Show(
+                       string.Format("Тип двигателя успешно удалён!"),
+                       "Результат удаления",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Information,
+                       MessageBoxDefaultButton.Button1);
+                DataRow deletedRow = engineTable.Select(string.Format("{0}={1}", engineTable.Columns[0].ColumnName, idEngine))[0];
+                engineTable.Rows.Remove(deletedRow);
+            }
+            else
+            {
+                MessageBox.Show(
+                       string.Format("В результате удаления автомобиля произошла ошибка!\n", result),
+                       "Результат удаления автомобиля",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Error,
+                       MessageBoxDefaultButton.Button1);
+            }
+            Engine_comboBox.SelectedIndex= -1;
+
+
+        }
+
+        private void DeleteClient_button_Click(object sender, EventArgs e)
+        {
+            DeleteClient();
+        }
+
+        private void DeleteClient()
+        {
+            if (!CheckClientField())
+            {
+                MessageBox.Show(
+                         string.Format("Не все поля были заполнены! Проверьте поле \"Клиент\""),
+                         "Неверные данные",
+                         MessageBoxButtons.OK,
+                         MessageBoxIcon.Information,
+                         MessageBoxDefaultButton.Button1);
+                return;
+            }
+
+            DialogResult dialog = MessageBox.Show(
+                          $"Вы действительно хотите удалить клиента {Engine_comboBox.Text}?",
+                          "Подтверждение удаления",
+                          MessageBoxButtons.YesNo,
+                          MessageBoxIcon.Information,
+                          MessageBoxDefaultButton.Button1);
+            if (dialog == DialogResult.No) return;
+
+            string result;
+            int idClient = Convert.ToInt32(Clients_comboBox.SelectedValue);
+
+            result = dataBase.DeleteClient(idClient);
+
+            if (result == "OK")
+            {
+                MessageBox.Show(
+                       string.Format("Клиент успешно удалён!"),
+                       "Результат удаления",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Information,
+                       MessageBoxDefaultButton.Button1);
+                DataRow deletedRow = clientsTable.Select(string.Format("{0}={1}", clientsTable.Columns[0].ColumnName, idClient))[0];
+                clientsTable.Rows.Remove(deletedRow);
+                setClientsInCB(clientsTable);
+            }
+            else
+            {
+                MessageBox.Show(
+                       string.Format("В результате удаления клиента произошла ошибка!\n", result),
+                       "Результат удаления",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Error,
+                       MessageBoxDefaultButton.Button1);
+            }
+            Clients_comboBox.SelectedIndex = -1;
+        }
+
+        private void DeleteService_button_Click(object sender, EventArgs e)
+        {
+            DeleteService();
+
+        }
+
+        private void DeleteService()
+        {
+            if (!CheckServiceyField())
+            {
+                MessageBox.Show(
+                         string.Format("Не все поля были заполнены! Проверьте поле \"Услуга\""),
+                         "Неверные данные",
+                         MessageBoxButtons.OK,
+                         MessageBoxIcon.Information,
+                         MessageBoxDefaultButton.Button1);
+                return;
+            }
+
+            DialogResult dialog = MessageBox.Show(
+                          $"Вы действительно хотите удалить услугу {Service_comboBox.Text}?",
+                          "Подтверждение удаления",
+                          MessageBoxButtons.YesNo,
+                          MessageBoxIcon.Information,
+                          MessageBoxDefaultButton.Button1);
+            if (dialog == DialogResult.No) return;
+
+            string result;
+            int idService = Convert.ToInt32(Service_comboBox.SelectedValue);
+
+            result = dataBase.DeleteService(idService);
+
+            if (result == "OK")
+            {
+                MessageBox.Show(
+                       string.Format("Услуга успешно удалена!"),
+                       "Результат удаления",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Information,
+                       MessageBoxDefaultButton.Button1);
+                DataRow deletedRow = serviceTable.Select(string.Format("{0}={1}", serviceTable.Columns[0].ColumnName, idService))[0];
+                serviceTable.Rows.Remove(deletedRow);
+                
+            }
+            else
+            {
+                MessageBox.Show(
+                       string.Format("В результате удаления клиента произошла ошибка!\n", result),
+                       "Результат удаления",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Error,
+                       MessageBoxDefaultButton.Button1);
+            }
+            Categories_comboBox.SelectedIndex=Service_comboBox.SelectedIndex = -1;
+        }
+
+        private void DeletePosition_button_Click(object sender, EventArgs e)
+        {
+            DeletePosition();
+        }
+
+        private void DeletePosition()
+        {
+            if (!CheckPositionField())
+            {
+                MessageBox.Show(
+                         string.Format("Не все поля были заполнены! Проверьте поле \"Должность\""),
+                         "Неверные данные",
+                         MessageBoxButtons.OK,
+                         MessageBoxIcon.Information,
+                         MessageBoxDefaultButton.Button1);
+                return;
+            }
+
+            DialogResult dialog = MessageBox.Show(
+                          $"Вы действительно хотите удалить должность {Positions_comboBox.Text}? В случае удаления должности будут удалены все сотрудники, занимающие данную должность",
+                          "Подтверждение удаления",
+                          MessageBoxButtons.YesNo,
+                          MessageBoxIcon.Information,
+                          MessageBoxDefaultButton.Button1);
+            if (dialog == DialogResult.No) return;
+
+            string result;
+            int idPosition = Convert.ToInt32(Positions_comboBox.SelectedValue);
+
+            result = dataBase.DeletePosition(idPosition);
+
+            if (result == "OK")
+            {
+                MessageBox.Show(
+                       string.Format("Должность успешно удалена!"),
+                       "Результат удаления",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Information,
+                       MessageBoxDefaultButton.Button1);
+                DataRow deletedRow = positionsTable.Select(string.Format("{0}={1}", positionsTable.Columns[0].ColumnName, idPosition))[0];
+                positionsTable.Rows.Remove(deletedRow);
+
+            }
+            else
+            {
+                MessageBox.Show(
+                       string.Format("В результате удаления должности произошла ошибка!\n", result),
+                       "Результат удаления",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Error,
+                       MessageBoxDefaultButton.Button1);
+            }
+            Positions_comboBox.SelectedIndex = Employees_comboBox.SelectedIndex = -1;
+        }
+
+        private void DeleteEmployee_button_Click(object sender, EventArgs e)
+        {
+            DeleteEmployee();
+        }
+
+        private void DeleteEmployee()
+        {
+            if (!CheckPositionField())
+            {
+                MessageBox.Show(
+                         string.Format("Не все поля были заполнены! Проверьте поле \"Сотрудник\""),
+                         "Неверные данные",
+                         MessageBoxButtons.OK,
+                         MessageBoxIcon.Information,
+                         MessageBoxDefaultButton.Button1);
+                return;
+            }
+
+            DialogResult dialog = MessageBox.Show(
+                          $"Вы действительно хотите удалить сотрудника {Employees_comboBox.Text}?",
+                          "Подтверждение удаления",
+                          MessageBoxButtons.YesNo,
+                          MessageBoxIcon.Information,
+                          MessageBoxDefaultButton.Button1);
+            if (dialog == DialogResult.No) return;
+
+            string result;
+            int idEmployee = Convert.ToInt32(Employees_comboBox.SelectedValue);
+
+            result = dataBase.DeleteEmployee(idEmployee);
+
+            if (result == "OK")
+            {
+                MessageBox.Show(
+                       string.Format("Сотрудник успешно удален!"),
+                       "Результат удаления",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Information,
+                       MessageBoxDefaultButton.Button1);
+                DataRow deletedRow = employeesTable.Select(string.Format("{0}={1}", employeesTable.Columns[0].ColumnName, idEmployee))[0];
+                employeesTable.Rows.Remove(deletedRow);
+
+            }
+            else
+            {
+                MessageBox.Show(
+                       string.Format("В результате удаления сотрудника произошла ошибка!\n", result),
+                       "Результат удаления",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Error,
+                       MessageBoxDefaultButton.Button1);
+            }
+            Employees_comboBox.SelectedIndex = -1;
+        }
+
+#endregion
+
+        #region Check null fields
+        private bool CheckCarsField()
+        {
+            bool res = true;
+            if (Brand_comboBox.Text == string.Empty)
+                res = false;
+            return res;
+        }
+        private bool CheckEngineField()
+        {
+            bool res = true;
+            if (Engine_comboBox.Text == string.Empty)
+                res = false;
+            return res;
+        }
+        private bool CheckClientField()
+        {
+            bool res = true;
+            if (Clients_comboBox.Text == string.Empty)
+                res = false;
+            return res;
+        }
+        private bool CheckCategoryField()
+        {
+            bool res = true;
+            if (Categories_comboBox.Text == string.Empty)
+                res = false;
+            return res;
+        }
+        private bool CheckServiceyField()
+        {
+            bool res = true;
+            if (Service_comboBox.Text == string.Empty)
+                res = false;
+            return res;
+        }
+
+
+        private bool CheckPositionField()
+        {
+            bool res = true;
+            if (Positions_comboBox.Text == string.Empty)
+                res = false;
+            return res;
+        }
+
+        private bool CheckEmployeeField()
+        {
+            bool res = true;
+            if (Employees_comboBox.Text == string.Empty)
+                res = false;
+            return res;
+        }
+
+        #endregion
     }
 }

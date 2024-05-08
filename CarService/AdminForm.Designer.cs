@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdminForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.DeleteEngine_button = new System.Windows.Forms.Button();
+            this.DeleteCar_button = new System.Windows.Forms.Button();
             this.UpdateEngine_button = new System.Windows.Forms.Button();
             this.AddEngine_button = new System.Windows.Forms.Button();
             this.UpdateCar_button = new System.Windows.Forms.Button();
@@ -43,11 +45,13 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.DeleteClient_button = new System.Windows.Forms.Button();
             this.UpdateClient_button = new System.Windows.Forms.Button();
             this.AddClient_button = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.Clients_comboBox = new System.Windows.Forms.ComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.DeleteService_button = new System.Windows.Forms.Button();
             this.UpdateCategory_button = new System.Windows.Forms.Button();
             this.AddCategory_button = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
@@ -57,6 +61,8 @@
             this.AddService_button = new System.Windows.Forms.Button();
             this.Service_comboBox = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.DeletePosition_button = new System.Windows.Forms.Button();
+            this.DeleteEmployee_button = new System.Windows.Forms.Button();
             this.UpdatePosition_button = new System.Windows.Forms.Button();
             this.AddPosition_button = new System.Windows.Forms.Button();
             this.UpdateEmployee_button = new System.Windows.Forms.Button();
@@ -66,9 +72,9 @@
             this.label7 = new System.Windows.Forms.Label();
             this.Employees_comboBox = new System.Windows.Forms.ComboBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.OpenOrders_button = new System.Windows.Forms.Button();
             this.AddOrder_button = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -79,6 +85,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.DeleteEngine_button);
+            this.groupBox1.Controls.Add(this.DeleteCar_button);
             this.groupBox1.Controls.Add(this.UpdateEngine_button);
             this.groupBox1.Controls.Add(this.AddEngine_button);
             this.groupBox1.Controls.Add(this.UpdateCar_button);
@@ -97,6 +105,26 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Авто";
+            // 
+            // DeleteEngine_button
+            // 
+            this.DeleteEngine_button.Location = new System.Drawing.Point(874, 45);
+            this.DeleteEngine_button.Name = "DeleteEngine_button";
+            this.DeleteEngine_button.Size = new System.Drawing.Size(36, 33);
+            this.DeleteEngine_button.TabIndex = 11;
+            this.DeleteEngine_button.Text = "d";
+            this.DeleteEngine_button.UseVisualStyleBackColor = true;
+            this.DeleteEngine_button.Click += new System.EventHandler(this.DeleteEngine_button_Click);
+            // 
+            // DeleteCar_button
+            // 
+            this.DeleteCar_button.Location = new System.Drawing.Point(496, 47);
+            this.DeleteCar_button.Name = "DeleteCar_button";
+            this.DeleteCar_button.Size = new System.Drawing.Size(36, 33);
+            this.DeleteCar_button.TabIndex = 10;
+            this.DeleteCar_button.Text = "d";
+            this.DeleteCar_button.UseVisualStyleBackColor = true;
+            this.DeleteCar_button.Click += new System.EventHandler(this.DeleteCar_button_Click);
             // 
             // UpdateEngine_button
             // 
@@ -216,6 +244,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.DeleteClient_button);
             this.groupBox2.Controls.Add(this.UpdateClient_button);
             this.groupBox2.Controls.Add(this.AddClient_button);
             this.groupBox2.Controls.Add(this.label4);
@@ -228,6 +257,16 @@
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Клиенты";
+            // 
+            // DeleteClient_button
+            // 
+            this.DeleteClient_button.Location = new System.Drawing.Point(1106, 51);
+            this.DeleteClient_button.Name = "DeleteClient_button";
+            this.DeleteClient_button.Size = new System.Drawing.Size(36, 33);
+            this.DeleteClient_button.TabIndex = 24;
+            this.DeleteClient_button.Text = "d";
+            this.DeleteClient_button.UseVisualStyleBackColor = true;
+            this.DeleteClient_button.Click += new System.EventHandler(this.DeleteClient_button_Click);
             // 
             // UpdateClient_button
             // 
@@ -269,6 +308,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.DeleteService_button);
             this.groupBox3.Controls.Add(this.UpdateCategory_button);
             this.groupBox3.Controls.Add(this.AddCategory_button);
             this.groupBox3.Controls.Add(this.label5);
@@ -286,11 +326,21 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Услуги";
             // 
+            // DeleteService_button
+            // 
+            this.DeleteService_button.Location = new System.Drawing.Point(1198, 53);
+            this.DeleteService_button.Name = "DeleteService_button";
+            this.DeleteService_button.Size = new System.Drawing.Size(36, 28);
+            this.DeleteService_button.TabIndex = 31;
+            this.DeleteService_button.Text = "d";
+            this.DeleteService_button.UseVisualStyleBackColor = true;
+            this.DeleteService_button.Click += new System.EventHandler(this.DeleteService_button_Click);
+            // 
             // UpdateCategory_button
             // 
             this.UpdateCategory_button.Location = new System.Drawing.Point(318, 53);
             this.UpdateCategory_button.Name = "UpdateCategory_button";
-            this.UpdateCategory_button.Size = new System.Drawing.Size(36, 33);
+            this.UpdateCategory_button.Size = new System.Drawing.Size(36, 28);
             this.UpdateCategory_button.TabIndex = 30;
             this.UpdateCategory_button.Text = "up";
             this.UpdateCategory_button.UseVisualStyleBackColor = true;
@@ -300,7 +350,7 @@
             // 
             this.AddCategory_button.Location = new System.Drawing.Point(276, 53);
             this.AddCategory_button.Name = "AddCategory_button";
-            this.AddCategory_button.Size = new System.Drawing.Size(36, 33);
+            this.AddCategory_button.Size = new System.Drawing.Size(36, 28);
             this.AddCategory_button.TabIndex = 29;
             this.AddCategory_button.Text = "+";
             this.AddCategory_button.UseVisualStyleBackColor = true;
@@ -336,9 +386,9 @@
             // 
             // UpdateService_button
             // 
-            this.UpdateService_button.Location = new System.Drawing.Point(1221, 48);
+            this.UpdateService_button.Location = new System.Drawing.Point(1156, 53);
             this.UpdateService_button.Name = "UpdateService_button";
-            this.UpdateService_button.Size = new System.Drawing.Size(36, 33);
+            this.UpdateService_button.Size = new System.Drawing.Size(36, 28);
             this.UpdateService_button.TabIndex = 25;
             this.UpdateService_button.Text = "up";
             this.UpdateService_button.UseVisualStyleBackColor = true;
@@ -346,9 +396,9 @@
             // 
             // AddService_button
             // 
-            this.AddService_button.Location = new System.Drawing.Point(1179, 48);
+            this.AddService_button.Location = new System.Drawing.Point(1114, 53);
             this.AddService_button.Name = "AddService_button";
-            this.AddService_button.Size = new System.Drawing.Size(36, 33);
+            this.AddService_button.Size = new System.Drawing.Size(36, 28);
             this.AddService_button.TabIndex = 24;
             this.AddService_button.Text = "+";
             this.AddService_button.UseVisualStyleBackColor = true;
@@ -360,11 +410,13 @@
             this.Service_comboBox.FormattingEnabled = true;
             this.Service_comboBox.Location = new System.Drawing.Point(366, 53);
             this.Service_comboBox.Name = "Service_comboBox";
-            this.Service_comboBox.Size = new System.Drawing.Size(807, 28);
+            this.Service_comboBox.Size = new System.Drawing.Size(734, 28);
             this.Service_comboBox.TabIndex = 2;
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.DeletePosition_button);
+            this.groupBox4.Controls.Add(this.DeleteEmployee_button);
             this.groupBox4.Controls.Add(this.UpdatePosition_button);
             this.groupBox4.Controls.Add(this.AddPosition_button);
             this.groupBox4.Controls.Add(this.UpdateEmployee_button);
@@ -382,9 +434,29 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Сотрудники";
             // 
+            // DeletePosition_button
+            // 
+            this.DeletePosition_button.Location = new System.Drawing.Point(385, 52);
+            this.DeletePosition_button.Name = "DeletePosition_button";
+            this.DeletePosition_button.Size = new System.Drawing.Size(36, 28);
+            this.DeletePosition_button.TabIndex = 33;
+            this.DeletePosition_button.Text = "d";
+            this.DeletePosition_button.UseVisualStyleBackColor = true;
+            this.DeletePosition_button.Click += new System.EventHandler(this.DeletePosition_button_Click);
+            // 
+            // DeleteEmployee_button
+            // 
+            this.DeleteEmployee_button.Location = new System.Drawing.Point(1221, 52);
+            this.DeleteEmployee_button.Name = "DeleteEmployee_button";
+            this.DeleteEmployee_button.Size = new System.Drawing.Size(36, 29);
+            this.DeleteEmployee_button.TabIndex = 32;
+            this.DeleteEmployee_button.Text = "d";
+            this.DeleteEmployee_button.UseVisualStyleBackColor = true;
+            this.DeleteEmployee_button.Click += new System.EventHandler(this.DeleteEmployee_button_Click);
+            // 
             // UpdatePosition_button
             // 
-            this.UpdatePosition_button.Location = new System.Drawing.Point(361, 52);
+            this.UpdatePosition_button.Location = new System.Drawing.Point(343, 52);
             this.UpdatePosition_button.Name = "UpdatePosition_button";
             this.UpdatePosition_button.Size = new System.Drawing.Size(36, 28);
             this.UpdatePosition_button.TabIndex = 29;
@@ -394,7 +466,7 @@
             // 
             // AddPosition_button
             // 
-            this.AddPosition_button.Location = new System.Drawing.Point(319, 52);
+            this.AddPosition_button.Location = new System.Drawing.Point(301, 52);
             this.AddPosition_button.Name = "AddPosition_button";
             this.AddPosition_button.Size = new System.Drawing.Size(36, 28);
             this.AddPosition_button.TabIndex = 28;
@@ -404,9 +476,9 @@
             // 
             // UpdateEmployee_button
             // 
-            this.UpdateEmployee_button.Location = new System.Drawing.Point(1179, 47);
+            this.UpdateEmployee_button.Location = new System.Drawing.Point(1179, 53);
             this.UpdateEmployee_button.Name = "UpdateEmployee_button";
-            this.UpdateEmployee_button.Size = new System.Drawing.Size(36, 33);
+            this.UpdateEmployee_button.Size = new System.Drawing.Size(36, 28);
             this.UpdateEmployee_button.TabIndex = 27;
             this.UpdateEmployee_button.Text = "up";
             this.UpdateEmployee_button.UseVisualStyleBackColor = true;
@@ -414,9 +486,9 @@
             // 
             // AddEmployee_button
             // 
-            this.AddEmployee_button.Location = new System.Drawing.Point(1137, 47);
+            this.AddEmployee_button.Location = new System.Drawing.Point(1137, 52);
             this.AddEmployee_button.Name = "AddEmployee_button";
-            this.AddEmployee_button.Size = new System.Drawing.Size(36, 33);
+            this.AddEmployee_button.Size = new System.Drawing.Size(36, 29);
             this.AddEmployee_button.TabIndex = 26;
             this.AddEmployee_button.Text = "+";
             this.AddEmployee_button.UseVisualStyleBackColor = true;
@@ -435,7 +507,7 @@
             // 
             this.Positions_comboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Positions_comboBox.FormattingEnabled = true;
-            this.Positions_comboBox.Location = new System.Drawing.Point(23, 52);
+            this.Positions_comboBox.Location = new System.Drawing.Point(12, 52);
             this.Positions_comboBox.Name = "Positions_comboBox";
             this.Positions_comboBox.Size = new System.Drawing.Size(281, 28);
             this.Positions_comboBox.TabIndex = 7;
@@ -454,9 +526,9 @@
             // 
             this.Employees_comboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Employees_comboBox.FormattingEnabled = true;
-            this.Employees_comboBox.Location = new System.Drawing.Point(412, 53);
+            this.Employees_comboBox.Location = new System.Drawing.Point(435, 53);
             this.Employees_comboBox.Name = "Employees_comboBox";
-            this.Employees_comboBox.Size = new System.Drawing.Size(719, 28);
+            this.Employees_comboBox.Size = new System.Drawing.Size(696, 28);
             this.Employees_comboBox.TabIndex = 5;
             // 
             // groupBox5
@@ -472,6 +544,16 @@
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Заказы";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(293, 42);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(271, 33);
+            this.button1.TabIndex = 25;
+            this.button1.Text = "Редактирование заказов";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // OpenOrders_button
             // 
@@ -492,16 +574,6 @@
             this.AddOrder_button.Text = "Добавить";
             this.AddOrder_button.UseVisualStyleBackColor = true;
             this.AddOrder_button.Click += new System.EventHandler(this.AddOrder_button_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(293, 42);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(271, 33);
-            this.button1.TabIndex = 25;
-            this.button1.Text = "Редактирование заказов";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // AdminForm
             // 
@@ -575,5 +647,11 @@
         public System.Windows.Forms.ComboBox Employees_comboBox;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button DeleteEngine_button;
+        private System.Windows.Forms.Button DeleteCar_button;
+        private System.Windows.Forms.Button DeleteClient_button;
+        private System.Windows.Forms.Button DeleteService_button;
+        private System.Windows.Forms.Button DeletePosition_button;
+        private System.Windows.Forms.Button DeleteEmployee_button;
     }
 }

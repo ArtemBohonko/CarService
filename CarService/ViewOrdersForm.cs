@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Reporting.WinForms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -32,16 +33,16 @@ namespace CarService.Objects
         //25-TotalCost,26-Status,27-Comment
         DataTable ordersFull;
         DataView ordersView;
-        public ViewOrdersForm(int idEmployee=2)
+        public ViewOrdersForm(int idEmployee = 2)
         {
             InitializeComponent();
             dataBase = new DB();
-            employee=dataBase.getEmployeeById(idEmployee);
+            employee = dataBase.getEmployeeById(idEmployee);
         }
 
         private void ViewOrders_Load(object sender, EventArgs e)
         {
-            allAboutOrders= dataBase.LoadOrders();
+            allAboutOrders = dataBase.LoadOrders();
             ordersShort = allAboutOrders.Tables[2];
             ordersFull = allAboutOrders.Tables[0];
             ordersView = new DataView(ordersShort);
@@ -52,8 +53,8 @@ namespace CarService.Objects
             SetCLientNameCB();
             SetClientPhoneCB();
             SetStatusCB();
-            comboBox1.SelectedIndex = comboBox2.SelectedIndex = comboBox3.SelectedIndex=comboBox4.SelectedIndex= -1;
-            IsOpened=true;
+            comboBox1.SelectedIndex = comboBox2.SelectedIndex = comboBox3.SelectedIndex = comboBox4.SelectedIndex = -1;
+            IsOpened = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -66,7 +67,7 @@ namespace CarService.Objects
         private void SetTimeSettings()
         {
             dateTimePicker1.MaxDate =
-            dateTimePicker2.MaxDate =DateTime.Now;
+            dateTimePicker2.MaxDate = DateTime.Now;
 
             dateTimePicker1.Value = DateTime.Today.AddMonths(-1);
             dateTimePicker2.Value = DateTime.Today;
@@ -74,7 +75,7 @@ namespace CarService.Objects
 
         private void SetHeaderTextDGV()
         {
-            dataGridView1.Columns[0].HeaderText="Номер заказа";
+            dataGridView1.Columns[0].HeaderText = "Номер заказа";
             dataGridView1.Columns[1].HeaderText = "Дата";
             dataGridView1.Columns[2].HeaderText = "Марка";
             dataGridView1.Columns[3].HeaderText = "Модель";
@@ -100,7 +101,7 @@ namespace CarService.Objects
         {
             List<string> names = new List<string>();
             foreach (DataRow row in ordersFull.Rows)
-                names.Add(row.ItemArray[3].ToString()+' '+ row.ItemArray[4].ToString()+' '+ row.ItemArray[5].ToString());
+                names.Add(row.ItemArray[3].ToString() + ' ' + row.ItemArray[4].ToString() + ' ' + row.ItemArray[5].ToString());
 
             comboBox2.DataSource = names;
 
@@ -140,23 +141,24 @@ namespace CarService.Objects
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(comboBox1.SelectedIndex != -1 && IsOpened) {
+            if (comboBox1.SelectedIndex != -1 && IsOpened)
+            {
                 string filter = string.Format("{0}={1}",
                 ordersShort.Columns[0].ColumnName, comboBox1.SelectedValue.ToString()); ;
                 ordersView.RowFilter = filter;
             }
-         
+
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(comboBox2.SelectedIndex!= -1 && IsOpened)
+            if (comboBox2.SelectedIndex != -1 && IsOpened)
             {
                 string filter = string.Format("{0}={1}",
                     ordersShort.Columns[0].ColumnName, ordersFull.Select(ordersFull.Columns[5].ColumnName + "=" + comboBox2.SelectedValue.ToString().Split(new char[] { ' ' })[2])[0].ItemArray[0].ToString());
                 ordersView.RowFilter = filter;
             }
-            
+
         }
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
@@ -192,13 +194,13 @@ namespace CarService.Objects
             int idOrder = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value);
             List<string> fullInfo = new List<string>();
             fullInfo.Add(idOrder.ToString());
-            for(int i = 1; i < ordersFull.Columns.Count; i++)
+            for (int i = 1; i < ordersFull.Columns.Count; i++)
             {
                 fullInfo.Add(GetValueFromFullOrdersTable(idOrder, i));
             }
             fullInfo.Add(GetValueFromShortOrdersTable(idOrder, 5));
             fullInfo.Add(GetValueFromShortOrdersTable(idOrder, 6));
-            fullInfo.Add(GetValueFromShortOrdersTable(idOrder,9));
+            fullInfo.Add(GetValueFromShortOrdersTable(idOrder, 9));
 
             OrderDetailsForm orderDetails = new OrderDetailsForm(fullInfo);
             orderDetails.ShowDialog(this);
@@ -206,13 +208,83 @@ namespace CarService.Objects
 
         }
 
-        private string GetValueFromFullOrdersTable(int idOrder,int itemNumber)
+        private string GetValueFromFullOrdersTable(int idOrder, int itemNumber)
         {
             return ordersFull.Select(string.Format("{0}={1}", ordersFull.Columns[0].ColumnName, idOrder))[0].ItemArray[itemNumber].ToString();
         }
         private string GetValueFromShortOrdersTable(int idOrder, int itemNumber)
         {
             return ordersShort.Select(string.Format("{0}={1}", ordersShort.Columns[0].ColumnName, idOrder))[0].ItemArray[itemNumber].ToString();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            DataTable dt = CreateReportDataTable();
+            ReportForm reportForm = new ReportForm(dt, setReportParametrs(), "ordersView");
+            reportForm.ShowDialog();
+        }
+
+        private List<ReportParameter> setReportParametrs()
+        {
+            List<ReportParameter> parametrs = new List<ReportParameter>();
+
+            ReportParameter param1 = new ReportParameter("TotalOrdersCount", dataGridView1.Rows.Count.ToString());
+            ReportParameter param2 = new ReportParameter("TotalOrdersSum", CountTotalSum());
+
+
+            parametrs.Add(param1);
+            parametrs.Add(param2);
+
+
+            return parametrs;
+        }
+
+        private string CountTotalSum()
+        {
+            double sum = 0;
+            foreach (DataGridViewRow viewRow in dataGridView1.Rows)
+            {
+                sum += Convert.ToDouble(viewRow.Cells[7].Value);
+            }
+
+            return sum.ToString();
+        }
+
+        private DataTable CreateReportDataTable()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("IdOrder", typeof(int));
+            dt.Columns.Add("Date", typeof(DateTime));
+            dt.Columns.Add("Brand", typeof(string));
+            dt.Columns.Add("Name", typeof(string));
+            dt.Columns.Add("Price", typeof(string));
+            dt.Columns.Add("TotalCost", typeof(double));
+            dt.Columns.Add("Comment", typeof(string));
+            dt.Columns.Add("Status", typeof(string));
+            dt.Columns.Add("Employee", typeof(string));
+
+            DataRow newRow;
+
+            foreach (DataGridViewRow viewRow in dataGridView1.Rows)
+            {
+                newRow = dt.NewRow();
+                object[] itemArray = new object[]
+                {
+                    Convert.ToInt32(viewRow.Cells[0].Value),
+                    Convert.ToDateTime(viewRow.Cells[1].Value),
+                    viewRow.Cells[2].Value.ToString() + ' ' + viewRow.Cells[3].Value.ToString() + ' ' + viewRow.Cells[4].Value.ToString(),
+                    viewRow.Cells[5].Value.ToString(),
+                    viewRow.Cells[6].Value.ToString(),
+                    Convert.ToDouble(viewRow.Cells[7].Value),
+                    viewRow.Cells[8].Value.ToString(),
+                    viewRow.Cells[9].Value.ToString(),
+                    null,
+                };
+                newRow.ItemArray = itemArray;
+                dt.Rows.Add(newRow);
+            }
+
+            return dt;
         }
     }
 }

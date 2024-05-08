@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Reporting.WinForms;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
@@ -7,6 +8,7 @@ namespace CarService.Objects
 {
     public partial class OrderDetailsForm : Form
     {
+        DB dataBase;
         //List fullInfo
         //0-IdOrder,1-Date, 
         //2-IdClient,3-FNameClient,4-MNameClient,5-PhoneClient,
@@ -20,6 +22,7 @@ namespace CarService.Objects
         {
             InitializeComponent();
             this.fullInfo = fullInfo;
+            dataBase=new DB();
         }
 
         private void OrderDetails_Load(object sender, EventArgs e)
@@ -83,6 +86,28 @@ namespace CarService.Objects
             return servicesTable;
         }
 
-        
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            DataTable dt = dataBase.getServiceByIdOrder(Convert.ToInt32(fullInfo[0]));
+            ReportForm reportForm = new ReportForm(dt, setReportParametrs(),"order");
+            reportForm.ShowDialog();
+        }
+
+        private List<ReportParameter> setReportParametrs()
+        {
+            List<ReportParameter> parametrs = new List<ReportParameter>();
+
+            ReportParameter param1 = new ReportParameter("OrderNumber", fullInfo[0]);
+            ReportParameter param2 = new ReportParameter("TotalSum", fullInfo[25]);
+            ReportParameter param3 = new ReportParameter("Car", fullInfo[7]+' ' + fullInfo[8]+' ' + fullInfo[9]);
+            ReportParameter param4 = new ReportParameter("Master", fullInfo[21]+' ' + fullInfo[22] + ' ' + fullInfo[23]);
+
+            parametrs.Add(param1);
+            parametrs.Add(param2);
+            parametrs.Add(param3);
+            parametrs.Add(param4);
+
+            return parametrs;
+        }
     }
 }

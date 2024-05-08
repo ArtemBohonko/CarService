@@ -641,6 +641,33 @@ namespace CarService
 
         }
 
+        public string DeleteCar(int idCar)
+        {
+            //OK, ex.Message - Error 
+            string result;
+            try
+            {
+                string sqlExpression = string.Format("DELETE FROM Cars WHERE IdCar={0}", idCar);
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand(sqlExpression, sqlConnection);
+                    command.CommandType = CommandType.Text;
+
+                    command.ExecuteNonQuery();
+
+                }
+                result = "OK";
+            }
+
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+        }
+
         public string AddEngine(Engine newEngine)
         {
             //OK, ex.Message - Error 
@@ -695,6 +722,33 @@ namespace CarService
 
             return result;
 
+        }
+
+        public string DeleteEngine(int idEngine)
+        {
+            //OK, ex.Message - Error 
+            string result;
+            try
+            {
+                string sqlExpression = string.Format("DELETE FROM Engine WHERE IdEngine={0}", idEngine);
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand(sqlExpression, sqlConnection);
+                    command.CommandType = CommandType.Text;
+
+                    command.ExecuteNonQuery();
+
+                }
+                result = "OK";
+            }
+
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
         }
 
         public string AddClient (Client client)
@@ -754,6 +808,33 @@ namespace CarService
 
         }
 
+        public string DeleteClient(int idClient)
+        {
+            //OK, ex.Message - Error 
+            string result;
+            try
+            {
+                string sqlExpression = string.Format("DELETE FROM Clients WHERE IdClient={0}", idClient);
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand(sqlExpression, sqlConnection);
+                    command.CommandType = CommandType.Text;
+
+                    command.ExecuteNonQuery();
+
+                }
+                result = "OK";
+            }
+
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+        }
+
         public string AddCategory(Category category)
         {
             //OK, ex.Message - Error 
@@ -810,6 +891,34 @@ namespace CarService
             return result;
 
         }
+
+        public string DeleteService(int idService)
+        {
+            //OK, ex.Message - Error 
+            string result;
+            try
+            {
+                string sqlExpression = string.Format("DELETE FROM Services WHERE IdService={0}", idService);
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand(sqlExpression, sqlConnection);
+                    command.CommandType = CommandType.Text;
+
+                    command.ExecuteNonQuery();
+
+                }
+                result = "OK";
+            }
+
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+        }
+
         public string AddService(Service service)
         {
             //OK, ex.Message - Error 
@@ -924,6 +1033,35 @@ namespace CarService
 
         }
 
+        public string DeletePosition(int idEmployee)
+        {
+            //OK, ex.Message - Error 
+            string result;
+            try
+            {
+                string sqlExpression = string.Format("DELETE FROM Position WHERE IdPosition={0}", idEmployee);
+                string sqlExpression2 = string.Format("DELETE FROM Employees WHERE Position={0}", idEmployee);
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand(sqlExpression, sqlConnection);
+                    command.CommandType = CommandType.Text;
+                    command.ExecuteNonQuery();
+                    command.CommandText = sqlExpression2;
+                    command.ExecuteNonQuery();
+
+                }
+                result = "OK";
+            }
+
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+        }
+
         public string AddEmployee(Employee employee)
         {
             //OK, ex.Message - Error 
@@ -981,7 +1119,60 @@ namespace CarService
 
         }
 
+        public string DeleteEmployee(int idEmployee)
+        {
+            //OK, ex.Message - Error 
+            string result;
+            try
+            {
+                string sqlExpression = string.Format("DELETE FROM Employees WHERE IdEmployee={0}", idEmployee);
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand(sqlExpression, sqlConnection);
+                    command.CommandType = CommandType.Text;
+                    command.ExecuteNonQuery();
 
+                }
+                result = "OK";
+            }
+
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+        }
+
+        public string DeleteOrder(int idOrder)
+        {
+            //OK, ex.Message - Error 
+            string result;
+            try
+            {
+                string sqlExpression = string.Format("DELETE FROM Orders WHERE IdOrder={0}",idOrder);
+                string sqlExpression2 = string.Format("DELETE FROM ServiceDetails WHERE IdOrder={0}",idOrder);
+
+                using (sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand(sqlExpression, sqlConnection);
+                    command.CommandType = CommandType.Text;
+                    command.ExecuteNonQuery();
+                    command.CommandText = sqlExpression2;
+                    command.ExecuteNonQuery();
+                }
+                result = "OK";
+            }
+
+            catch (Exception ex)
+            {
+                result = ex.Message;
+            }
+
+            return result;
+        }
 
         #region Statistic
         public int GetMinOrderYear()
@@ -1256,5 +1447,24 @@ namespace CarService
 
         #endregion
 
+
+        public DataTable getServiceByIdOrder(int id)
+        {
+            DataSet dataSet = new DataSet();
+
+            using (sqlConnection = new SqlConnection(connectionString))
+            {
+
+                SqlCommand command = sqlConnection.CreateCommand();
+                command.CommandText = $"exec getServiceByIdOrder {id}";
+
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                adapter.Fill(dataSet);
+
+                DataTable table = dataSet.Tables[0];
+
+                return table;
+            }
+        }
     }
 }

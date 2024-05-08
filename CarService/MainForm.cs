@@ -36,7 +36,7 @@ namespace CarService
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            setEmployee();
+            setEmployeeText();
 
             this.carDataTable=dataBase.LoadCars();
             this.engineTable = dataBase.LoadEngine();
@@ -59,24 +59,9 @@ namespace CarService
         }
 
 
-        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            //this.parentForm.Close();
-        }
+       
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (!IsOpened) return;
-            setModelInCB(this.carDataTable);
-
-        }
-
-        private void setEmployee()
-        {
-            this.employee = dataBase.getEmployeeById(this.IdEmployee);
-            this.Text = "Сотрудник: " + this.employee.FName + ' ' + this.employee.MName + ' ' + this.employee.LName;
-
-        }
+        #region Set Catalogs
 
         private void setCarsInCB(DataTable cars)
         {
@@ -126,8 +111,6 @@ namespace CarService
             comboBox4.DisplayMember = engineTable.Columns[1].ColumnName;
             comboBox4.ValueMember = engineTable.Columns[0].ColumnName;
         } 
-
-       
 
         private void setValueInCB()
         {
@@ -181,6 +164,7 @@ namespace CarService
             textBox3.Text = surname;
             maskedTextBox1.Text = phone;
         }
+
         private void setCategoriesInCB(DataTable category)
         {
             comboBox9.DataSource = category;
@@ -204,22 +188,41 @@ namespace CarService
             comboBox6.DisplayMember = services.Columns[1].ColumnName;
             comboBox6.ValueMember = services.Columns[0].ColumnName;
         }
+
+
+        private void comboBox9_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!IsOpened) return;
+            setServiceInCB(this.serviceTable);
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!IsOpened) return;
+            setModelInCB(this.carDataTable);
+
+        }
+
+        private void setEmployeeText()
+        {
+            this.employee = dataBase.getEmployeeById(this.IdEmployee);
+            this.Text = "Сотрудник: " + this.employee.FName + ' ' + this.employee.MName + ' ' + this.employee.LName;
+
+        }
+
+        #endregion
+
+        #region Work with client
+
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             textBox1.Text = textBox1.Text.ToUpper();
             textBox1.Select(textBox1.Text.Length, 0);
         }
 
-        private void textBox4_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            char ch = e.KeyChar;
+       
 
-            if (!Char.IsDigit(ch) && ch != 8) //Если символ, введенный с клавы - не цифра (IsDigit),
-            {
-                e.Handled = true;// то событие не обрабатывается. ch!=8 (8 - это Backspace)
-            }
-        }
-
+        //Новый клиент
         private void label9_Click(object sender, EventArgs e)
         {
             label10.Visible = label11.Visible = maskedTextBox1.Visible = textBox3.Visible=textBox5.Visible = true;
@@ -238,6 +241,10 @@ namespace CarService
 
         }
 
+        #endregion
+
+        #region Clear fields
+        //сбросить поля авто
         private void button2_Click(object sender, EventArgs e)
         {
             comboBox1.SelectedIndex =comboBox2.SelectedIndex=comboBox3.SelectedIndex=comboBox4.SelectedIndex=comboBox5.SelectedIndex= -1;
@@ -246,6 +253,7 @@ namespace CarService
 
         }
 
+        //сбросить поля клиента
         private void button1_Click(object sender, EventArgs e)
         {
             comboBox7.SelectedIndex = -1;
@@ -256,12 +264,7 @@ namespace CarService
             IsClientNew = false;
         }
 
-        private void comboBox9_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (!IsOpened) return;
-            setServiceInCB(this.serviceTable);
-        }
-
+        //сбросить выбранные услуги
         private void button3_Click(object sender, EventArgs e)
         {
             comboBox6.SelectedIndex = comboBox9.SelectedIndex = -1;
@@ -270,6 +273,12 @@ namespace CarService
 
         }
 
+        #endregion
+
+       
+        #region Working with service dgv
+
+        //Заполнение dgv с услугами
         private void setTableInDGV()
         {
             //if (!IsOpened) return;
@@ -288,7 +297,20 @@ namespace CarService
             dataGridView1.Columns[3].Visible = false;
 
         }
+
+        //Добавление услуг в dgv
         private void button6_Click(object sender, EventArgs e)
+        {
+
+            AddLineInDGV();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            DeleteLineFromDGV();
+        }
+
+        private void AddLineInDGV()
         {
             try
             {
@@ -296,23 +318,34 @@ namespace CarService
                 DataRow row = selectedServices.NewRow();
 
                 int idService = (int)comboBox6.SelectedValue;
-                string name=comboBox6.Text;
+                string name = comboBox6.Text;
                 string price = serviceTable.Select(string.Format("IdService={0}", idService))[0].ItemArray[2].ToString();
                 string idCategory = comboBox9.SelectedValue.ToString();
 
                 row.ItemArray = new object[] { idService, name, price, idCategory };
 
                 selectedServices.Rows.Add(row);
-                textBox6.Text=CalculateTotalSum().ToString();
-                
+                textBox6.Text = CalculateTotalSum().ToString();
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Ошибка при добавлении\n" + ex.Message);
             }
+        }
+       
+
+        //Удаление 1 строки из dgv
+        private void DeleteLineFromDGV()
+        {
+            if (dataGridView1.SelectedRows.Count == 0) return;
+            selectedServices.Rows[dataGridView1.SelectedRows[0].Cells[0].RowIndex].Delete();
+            textBox6.Text = CalculateTotalSum().ToString();
 
         }
 
+
+        //Рассчёт общей стоимости услуг
         private double CalculateTotalSum()
         {
             double sum = 0;
@@ -323,14 +356,20 @@ namespace CarService
             return sum;
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        #endregion
+
+
+        #region Create Order
+
+        //Оформление заказа
+        private void button5_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.SelectedRows.Count == 0) return;
-            selectedServices.Rows[dataGridView1.SelectedRows[0].Cells[0].RowIndex].Delete();
-            textBox6.Text = CalculateTotalSum().ToString();
+
+            CreateOrder();
+
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void CreateOrder()
         {
             if (!CheckNullField())
             {
@@ -347,7 +386,7 @@ namespace CarService
             SqlTransaction transaction = sqlConnection.BeginTransaction();
             sqlCommand.Transaction = transaction;
 
-           
+
 
             try
             {
@@ -361,10 +400,10 @@ namespace CarService
                 order.Status = 1;
                 order.Comment = textBox2.Text;
 
-                dataBase.AddOrder(order, selectedServices,sqlCommand);
+                dataBase.AddOrder(order, selectedServices, sqlCommand);
 
                 transaction.Commit();
-                if(this.IsClientNew)
+                if (this.IsClientNew)
                     this.clientsTable = dataBase.LoadClients();
                 IsClientNew = false;
                 MessageBox.Show("Заказ успешно оформлен!\n",
@@ -373,7 +412,7 @@ namespace CarService
                      MessageBoxIcon.Error);
                 ClearFields();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Произошла ошибка при оформлении заказа!\n" + ex.Message.ToString(),
                      "Оформление услуг",
@@ -382,8 +421,6 @@ namespace CarService
                 transaction.Rollback();
             }
 
-               
-           
         }
 
         private int getIdClient(SqlCommand command)
@@ -457,6 +494,8 @@ namespace CarService
             }
             return result;
         }
+
+
         private bool CheckNullField()
         {
             if (comboBox1.SelectedIndex == -1 ||
@@ -471,12 +510,13 @@ namespace CarService
                 return true;
         }
 
+        //Очистка всех полей
         private void ClearFields()
         {
-            comboBox1.SelectedIndex = comboBox2.SelectedIndex = 
+            comboBox1.SelectedIndex = comboBox2.SelectedIndex =
             comboBox3.SelectedIndex = comboBox4.SelectedIndex =
-            comboBox5.SelectedIndex = comboBox6.SelectedIndex = 
-            comboBox7.SelectedIndex = comboBox8.SelectedIndex = 
+            comboBox5.SelectedIndex = comboBox6.SelectedIndex =
+            comboBox7.SelectedIndex = comboBox8.SelectedIndex =
             comboBox9.SelectedIndex = -1;
             textBox1.Clear();
             textBox2.Clear();
@@ -492,12 +532,25 @@ namespace CarService
 
             comboBox7.SelectedIndex = -1;
             comboBox7.Visible = true;
-            label10.Visible = label11.Visible = 
-            maskedTextBox1.Visible = textBox3.Visible = 
+            label10.Visible = label11.Visible =
+            maskedTextBox1.Visible = textBox3.Visible =
             textBox5.Visible = false;
             label8.Text = "Поиск";
             maskedTextBox1.Text = textBox3.Text = textBox5.Text = "";
             IsClientNew = false;
+        }
+        #endregion
+
+
+        #region Stop input letter
+        private void textBox4_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char ch = e.KeyChar;
+
+            if (!Char.IsDigit(ch) && ch != 8) //Если символ, введенный с клавы - не цифра (IsDigit),
+            {
+                e.Handled = true;// то событие не обрабатывается. ch!=8 (8 - это Backspace)
+            }
         }
 
         private void comboBox3_KeyPress(object sender, KeyPressEventArgs e)
@@ -529,12 +582,12 @@ namespace CarService
                 e.Handled = true;// то событие не обрабатывается. ch!=8 (8 - это Backspace)
             }
         }
+        #endregion
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             ViewOrdersForm viewOrders = new ViewOrdersForm();
             viewOrders.ShowDialog(this);
-            //dataBase.LoadOrders();
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)

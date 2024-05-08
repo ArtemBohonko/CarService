@@ -130,6 +130,8 @@ namespace CarService
             button1.Text = action;
             IsOpened = true;
         }
+
+        #region Set parametrs
         private void setAddEmployeeParametrs()
         {
             groupBox1.Visible = false;
@@ -213,6 +215,7 @@ namespace CarService
         {
             groupBox1.Visible = true;
             groupBox2.Visible = false;
+            groupBox1.Dock = DockStyle.Fill;
             setPositionsInCB(dataTable);
             comboBox1.DropDownStyle = ComboBoxStyle.DropDown;
             comboBox2.Visible = false;
@@ -231,6 +234,7 @@ namespace CarService
         private void SetUpdatePositionParametrs()
         {
             groupBox2.Visible = false;
+            groupBox1.Dock = DockStyle.Fill;
             comboBox1.AutoCompleteMode = comboBox2.AutoCompleteMode = AutoCompleteMode.None;
             comboBox1.AutoCompleteSource = comboBox2.AutoCompleteSource = AutoCompleteSource.None;
             comboBox1.Visible = label1.Visible = true;
@@ -249,6 +253,8 @@ namespace CarService
         }
         private void SetAddClientsParametrs()
         {
+            groupBox2.Visible = false;
+            groupBox1.Dock = DockStyle.Fill;
             comboBox1.DropDownStyle = ComboBoxStyle.DropDown;
             comboBox2.Visible = true;
             checkBox1.Visible = false;
@@ -266,6 +272,8 @@ namespace CarService
 
         private void SetAddEngineParametrs()
         {
+            groupBox2.Visible = false;
+            groupBox1.Dock = DockStyle.Fill;
             setEngineInCB(dataTable);
             comboBox1.DropDownStyle= ComboBoxStyle.DropDown;
             comboBox2.Visible = false;
@@ -283,6 +291,8 @@ namespace CarService
 
         private void SetUpdateEngineParametrs()
         {
+            groupBox2.Visible = false;
+            groupBox1.Dock = DockStyle.Fill;
             comboBox1.AutoCompleteMode = comboBox2.AutoCompleteMode = AutoCompleteMode.None;
             comboBox1.AutoCompleteSource = comboBox2.AutoCompleteSource = AutoCompleteSource.None;
             comboBox1.DropDownStyle = ComboBoxStyle.DropDown;
@@ -300,15 +310,10 @@ namespace CarService
 
         }
 
-        private void setEngineInCB(DataTable engine)
-        {
-            comboBox1.DataSource = engine;
-            comboBox1.DisplayMember = engine.Columns[1].ColumnName;
-            comboBox1.ValueMember = engine.Columns[0].ColumnName;
-        }
-
         private void SetAddCarParametrs(bool checkBoxValue)
         {
+            groupBox2.Visible = false;
+            groupBox1.Dock = DockStyle.Fill;
             checkBox1.Visible = label1.Visible= label2.Visible= true;
             comboBox1.Visible = comboBox2.Visible = true;
             comboBox3.Visible = label3.Visible = false;
@@ -336,6 +341,9 @@ namespace CarService
         }
         private void SetUpdateCarParametrs()
         {
+            checkBox1.Visible = false;
+            groupBox2.Visible = false;
+            groupBox1.Dock = DockStyle.Fill;
             checkBox1.Visible = label1.Visible = label2.Visible = true;
             comboBox1.Visible = comboBox2.Visible = true;
             comboBox3.Visible = label3.Visible = false;
@@ -357,6 +365,8 @@ namespace CarService
 
         private void SetAddServiceParametrs()
         {
+            groupBox2.Visible = false;
+            groupBox1.Dock = DockStyle.Fill;
             comboBox1.Visible = label1.Visible = true;
             comboBox2.Visible = label2.Visible = true;
             comboBox3.Visible=label3.Visible = false;
@@ -371,7 +381,10 @@ namespace CarService
         }
 
         private void SetUpdateServiceParametrs()
+
         {
+            groupBox2.Visible = false;
+            groupBox1.Dock = DockStyle.Fill;
             comboBox1.Visible = label1.Visible = true;
             comboBox2.Visible = label2.Visible = true;
             comboBox3.Visible = label3.Visible = false;
@@ -392,6 +405,8 @@ namespace CarService
 
         private void SetAddCategoryParametrs()
         {
+            groupBox2.Visible = false;
+            groupBox1.Dock = DockStyle.Fill;
             setCategoriesInCB(dataTable);
 
             comboBox1.Visible = label1.Visible = true;
@@ -408,6 +423,8 @@ namespace CarService
 
         private void SetUpdateCategoryeParametrs()
         {
+            groupBox2.Visible = false;
+            groupBox1.Dock = DockStyle.Fill;
             comboBox1.AutoCompleteMode = comboBox2.AutoCompleteMode = AutoCompleteMode.None;
             comboBox1.AutoCompleteSource = comboBox2.AutoCompleteSource = AutoCompleteSource.None;
             comboBox1.Visible = label1.Visible = true;
@@ -424,8 +441,9 @@ namespace CarService
             comboBox1.SelectedIndex = 0;
 
         }
-       
+        #endregion
 
+        #region Set catalogs
         private void setCategoriesInCB(DataTable category)
         {
             comboBox1.DataSource = category;
@@ -444,7 +462,12 @@ namespace CarService
 
             comboBox1.DisplayMember = cars.Columns[1].ColumnName;
         }
-
+        private void setEngineInCB(DataTable engine)
+        {
+            comboBox1.DataSource = engine;
+            comboBox1.DisplayMember = engine.Columns[1].ColumnName;
+            comboBox1.ValueMember = engine.Columns[0].ColumnName;
+        }
         private void setModelInCB(DataTable cars)
         {
             if (comboBox1.SelectedIndex == -1)
@@ -488,6 +511,7 @@ namespace CarService
                 setModelInCB(dataTable);
             
         }
+        #endregion
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -515,7 +539,8 @@ namespace CarService
             {
                 AddUpdatePositions();
             }
-
+           
+            
 
         }
 
@@ -1312,7 +1337,7 @@ namespace CarService
         }
         #endregion
 
-        #region Add Update Client
+        #region Add Update Employee
         private void AddUpdateEmployee()
         {
             Employee oldEmployee= new Employee()
@@ -1446,7 +1471,8 @@ namespace CarService
 
         private void button2_Click(object sender, EventArgs e)
         {
-            
+            AddUpdateEmployee();
+
         }
     }
 }

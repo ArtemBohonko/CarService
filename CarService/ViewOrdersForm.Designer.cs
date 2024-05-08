@@ -36,7 +36,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBox4 = new System.Windows.Forms.ComboBox();
@@ -126,7 +126,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.button5);
             this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.comboBox4);
@@ -151,15 +151,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Поиск и фильтрация";
             // 
-            // button2
+            // button5
             // 
-            this.button2.Location = new System.Drawing.Point(1056, 131);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(185, 36);
-            this.button2.TabIndex = 17;
-            this.button2.Text = "Редактировать";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Visible = false;
+            this.button5.Location = new System.Drawing.Point(1111, 138);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(130, 36);
+            this.button5.TabIndex = 18;
+            this.button5.Text = "В файл";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button4
             // 
@@ -302,6 +302,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox comboBox4;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button5;
     }
 }

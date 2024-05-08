@@ -71,6 +71,7 @@ namespace CarService
                 this.Text = "Мастер " + Employee.FName + ' ' + Employee.MName + ' ' + Employee.LName;
                 groupBox1.Visible = false;
                 groupBox2.Visible = true;
+                button9.Visible = false;
                 InitServicesByMaster();
                 SetValueInServiceByMaster(allAboutOrders.Tables[0]);
                 SetValueInServiceByMasterInProgress(serviceMasterFull);
@@ -530,6 +531,68 @@ namespace CarService
                 dataGridView1.Columns[3].HeaderText = "Услуги";
                 dataGridView1.Columns[4].HeaderText = "Статус";
             }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            DeleteOrder();
+        }
+
+        private bool CheckOrderSelected()
+        {
+            bool res = true;
+            if (dataGridView1.SelectedRows.Count==0)
+                res = false;
+            return res;
+        }
+        private void DeleteOrder()
+        {
+            if (!CheckOrderSelected())
+            {
+                MessageBox.Show(
+                         string.Format("Для удаления заказа его необходимо выбрать"),
+                         "Неверные данные",
+                         MessageBoxButtons.OK,
+                         MessageBoxIcon.Information,
+                         MessageBoxDefaultButton.Button1);
+                return;
+            }
+
+            DialogResult dialog = MessageBox.Show(
+                          $"Вы действительно хотите удалить заказ {dataGridView1.SelectedRows[0].Cells[0].Value.ToString()}?",
+                          "Подтверждение удаления",
+                          MessageBoxButtons.YesNo,
+                          MessageBoxIcon.Information,
+                          MessageBoxDefaultButton.Button1);
+            if (dialog == DialogResult.No) return;
+
+            string result;
+            int idOrder = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value);
+
+            result = dataBase.DeleteOrder(idOrder);
+
+            if (result == "OK")
+            {
+                MessageBox.Show(
+                       string.Format("Заказ успешно удален!"),
+                       "Результат удаления",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Information,
+                       MessageBoxDefaultButton.Button1);
+                DataRow deletedRow = ordersMaster.Select(string.Format("{0}={1}", ordersMaster.Columns[0].ColumnName, idOrder))[0];
+                ordersMaster.Rows.Remove(deletedRow);
+
+            }
+            else
+            {
+                MessageBox.Show(
+                       string.Format("В результате удаления заказа произошла ошибка!\n", result),
+                       "Результат удаления",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Error,
+                       MessageBoxDefaultButton.Button1);
+            }
+            
         }
     }
 }
