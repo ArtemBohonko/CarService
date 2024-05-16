@@ -75,6 +75,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.OpenOrders_button = new System.Windows.Forms.Button();
             this.AddOrder_button = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -85,6 +86,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.groupBox1.Controls.Add(this.DeleteEngine_button);
             this.groupBox1.Controls.Add(this.DeleteCar_button);
             this.groupBox1.Controls.Add(this.UpdateEngine_button);
@@ -99,7 +101,7 @@
             this.groupBox1.Controls.Add(this.Brand_comboBox);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox1.Location = new System.Drawing.Point(0, 27);
+            this.groupBox1.Location = new System.Drawing.Point(0, 31);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(1262, 112);
             this.groupBox1.TabIndex = 0;
@@ -108,61 +110,67 @@
             // 
             // DeleteEngine_button
             // 
+            this.DeleteEngine_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("DeleteEngine_button.BackgroundImage")));
+            this.DeleteEngine_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.DeleteEngine_button.Location = new System.Drawing.Point(874, 45);
             this.DeleteEngine_button.Name = "DeleteEngine_button";
             this.DeleteEngine_button.Size = new System.Drawing.Size(36, 33);
             this.DeleteEngine_button.TabIndex = 11;
-            this.DeleteEngine_button.Text = "d";
             this.DeleteEngine_button.UseVisualStyleBackColor = true;
             this.DeleteEngine_button.Click += new System.EventHandler(this.DeleteEngine_button_Click);
             // 
             // DeleteCar_button
             // 
+            this.DeleteCar_button.BackgroundImage = global::CarService.Properties.Resources.delete;
+            this.DeleteCar_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.DeleteCar_button.Location = new System.Drawing.Point(496, 47);
             this.DeleteCar_button.Name = "DeleteCar_button";
             this.DeleteCar_button.Size = new System.Drawing.Size(36, 33);
             this.DeleteCar_button.TabIndex = 10;
-            this.DeleteCar_button.Text = "d";
             this.DeleteCar_button.UseVisualStyleBackColor = true;
             this.DeleteCar_button.Click += new System.EventHandler(this.DeleteCar_button_Click);
             // 
             // UpdateEngine_button
             // 
+            this.UpdateEngine_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("UpdateEngine_button.BackgroundImage")));
+            this.UpdateEngine_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.UpdateEngine_button.Location = new System.Drawing.Point(832, 45);
             this.UpdateEngine_button.Name = "UpdateEngine_button";
             this.UpdateEngine_button.Size = new System.Drawing.Size(36, 33);
             this.UpdateEngine_button.TabIndex = 9;
-            this.UpdateEngine_button.Text = "up";
             this.UpdateEngine_button.UseVisualStyleBackColor = true;
             this.UpdateEngine_button.Click += new System.EventHandler(this.UpdateEngine_button_Click);
             // 
             // AddEngine_button
             // 
+            this.AddEngine_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("AddEngine_button.BackgroundImage")));
+            this.AddEngine_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.AddEngine_button.Location = new System.Drawing.Point(790, 45);
             this.AddEngine_button.Name = "AddEngine_button";
             this.AddEngine_button.Size = new System.Drawing.Size(36, 33);
             this.AddEngine_button.TabIndex = 8;
-            this.AddEngine_button.Text = "+";
             this.AddEngine_button.UseVisualStyleBackColor = true;
             this.AddEngine_button.Click += new System.EventHandler(this.AddEngine_button_Click);
             // 
             // UpdateCar_button
             // 
+            this.UpdateCar_button.BackgroundImage = global::CarService.Properties.Resources.edit;
+            this.UpdateCar_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.UpdateCar_button.Location = new System.Drawing.Point(454, 47);
             this.UpdateCar_button.Name = "UpdateCar_button";
             this.UpdateCar_button.Size = new System.Drawing.Size(36, 33);
             this.UpdateCar_button.TabIndex = 7;
-            this.UpdateCar_button.Text = "up";
             this.UpdateCar_button.UseVisualStyleBackColor = true;
             this.UpdateCar_button.Click += new System.EventHandler(this.UpdateCar_button_Click);
             // 
             // AddCar_button
             // 
+            this.AddCar_button.BackgroundImage = global::CarService.Properties.Resources.add;
+            this.AddCar_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.AddCar_button.Location = new System.Drawing.Point(412, 47);
             this.AddCar_button.Name = "AddCar_button";
             this.AddCar_button.Size = new System.Drawing.Size(36, 33);
             this.AddCar_button.TabIndex = 6;
-            this.AddCar_button.Text = "+";
             this.AddCar_button.UseVisualStyleBackColor = true;
             this.AddCar_button.Click += new System.EventHandler(this.AddCar_button_Click);
             // 
@@ -228,7 +236,7 @@
             this.toolStripButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1262, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(1262, 31);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -238,7 +246,7 @@
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(88, 24);
+            this.toolStripButton1.Size = new System.Drawing.Size(88, 28);
             this.toolStripButton1.Text = "Статистика";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
@@ -251,7 +259,7 @@
             this.groupBox2.Controls.Add(this.Clients_comboBox);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox2.Location = new System.Drawing.Point(0, 139);
+            this.groupBox2.Location = new System.Drawing.Point(0, 143);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(1262, 114);
             this.groupBox2.TabIndex = 2;
@@ -260,31 +268,34 @@
             // 
             // DeleteClient_button
             // 
+            this.DeleteClient_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("DeleteClient_button.BackgroundImage")));
+            this.DeleteClient_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.DeleteClient_button.Location = new System.Drawing.Point(1106, 51);
             this.DeleteClient_button.Name = "DeleteClient_button";
             this.DeleteClient_button.Size = new System.Drawing.Size(36, 33);
             this.DeleteClient_button.TabIndex = 24;
-            this.DeleteClient_button.Text = "d";
             this.DeleteClient_button.UseVisualStyleBackColor = true;
             this.DeleteClient_button.Click += new System.EventHandler(this.DeleteClient_button_Click);
             // 
             // UpdateClient_button
             // 
+            this.UpdateClient_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("UpdateClient_button.BackgroundImage")));
+            this.UpdateClient_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.UpdateClient_button.Location = new System.Drawing.Point(1064, 51);
             this.UpdateClient_button.Name = "UpdateClient_button";
             this.UpdateClient_button.Size = new System.Drawing.Size(36, 33);
             this.UpdateClient_button.TabIndex = 23;
-            this.UpdateClient_button.Text = "up";
             this.UpdateClient_button.UseVisualStyleBackColor = true;
             this.UpdateClient_button.Click += new System.EventHandler(this.UpdateClient_button_Click);
             // 
             // AddClient_button
             // 
+            this.AddClient_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("AddClient_button.BackgroundImage")));
+            this.AddClient_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.AddClient_button.Location = new System.Drawing.Point(1022, 51);
             this.AddClient_button.Name = "AddClient_button";
             this.AddClient_button.Size = new System.Drawing.Size(36, 33);
             this.AddClient_button.TabIndex = 22;
-            this.AddClient_button.Text = "+";
             this.AddClient_button.UseVisualStyleBackColor = true;
             this.AddClient_button.Click += new System.EventHandler(this.AddClient_button_Click);
             // 
@@ -308,6 +319,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.DeleteService_button);
             this.groupBox3.Controls.Add(this.UpdateCategory_button);
             this.groupBox3.Controls.Add(this.AddCategory_button);
@@ -319,7 +331,7 @@
             this.groupBox3.Controls.Add(this.Service_comboBox);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox3.Location = new System.Drawing.Point(0, 253);
+            this.groupBox3.Location = new System.Drawing.Point(0, 257);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(1262, 117);
             this.groupBox3.TabIndex = 3;
@@ -328,38 +340,41 @@
             // 
             // DeleteService_button
             // 
-            this.DeleteService_button.Location = new System.Drawing.Point(1198, 53);
+            this.DeleteService_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("DeleteService_button.BackgroundImage")));
+            this.DeleteService_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.DeleteService_button.Location = new System.Drawing.Point(1037, 53);
             this.DeleteService_button.Name = "DeleteService_button";
             this.DeleteService_button.Size = new System.Drawing.Size(36, 28);
             this.DeleteService_button.TabIndex = 31;
-            this.DeleteService_button.Text = "d";
             this.DeleteService_button.UseVisualStyleBackColor = true;
             this.DeleteService_button.Click += new System.EventHandler(this.DeleteService_button_Click);
             // 
             // UpdateCategory_button
             // 
+            this.UpdateCategory_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("UpdateCategory_button.BackgroundImage")));
+            this.UpdateCategory_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.UpdateCategory_button.Location = new System.Drawing.Point(318, 53);
             this.UpdateCategory_button.Name = "UpdateCategory_button";
             this.UpdateCategory_button.Size = new System.Drawing.Size(36, 28);
             this.UpdateCategory_button.TabIndex = 30;
-            this.UpdateCategory_button.Text = "up";
             this.UpdateCategory_button.UseVisualStyleBackColor = true;
             this.UpdateCategory_button.Click += new System.EventHandler(this.UpdateCategory_button_Click);
             // 
             // AddCategory_button
             // 
+            this.AddCategory_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("AddCategory_button.BackgroundImage")));
+            this.AddCategory_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.AddCategory_button.Location = new System.Drawing.Point(276, 53);
             this.AddCategory_button.Name = "AddCategory_button";
             this.AddCategory_button.Size = new System.Drawing.Size(36, 28);
             this.AddCategory_button.TabIndex = 29;
-            this.AddCategory_button.Text = "+";
             this.AddCategory_button.UseVisualStyleBackColor = true;
             this.AddCategory_button.Click += new System.EventHandler(this.AddCategory_button_Click);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(650, 23);
+            this.label5.Location = new System.Drawing.Point(608, 23);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(65, 20);
             this.label5.TabIndex = 28;
@@ -386,21 +401,23 @@
             // 
             // UpdateService_button
             // 
-            this.UpdateService_button.Location = new System.Drawing.Point(1156, 53);
+            this.UpdateService_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("UpdateService_button.BackgroundImage")));
+            this.UpdateService_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.UpdateService_button.Location = new System.Drawing.Point(995, 53);
             this.UpdateService_button.Name = "UpdateService_button";
             this.UpdateService_button.Size = new System.Drawing.Size(36, 28);
             this.UpdateService_button.TabIndex = 25;
-            this.UpdateService_button.Text = "up";
             this.UpdateService_button.UseVisualStyleBackColor = true;
             this.UpdateService_button.Click += new System.EventHandler(this.UpdateService_button_Click);
             // 
             // AddService_button
             // 
-            this.AddService_button.Location = new System.Drawing.Point(1114, 53);
+            this.AddService_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("AddService_button.BackgroundImage")));
+            this.AddService_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.AddService_button.Location = new System.Drawing.Point(953, 53);
             this.AddService_button.Name = "AddService_button";
             this.AddService_button.Size = new System.Drawing.Size(36, 28);
             this.AddService_button.TabIndex = 24;
-            this.AddService_button.Text = "+";
             this.AddService_button.UseVisualStyleBackColor = true;
             this.AddService_button.Click += new System.EventHandler(this.AddService_button_Click);
             // 
@@ -410,7 +427,7 @@
             this.Service_comboBox.FormattingEnabled = true;
             this.Service_comboBox.Location = new System.Drawing.Point(366, 53);
             this.Service_comboBox.Name = "Service_comboBox";
-            this.Service_comboBox.Size = new System.Drawing.Size(734, 28);
+            this.Service_comboBox.Size = new System.Drawing.Size(557, 28);
             this.Service_comboBox.TabIndex = 2;
             // 
             // groupBox4
@@ -427,7 +444,7 @@
             this.groupBox4.Controls.Add(this.Employees_comboBox);
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox4.Location = new System.Drawing.Point(0, 370);
+            this.groupBox4.Location = new System.Drawing.Point(0, 374);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(1262, 119);
             this.groupBox4.TabIndex = 4;
@@ -436,61 +453,67 @@
             // 
             // DeletePosition_button
             // 
+            this.DeletePosition_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("DeletePosition_button.BackgroundImage")));
+            this.DeletePosition_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.DeletePosition_button.Location = new System.Drawing.Point(385, 52);
             this.DeletePosition_button.Name = "DeletePosition_button";
             this.DeletePosition_button.Size = new System.Drawing.Size(36, 28);
             this.DeletePosition_button.TabIndex = 33;
-            this.DeletePosition_button.Text = "d";
             this.DeletePosition_button.UseVisualStyleBackColor = true;
             this.DeletePosition_button.Click += new System.EventHandler(this.DeletePosition_button_Click);
             // 
             // DeleteEmployee_button
             // 
+            this.DeleteEmployee_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("DeleteEmployee_button.BackgroundImage")));
+            this.DeleteEmployee_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.DeleteEmployee_button.Location = new System.Drawing.Point(1221, 52);
             this.DeleteEmployee_button.Name = "DeleteEmployee_button";
             this.DeleteEmployee_button.Size = new System.Drawing.Size(36, 29);
             this.DeleteEmployee_button.TabIndex = 32;
-            this.DeleteEmployee_button.Text = "d";
             this.DeleteEmployee_button.UseVisualStyleBackColor = true;
             this.DeleteEmployee_button.Click += new System.EventHandler(this.DeleteEmployee_button_Click);
             // 
             // UpdatePosition_button
             // 
+            this.UpdatePosition_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("UpdatePosition_button.BackgroundImage")));
+            this.UpdatePosition_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.UpdatePosition_button.Location = new System.Drawing.Point(343, 52);
             this.UpdatePosition_button.Name = "UpdatePosition_button";
             this.UpdatePosition_button.Size = new System.Drawing.Size(36, 28);
             this.UpdatePosition_button.TabIndex = 29;
-            this.UpdatePosition_button.Text = "up";
             this.UpdatePosition_button.UseVisualStyleBackColor = true;
             this.UpdatePosition_button.Click += new System.EventHandler(this.UpdatePosition_button_Click);
             // 
             // AddPosition_button
             // 
+            this.AddPosition_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("AddPosition_button.BackgroundImage")));
+            this.AddPosition_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.AddPosition_button.Location = new System.Drawing.Point(301, 52);
             this.AddPosition_button.Name = "AddPosition_button";
             this.AddPosition_button.Size = new System.Drawing.Size(36, 28);
             this.AddPosition_button.TabIndex = 28;
-            this.AddPosition_button.Text = "+";
             this.AddPosition_button.UseVisualStyleBackColor = true;
             this.AddPosition_button.Click += new System.EventHandler(this.AddPosition_button_Click);
             // 
             // UpdateEmployee_button
             // 
+            this.UpdateEmployee_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("UpdateEmployee_button.BackgroundImage")));
+            this.UpdateEmployee_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.UpdateEmployee_button.Location = new System.Drawing.Point(1179, 53);
             this.UpdateEmployee_button.Name = "UpdateEmployee_button";
             this.UpdateEmployee_button.Size = new System.Drawing.Size(36, 28);
             this.UpdateEmployee_button.TabIndex = 27;
-            this.UpdateEmployee_button.Text = "up";
             this.UpdateEmployee_button.UseVisualStyleBackColor = true;
             this.UpdateEmployee_button.Click += new System.EventHandler(this.UpdateEmployee_button_Click);
             // 
             // AddEmployee_button
             // 
+            this.AddEmployee_button.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("AddEmployee_button.BackgroundImage")));
+            this.AddEmployee_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.AddEmployee_button.Location = new System.Drawing.Point(1137, 52);
             this.AddEmployee_button.Name = "AddEmployee_button";
             this.AddEmployee_button.Size = new System.Drawing.Size(36, 29);
             this.AddEmployee_button.TabIndex = 26;
-            this.AddEmployee_button.Text = "+";
             this.AddEmployee_button.UseVisualStyleBackColor = true;
             this.AddEmployee_button.Click += new System.EventHandler(this.AddEmployee_button_Click);
             // 
@@ -538,7 +561,7 @@
             this.groupBox5.Controls.Add(this.AddOrder_button);
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox5.Location = new System.Drawing.Point(0, 489);
+            this.groupBox5.Location = new System.Drawing.Point(0, 493);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(1262, 100);
             this.groupBox5.TabIndex = 5;
@@ -574,6 +597,17 @@
             this.AddOrder_button.Text = "Добавить";
             this.AddOrder_button.UseVisualStyleBackColor = true;
             this.AddOrder_button.Click += new System.EventHandler(this.AddOrder_button_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label9.Location = new System.Drawing.Point(1120, 56);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(98, 20);
+            this.label9.TabIndex = 32;
+            this.label9.Text = "Все услуги";
+            this.label9.Click += new System.EventHandler(this.label9_Click);
             // 
             // AdminForm
             // 
@@ -653,5 +687,6 @@
         private System.Windows.Forms.Button DeleteService_button;
         private System.Windows.Forms.Button DeletePosition_button;
         private System.Windows.Forms.Button DeleteEmployee_button;
+        private System.Windows.Forms.Label label9;
     }
 }

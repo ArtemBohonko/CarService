@@ -78,6 +78,12 @@
     <Compile Include="AdminForm.Designer.cs">
       <DependentUpon>AdminForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="AllServiceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AllServiceForm.Designer.cs">
+      <DependentUpon>AllServiceForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CarServiceDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -144,6 +150,9 @@
     <EmbeddedResource Include="AdminForm.resx">
       <DependentUpon>AdminForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AllServiceForm.resx">
+      <DependentUpon>AllServiceForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="InProgerssForm.resx">
       <DependentUpon>InProgerssForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -175,6 +184,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="CarServiceDataSet.xsc">
       <DependentUpon>CarServiceDataSet.xsd</DependentUpon>
@@ -202,6 +212,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\delete.png" />
+    <None Include="Resources\edit.png" />
+    <None Include="Resources\add.png" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

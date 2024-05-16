@@ -4,9 +4,11 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace CarService
 {
@@ -30,17 +32,43 @@ namespace CarService
             {
                 passwords.Add(employees.Rows[i][0].ToString());
             }
-                
+
+            int idEmployee;
+
             if (passwords.Contains(enterPassword))
             {
-                MainForm mainForm = new MainForm(dataBase.getIdEmployee(enterPassword));
-                mainForm.Show();
-                //mainForm.IdImployee = dataBase.getIdEmployee(enterPassword);
-                mainForm.parentForm = this;
-                this.Hide();
-                
+                idEmployee = dataBase.getIdEmployee(enterPassword);
                
             }
+            else
+            {
+                MessageBox.Show(
+                           "Сотрудник с данным паролем не найден, проверьте правильность введённого пароля",
+                           "Не верный пароль",
+                           MessageBoxButtons.OK,
+                           MessageBoxIcon.Error,
+                           MessageBoxDefaultButton.Button1);
+                return;
+            }
+
+            if(idEmployee == 1) {
+                AdminForm adminForm = new AdminForm(idEmployee);
+                adminForm.Show();
+                this.Hide();
+            }
+            else if(idEmployee == 2)
+            {
+                MainForm mainForm = new MainForm(idEmployee);
+                mainForm.Show();
+                this.Hide();
+            }
+            else
+            {
+                InProgerssForm inProgerssForm = new InProgerssForm(idEmployee);
+                inProgerssForm.Show();
+                this.Hide();
+            }
+
         }
     }
 }

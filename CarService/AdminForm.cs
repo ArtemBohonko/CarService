@@ -844,5 +844,11 @@ namespace CarService
         }
 
         #endregion
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+            AllServiceForm allServiceForm = new AllServiceForm();
+            allServiceForm.ShowDialog(this);
+        }
     }
 }

@@ -56,6 +56,8 @@ namespace CarService
 
             ClearFields();
             IsOpened = true;
+
+            
         }
 
 
@@ -594,6 +596,12 @@ namespace CarService
         {
             InProgerssForm inProgerss = new InProgerssForm(5);   
             inProgerss.ShowDialog(this);
+        }
+
+        private void label14_Click(object sender, EventArgs e)
+        {
+            AllServiceForm allServiceForm = new AllServiceForm();
+            allServiceForm.ShowDialog(this);
         }
     }
 }

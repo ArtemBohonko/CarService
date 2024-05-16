@@ -94,7 +94,7 @@
             this.toolStripButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1262, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(1262, 31);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -104,7 +104,7 @@
             this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(62, 24);
+            this.toolStripButton2.Size = new System.Drawing.Size(62, 28);
             this.toolStripButton2.Text = "Заказы";
             this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
@@ -114,7 +114,7 @@
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(92, 24);
+            this.toolStripButton1.Size = new System.Drawing.Size(92, 28);
             this.toolStripButton1.Text = "В процессе";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
@@ -185,7 +185,7 @@
             this.groupBox1.Controls.Add(this.comboBox2);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox1.Location = new System.Drawing.Point(0, 27);
+            this.groupBox1.Location = new System.Drawing.Point(0, 31);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(1262, 178);
             this.groupBox1.TabIndex = 5;
@@ -327,7 +327,7 @@
             this.groupBox2.Controls.Add(this.textBox5);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox2.Location = new System.Drawing.Point(0, 205);
+            this.groupBox2.Location = new System.Drawing.Point(0, 209);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(1262, 105);
             this.groupBox2.TabIndex = 15;
@@ -441,7 +441,7 @@
             this.groupBox3.Controls.Add(this.dataGridView1);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox3.Location = new System.Drawing.Point(0, 310);
+            this.groupBox3.Location = new System.Drawing.Point(0, 314);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(1262, 217);
             this.groupBox3.TabIndex = 16;
@@ -500,12 +500,14 @@
             // label14
             // 
             this.label14.AutoSize = true;
+            this.label14.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label14.Location = new System.Drawing.Point(20, 178);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(98, 20);
             this.label14.TabIndex = 22;
             this.label14.Text = "Все услуги";
+            this.label14.Click += new System.EventHandler(this.label14_Click);
             // 
             // button4
             // 
@@ -579,9 +581,9 @@
             this.groupBox4.Controls.Add(this.comboBox8);
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Left;
             this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox4.Location = new System.Drawing.Point(0, 527);
+            this.groupBox4.Location = new System.Drawing.Point(0, 531);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(533, 146);
+            this.groupBox4.Size = new System.Drawing.Size(533, 142);
             this.groupBox4.TabIndex = 17;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Мастер";
@@ -609,9 +611,9 @@
             this.groupBox5.Controls.Add(this.textBox2);
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Left;
             this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox5.Location = new System.Drawing.Point(533, 527);
+            this.groupBox5.Location = new System.Drawing.Point(533, 531);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(423, 146);
+            this.groupBox5.Size = new System.Drawing.Size(423, 142);
             this.groupBox5.TabIndex = 18;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Комментарий к заказу";
@@ -623,7 +625,7 @@
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox2.Size = new System.Drawing.Size(417, 120);
+            this.textBox2.Size = new System.Drawing.Size(417, 116);
             this.textBox2.TabIndex = 0;
             // 
             // button5
