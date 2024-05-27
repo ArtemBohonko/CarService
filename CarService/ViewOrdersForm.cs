@@ -75,6 +75,7 @@ namespace CarService.Objects
 
         private void SetHeaderTextDGV()
         {
+            
             dataGridView1.Columns[0].HeaderText = "Номер заказа";
             dataGridView1.Columns[1].HeaderText = "Дата";
             dataGridView1.Columns[2].HeaderText = "Марка";
@@ -90,18 +91,28 @@ namespace CarService.Objects
         private void SetIdOrderCB()
         {
             List<string> ids = new List<string>();
+            string id=string.Empty;
             foreach (DataRow row in ordersShort.Rows)
-                ids.Add(row.ItemArray[0].ToString());
+            {
+                id = row.ItemArray[0].ToString();
+                if (!ids.Contains(id))
+                    ids.Add(id);
+            }
 
-            comboBox1.SelectedIndex = -1;
+            comboBox1.DataSource=ids;
 
         }
 
         private void SetCLientNameCB()
         {
             List<string> names = new List<string>();
+            string name;
             foreach (DataRow row in ordersFull.Rows)
-                names.Add(row.ItemArray[3].ToString() + ' ' + row.ItemArray[4].ToString() + ' ' + row.ItemArray[5].ToString());
+            {
+                name = row.ItemArray[3].ToString() + ' ' + row.ItemArray[4].ToString() + ' ' + row.ItemArray[5].ToString();
+                if (!names.Contains(name))
+                    names.Add(name);
+            }
 
             comboBox2.DataSource = names;
 
@@ -110,8 +121,14 @@ namespace CarService.Objects
         private void SetClientPhoneCB()
         {
             List<string> phones = new List<string>();
+            string phone;
             foreach (DataRow row in ordersFull.Rows)
-                phones.Add(row.ItemArray[5].ToString());
+            {
+                phone = row.ItemArray[5].ToString();
+                if (!phones.Contains(phone))
+                    phones.Add(phone);
+            }
+                
 
             comboBox3.DataSource = phones;
 
@@ -143,6 +160,8 @@ namespace CarService.Objects
         {
             if (comboBox1.SelectedIndex != -1 && IsOpened)
             {
+                ordersView.RowFilter = string.Empty;
+
                 string filter = string.Format("{0}={1}",
                 ordersShort.Columns[0].ColumnName, comboBox1.SelectedValue.ToString()); ;
                 ordersView.RowFilter = filter;
@@ -152,10 +171,20 @@ namespace CarService.Objects
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
+            string value = string.Empty;
             if (comboBox2.SelectedIndex != -1 && IsOpened)
             {
-                string filter = string.Format("{0}={1}",
-                    ordersShort.Columns[0].ColumnName, ordersFull.Select(ordersFull.Columns[5].ColumnName + "=" + comboBox2.SelectedValue.ToString().Split(new char[] { ' ' })[2])[0].ItemArray[0].ToString());
+                ordersView.RowFilter = string.Empty;
+                DataRow[] selectedRows = ordersFull.Select(ordersFull.Columns[5].ColumnName + "=" + comboBox2.SelectedValue.ToString().Split(new char[] { ' ' })[2]);
+                foreach(DataRow row in selectedRows)
+                {
+                    value += row.ItemArray[0].ToString()+',';
+
+                }
+                value.TrimEnd(',');
+                string fullValue = "( "+value.TrimEnd(',') + " )";
+                string filter = string.Format("{0} IN {1}",
+                    ordersShort.Columns[0].ColumnName, fullValue);
                 ordersView.RowFilter = filter;
             }
 
@@ -163,10 +192,22 @@ namespace CarService.Objects
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
+            string value = string.Empty;
+
             if (comboBox3.SelectedIndex != -1 && IsOpened)
             {
-                string filter = string.Format("{0}={1}",
-                    ordersShort.Columns[0].ColumnName, ordersFull.Select(ordersFull.Columns[5].ColumnName + "=" + comboBox3.SelectedValue.ToString()));
+                ordersView.RowFilter = string.Empty;
+                DataRow[] selectedRows = ordersFull.Select(ordersFull.Columns[5].ColumnName + "=" + comboBox3.SelectedValue.ToString());
+                foreach (DataRow row in selectedRows)
+                {
+                    value += row.ItemArray[0].ToString() + ',';
+
+                }
+                value.TrimEnd(',');
+                string fullValue = "( " + value.TrimEnd(',') + " )";
+                ordersView.RowFilter = string.Empty;
+                string filter = string.Format("{0} IN {1}",
+                    ordersShort.Columns[0].ColumnName, fullValue);
                 ordersView.RowFilter = filter;
             }
         }

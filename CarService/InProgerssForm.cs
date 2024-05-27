@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 
@@ -49,6 +50,12 @@ namespace CarService
 
         private void InProgerssForm_Load(object sender, EventArgs e)
         {
+            LoadData();
+        }
+
+
+        private void LoadData()
+        {
             allAboutOrders = dataBase.LoadOrders();
             employeesTable = dataBase.LoadEmployees();
             Employee = dataBase.getEmployeeById(this.EmployeeId);
@@ -56,7 +63,7 @@ namespace CarService
 
             if (this.PositionId == 1 || this.PositionId == 2)
             {
-                toolStrip1.Visible=false;
+                toolStrip1.Visible = false;
                 groupBox1.Visible = true;
                 groupBox2.Visible = true;
                 InitTableOrdersMaster();
@@ -64,7 +71,7 @@ namespace CarService
                 SetDataInDGV(ordersMaster);
                 SetMastersInCB(employeesTable);
                 SetTextInUpdateStatusButons();
-
+                toolStripButton5.Visible = false;
             }
             else
             {
@@ -81,7 +88,6 @@ namespace CarService
                 SetTextInUpdateStatusButons();
             }
         }
-
         #region Администратор и приёмщик
 
         private void InitTableOrdersMaster()
@@ -354,7 +360,7 @@ namespace CarService
         {
             button7.Visible = button8.Visible = button6.Visible = true;
             button5.Enabled = false;
-            string currentStatus = dataGridView1.SelectedRows[0].Cells[5].Value.ToString();
+            string currentStatus = dataGridView1.SelectedRows[0].Cells[4].Value.ToString();
             SetEnabledFalseButtonForCurrentStatus(currentStatus);
         }
 
@@ -365,8 +371,8 @@ namespace CarService
             int newStatus = 1;
 
             UpdateStatus(idOrder, newStatus);
-            
-            if (oldStatus == dataBase.ConvertStatus(3) && EmployeeId==3)
+            dataGridView1.SelectedRows[0].DefaultCellStyle.BackColor = Color.MistyRose;
+            if (oldStatus == dataBase.ConvertStatus(3) && Employee.PositionId=="3")
                 MoveOrderInOtherTable(idOrder, "Done");
         }
 
@@ -377,7 +383,9 @@ namespace CarService
             int newStatus = 2;
 
             UpdateStatus(idOrder, newStatus);
-            if (oldStatus == dataBase.ConvertStatus(3) && EmployeeId == 3)
+            dataGridView1.SelectedRows[0].DefaultCellStyle.BackColor = Color.OldLace;
+
+            if (oldStatus == dataBase.ConvertStatus(3) && Employee.PositionId == "3")
                 MoveOrderInOtherTable(idOrder,"Done");
         }
 
@@ -387,7 +395,7 @@ namespace CarService
             int newStatus = 3;
 
             UpdateStatus(idOrder, newStatus);
-            if(EmployeeId == 3)
+            if(Employee.PositionId == "3")
                 MoveOrderInOtherTable(idOrder, "InProgress");
         }
 
@@ -399,7 +407,7 @@ namespace CarService
                 dataBase.UpdateOrderStatus(idOrder, newStatus);
                 DataTable table=dataGridView1.DataSource as DataTable;
                 DataRow oldRow = table.Select(string.Format("{0}={1}", table.Columns[0].ColumnName, idOrder))[0];
-                if (EmployeeId == 3)
+                if (Employee.PositionId == "3")
                 {
                     object[] newItemArray = new object[]
               {
@@ -531,6 +539,22 @@ namespace CarService
                 dataGridView1.Columns[3].HeaderText = "Услуги";
                 dataGridView1.Columns[4].HeaderText = "Статус";
             }
+            SetColorByStatus();
+        }
+
+        private void SetColorByStatus()
+        {
+            foreach(DataGridViewRow row in dataGridView1.Rows)
+            {
+                if (row.Cells["Status"].Value.ToString() == dataBase.ConvertStatus(1))
+                    row.DefaultCellStyle.BackColor = Color.MistyRose;
+                else if(row.Cells["Status"].Value.ToString() == dataBase.ConvertStatus(2))
+                    row.DefaultCellStyle.BackColor = Color.OldLace;
+                else
+                    row.DefaultCellStyle.BackColor = Color.Honeydew;
+
+
+            }
         }
 
         private void button9_Click(object sender, EventArgs e)
@@ -593,6 +617,29 @@ namespace CarService
                        MessageBoxDefaultButton.Button1);
             }
             
+        }
+
+        private void toolStripButton5_Click(object sender, EventArgs e)
+        {
+            //this.Owner.Show();
+            this.Close();
+        }
+
+        private void toolStripButton4_Click(object sender, EventArgs e)
+        {
+            this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
+            LoadData();
+            this.Cursor = System.Windows.Forms.Cursors.Default;
+        }
+
+        private void InProgerssForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (Employee.PositionId == "3")
+            {
+                //Application.Exit();
+                this.Owner.Show();
+
+            }
         }
     }
 }

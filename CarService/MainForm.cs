@@ -36,14 +36,27 @@ namespace CarService
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            setEmployeeText();
 
-            this.carDataTable=dataBase.LoadCars();
+            LoadData();
+
+            ClearFields();
+            IsOpened = true;
+
+            if (employee.PositionId == "1")
+                toolStripButton3.Visible = false;
+            
+        }
+
+        private void LoadData()
+        {
+            this.carDataTable = dataBase.LoadCars();
             this.engineTable = dataBase.LoadEngine();
-            this.serviceTable=dataBase.LoadServices();
-            this.categoryTable=dataBase.LoadCategories();
-            this.clientsTable=dataBase.LoadClients();
+            this.serviceTable = dataBase.LoadServices();
+            this.categoryTable = dataBase.LoadCategories();
+            this.clientsTable = dataBase.LoadClients();
             this.employeesTable = dataBase.LoadEmployees();
+            this.employee = dataBase.getEmployeeById(this.IdEmployee);
+
 
             setCarsInCB(this.carDataTable);
             setYearInCB();
@@ -53,15 +66,10 @@ namespace CarService
             setClientsInCB(this.clientsTable);
             setCategoriesInCB(this.categoryTable);
             setTableInDGV();
+            setEmployeeText(this.employee);
 
-            ClearFields();
-            IsOpened = true;
-
-            
         }
 
-
-       
 
         #region Set Catalogs
 
@@ -205,10 +213,9 @@ namespace CarService
 
         }
 
-        private void setEmployeeText()
+        private void setEmployeeText(Employee emp)
         {
-            this.employee = dataBase.getEmployeeById(this.IdEmployee);
-            this.Text = "Сотрудник: " + this.employee.FName + ' ' + this.employee.MName + ' ' + this.employee.LName;
+            this.Text = "Сотрудник: " + emp.FName + ' ' + emp.MName + ' ' + emp.LName;
 
         }
 
@@ -392,16 +399,8 @@ namespace CarService
 
             try
             {
-                this.order = new Order();
-                order.DateTime = DateTime.Now;
-                order.Client = getIdClient(sqlCommand);
-                order.Car = getIdDetail(sqlCommand);
-                order.Employee = this.IdEmployee;
-                order.Master = getIdMaster();
-                order.TotalCost = float.Parse(textBox6.Text);
-                order.Status = 1;
-                order.Comment = textBox2.Text;
-
+                this.order = getDoneOrderData(sqlCommand);
+                
                 dataBase.AddOrder(order, selectedServices, sqlCommand);
 
                 transaction.Commit();
@@ -411,7 +410,7 @@ namespace CarService
                 MessageBox.Show("Заказ успешно оформлен!\n",
                      "Оформление услуг",
                      MessageBoxButtons.OK,
-                     MessageBoxIcon.Error);
+                     MessageBoxIcon.Information);
                 ClearFields();
             }
             catch (Exception ex)
@@ -423,6 +422,20 @@ namespace CarService
                 transaction.Rollback();
             }
 
+        }
+
+        private Order getDoneOrderData(SqlCommand sqlCommand)
+        {
+            Order order = new Order();
+            order.DateTime = DateTime.Now;
+            order.Client = getIdClient(sqlCommand);
+            order.Car = getIdDetail(sqlCommand);
+            order.Employee = this.IdEmployee;
+            order.Master = getIdMaster();
+            order.TotalCost = float.Parse(textBox6.Text);
+            order.Status = 1;
+            order.Comment = textBox2.Text;
+            return order;
         }
 
         private int getIdClient(SqlCommand command)
@@ -594,7 +607,7 @@ namespace CarService
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            InProgerssForm inProgerss = new InProgerssForm(5);   
+            InProgerssForm inProgerss = new InProgerssForm(employee.Id);   
             inProgerss.ShowDialog(this);
         }
 
@@ -602,6 +615,27 @@ namespace CarService
         {
             AllServiceForm allServiceForm = new AllServiceForm();
             allServiceForm.ShowDialog(this);
+        }
+
+        private void toolStripButton4_Click(object sender, EventArgs e)
+        {
+            this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
+            LoadData();
+            this.Cursor = System.Windows.Forms.Cursors.Default;
+        }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            //this.Owner.Show();
+            this.Close();
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            //Application.Exit();
+            if(employee.PositionId=="2")
+                this.Owner.Show();
+
         }
     }
 }

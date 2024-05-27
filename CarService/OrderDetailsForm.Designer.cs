@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OrderDetailsForm));
             this.FNameCl_textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -96,6 +96,7 @@
             // 
             // FNameCl_textBox1
             // 
+            this.FNameCl_textBox1.BackColor = System.Drawing.Color.White;
             this.FNameCl_textBox1.Location = new System.Drawing.Point(24, 56);
             this.FNameCl_textBox1.Name = "FNameCl_textBox1";
             this.FNameCl_textBox1.ReadOnly = true;
@@ -129,7 +130,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox1.Location = new System.Drawing.Point(0, 31);
+            this.groupBox1.Location = new System.Drawing.Point(0, 30);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(1262, 106);
             this.groupBox1.TabIndex = 2;
@@ -147,6 +148,7 @@
             // 
             // Date_textBox1
             // 
+            this.Date_textBox1.BackColor = System.Drawing.Color.White;
             this.Date_textBox1.Location = new System.Drawing.Point(803, 56);
             this.Date_textBox1.Name = "Date_textBox1";
             this.Date_textBox1.ReadOnly = true;
@@ -165,6 +167,7 @@
             // 
             // Status_textBox2
             // 
+            this.Status_textBox2.BackColor = System.Drawing.Color.White;
             this.Status_textBox2.Location = new System.Drawing.Point(1038, 56);
             this.Status_textBox2.Name = "Status_textBox2";
             this.Status_textBox2.ReadOnly = true;
@@ -183,6 +186,7 @@
             // 
             // OrderNumber_textBox1
             // 
+            this.OrderNumber_textBox1.BackColor = System.Drawing.Color.White;
             this.OrderNumber_textBox1.Location = new System.Drawing.Point(652, 56);
             this.OrderNumber_textBox1.Name = "OrderNumber_textBox1";
             this.OrderNumber_textBox1.ReadOnly = true;
@@ -202,6 +206,7 @@
             // 
             // PhoneCl_maskedTextBox1
             // 
+            this.PhoneCl_maskedTextBox1.BackColor = System.Drawing.Color.White;
             this.PhoneCl_maskedTextBox1.Location = new System.Drawing.Point(436, 56);
             this.PhoneCl_maskedTextBox1.Mask = "+375 (00) 000-00-00";
             this.PhoneCl_maskedTextBox1.Name = "PhoneCl_maskedTextBox1";
@@ -221,6 +226,7 @@
             // 
             // MNameCl_textBox2
             // 
+            this.MNameCl_textBox2.BackColor = System.Drawing.Color.White;
             this.MNameCl_textBox2.Location = new System.Drawing.Point(233, 56);
             this.MNameCl_textBox2.Name = "MNameCl_textBox2";
             this.MNameCl_textBox2.ReadOnly = true;
@@ -255,7 +261,7 @@
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox2.Location = new System.Drawing.Point(0, 137);
+            this.groupBox2.Location = new System.Drawing.Point(0, 136);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(1262, 100);
             this.groupBox2.TabIndex = 3;
@@ -264,6 +270,7 @@
             // 
             // Value_textBox9
             // 
+            this.Value_textBox9.BackColor = System.Drawing.Color.White;
             this.Value_textBox9.Location = new System.Drawing.Point(929, 57);
             this.Value_textBox9.Name = "Value_textBox9";
             this.Value_textBox9.ReadOnly = true;
@@ -282,6 +289,7 @@
             // 
             // Engine_textBox8
             // 
+            this.Engine_textBox8.BackColor = System.Drawing.Color.White;
             this.Engine_textBox8.Location = new System.Drawing.Point(765, 57);
             this.Engine_textBox8.Name = "Engine_textBox8";
             this.Engine_textBox8.ReadOnly = true;
@@ -300,6 +308,7 @@
             // 
             // VIN_textBox7
             // 
+            this.VIN_textBox7.BackColor = System.Drawing.Color.White;
             this.VIN_textBox7.Location = new System.Drawing.Point(1052, 57);
             this.VIN_textBox7.Name = "VIN_textBox7";
             this.VIN_textBox7.ReadOnly = true;
@@ -318,6 +327,7 @@
             // 
             // Mileage_textBox6
             // 
+            this.Mileage_textBox6.BackColor = System.Drawing.Color.White;
             this.Mileage_textBox6.Location = new System.Drawing.Point(557, 57);
             this.Mileage_textBox6.Name = "Mileage_textBox6";
             this.Mileage_textBox6.ReadOnly = true;
@@ -336,6 +346,7 @@
             // 
             // Year_textBox5
             // 
+            this.Year_textBox5.BackColor = System.Drawing.Color.White;
             this.Year_textBox5.Location = new System.Drawing.Point(436, 57);
             this.Year_textBox5.Name = "Year_textBox5";
             this.Year_textBox5.ReadOnly = true;
@@ -354,6 +365,7 @@
             // 
             // Model_textBox4
             // 
+            this.Model_textBox4.BackColor = System.Drawing.Color.White;
             this.Model_textBox4.Location = new System.Drawing.Point(233, 57);
             this.Model_textBox4.Name = "Model_textBox4";
             this.Model_textBox4.ReadOnly = true;
@@ -372,6 +384,7 @@
             // 
             // Brand_textBox3
             // 
+            this.Brand_textBox3.BackColor = System.Drawing.Color.White;
             this.Brand_textBox3.Location = new System.Drawing.Point(24, 57);
             this.Brand_textBox3.Name = "Brand_textBox3";
             this.Brand_textBox3.ReadOnly = true;
@@ -397,7 +410,7 @@
             this.groupBox3.Controls.Add(this.dataGridView1);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox3.Location = new System.Drawing.Point(0, 237);
+            this.groupBox3.Location = new System.Drawing.Point(0, 236);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(1262, 252);
             this.groupBox3.TabIndex = 4;
@@ -424,6 +437,7 @@
             // 
             // Cost_textBox10
             // 
+            this.Cost_textBox10.BackColor = System.Drawing.Color.White;
             this.Cost_textBox10.Location = new System.Drawing.Point(1149, 219);
             this.Cost_textBox10.Name = "Cost_textBox10";
             this.Cost_textBox10.ReadOnly = true;
@@ -446,16 +460,16 @@
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Top;
             this.dataGridView1.Location = new System.Drawing.Point(3, 23);
             this.dataGridView1.Name = "dataGridView1";
@@ -488,15 +502,16 @@
             this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox4.Location = new System.Drawing.Point(0, 489);
+            this.groupBox4.Location = new System.Drawing.Point(0, 488);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(1262, 184);
+            this.groupBox4.Size = new System.Drawing.Size(1262, 185);
             this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Работники";
             // 
             // LNameMast_textBox16
             // 
+            this.LNameMast_textBox16.BackColor = System.Drawing.Color.White;
             this.LNameMast_textBox16.Location = new System.Drawing.Point(620, 123);
             this.LNameMast_textBox16.Name = "LNameMast_textBox16";
             this.LNameMast_textBox16.ReadOnly = true;
@@ -515,6 +530,7 @@
             // 
             // LNameEmp_textBox15
             // 
+            this.LNameEmp_textBox15.BackColor = System.Drawing.Color.White;
             this.LNameEmp_textBox15.Location = new System.Drawing.Point(620, 54);
             this.LNameEmp_textBox15.Name = "LNameEmp_textBox15";
             this.LNameEmp_textBox15.ReadOnly = true;
@@ -533,6 +549,7 @@
             // 
             // PhoneMast_maskedTextBox3
             // 
+            this.PhoneMast_maskedTextBox3.BackColor = System.Drawing.Color.White;
             this.PhoneMast_maskedTextBox3.Location = new System.Drawing.Point(826, 123);
             this.PhoneMast_maskedTextBox3.Mask = "+375 (00) 000-00-00";
             this.PhoneMast_maskedTextBox3.Name = "PhoneMast_maskedTextBox3";
@@ -552,6 +569,7 @@
             // 
             // MNameMast_textBox13
             // 
+            this.MNameMast_textBox13.BackColor = System.Drawing.Color.White;
             this.MNameMast_textBox13.Location = new System.Drawing.Point(386, 123);
             this.MNameMast_textBox13.Name = "MNameMast_textBox13";
             this.MNameMast_textBox13.ReadOnly = true;
@@ -570,6 +588,7 @@
             // 
             // FNameMast_textBox14
             // 
+            this.FNameMast_textBox14.BackColor = System.Drawing.Color.White;
             this.FNameMast_textBox14.Location = new System.Drawing.Point(149, 123);
             this.FNameMast_textBox14.Name = "FNameMast_textBox14";
             this.FNameMast_textBox14.ReadOnly = true;
@@ -588,6 +607,7 @@
             // 
             // PhoneEmp_maskedTextBox2
             // 
+            this.PhoneEmp_maskedTextBox2.BackColor = System.Drawing.Color.White;
             this.PhoneEmp_maskedTextBox2.Location = new System.Drawing.Point(826, 54);
             this.PhoneEmp_maskedTextBox2.Mask = "+375 (00) 000-00-00";
             this.PhoneEmp_maskedTextBox2.Name = "PhoneEmp_maskedTextBox2";
@@ -607,6 +627,7 @@
             // 
             // MNameEmp_textBox11
             // 
+            this.MNameEmp_textBox11.BackColor = System.Drawing.Color.White;
             this.MNameEmp_textBox11.Location = new System.Drawing.Point(386, 54);
             this.MNameEmp_textBox11.Name = "MNameEmp_textBox11";
             this.MNameEmp_textBox11.ReadOnly = true;
@@ -625,6 +646,7 @@
             // 
             // FNameEmp_textBox12
             // 
+            this.FNameEmp_textBox12.BackColor = System.Drawing.Color.White;
             this.FNameEmp_textBox12.Location = new System.Drawing.Point(149, 54);
             this.FNameEmp_textBox12.Name = "FNameEmp_textBox12";
             this.FNameEmp_textBox12.ReadOnly = true;
@@ -661,12 +683,14 @@
             // 
             // toolStrip1
             // 
+            this.toolStrip1.BackColor = System.Drawing.Color.White;
+            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1262, 31);
+            this.toolStrip1.Size = new System.Drawing.Size(1262, 30);
             this.toolStrip1.TabIndex = 21;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -676,7 +700,7 @@
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(62, 28);
+            this.toolStripButton1.Size = new System.Drawing.Size(70, 27);
             this.toolStripButton1.Text = "Печать";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
@@ -684,12 +708,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.AliceBlue;
             this.ClientSize = new System.Drawing.Size(1262, 673);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.toolStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximumSize = new System.Drawing.Size(1280, 720);
+            this.MinimumSize = new System.Drawing.Size(1280, 720);
             this.Name = "OrderDetailsForm";
             this.Text = "OrderDetails";
             this.Load += new System.EventHandler(this.OrderDetails_Load);

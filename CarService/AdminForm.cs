@@ -34,14 +34,20 @@ namespace CarService
 
         private void AdminForm_Load(object sender, EventArgs e)
         {
+            LoadData();   
+            this.Text = "Администратор " + employee.FName + ' ' + employee.MName + ' ' + employee.LName;
+            IsOpened = true;
+        }
+
+        private void LoadData()
+        {
             this.carDataTable = dataBase.LoadCars();
-            
             this.serviceTable = dataBase.LoadServices();
             this.engineTable = dataBase.LoadEngine();
             this.categoryTable = dataBase.LoadCategories();
             this.clientsTable = dataBase.LoadClients();
             this.employeesTable = dataBase.LoadEmployees();
-            this.positionsTable=dataBase.LoadPositions();
+            this.positionsTable = dataBase.LoadPositions();
 
             setCarsInCB(this.carDataTable);
             setEngineInCB2(this.engineTable);
@@ -56,8 +62,6 @@ namespace CarService
             Categories_comboBox.SelectedIndex = -1;
             Positions_comboBox.SelectedIndex = -1;
             Employees_comboBox.SelectedIndex = -1;
-            this.Text = "Администратор " + employee.FName + ' ' + employee.MName + ' ' + employee.LName;
-            IsOpened = true;
         }
 
         #region Set catalogs
@@ -847,8 +851,31 @@ namespace CarService
 
         private void label9_Click(object sender, EventArgs e)
         {
+
             AllServiceForm allServiceForm = new AllServiceForm();
             allServiceForm.ShowDialog(this);
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            //this.Owner.Show();
+            this.Close();
+        }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            this.Cursor=System.Windows.Forms.Cursors.WaitCursor;
+            LoadData();
+            this.Cursor=System.Windows.Forms.Cursors.Default;
+
+        }
+
+        private void AdminForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            //Application.Exit();
+            this.Owner.Show();
+            //this.Close();
+
         }
     }
 }

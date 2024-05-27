@@ -1,14 +1,9 @@
-﻿using System;
+﻿using CarService.Objects;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace CarService
 {
@@ -16,6 +11,10 @@ namespace CarService
     {
         DB dataBase;
         DataTable employees;
+        ToolTip toolTip;
+        Employee employee;
+        string message = "Показать пароль";
+
         public LoginForm()
         {
             InitializeComponent();
@@ -38,7 +37,7 @@ namespace CarService
             if (passwords.Contains(enterPassword))
             {
                 idEmployee = dataBase.getIdEmployee(enterPassword);
-               
+                employee = dataBase.getEmployeeById(idEmployee);
             }
             else
             {
@@ -51,24 +50,58 @@ namespace CarService
                 return;
             }
 
-            if(idEmployee == 1) {
+            if(employee.PositionId == "1") {
                 AdminForm adminForm = new AdminForm(idEmployee);
                 adminForm.Show();
+                adminForm.Owner = this;
                 this.Hide();
             }
-            else if(idEmployee == 2)
+            else if(employee.PositionId == "2")
             {
                 MainForm mainForm = new MainForm(idEmployee);
                 mainForm.Show();
+                mainForm.Owner = this;
                 this.Hide();
             }
             else
             {
                 InProgerssForm inProgerssForm = new InProgerssForm(idEmployee);
                 inProgerssForm.Show();
+                inProgerssForm.Owner = this;
                 this.Hide();
             }
+            textBox1.Text = string.Empty;
 
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            if (textBox1.UseSystemPasswordChar == true)
+            {
+                textBox1.UseSystemPasswordChar = false;
+                pictureBox1.Image = CarService.Properties.Resources.close_eye;
+                message = "Скрыть пароль";
+            }
+            else
+            {
+                textBox1.UseSystemPasswordChar = true;
+                pictureBox1.Image = CarService.Properties.Resources.open_eye;
+                message = "Показать пароль";
+            }
+        }
+
+        private void pictureBox1_MouseEnter(object sender, EventArgs e)
+        {
+            toolTip = new ToolTip();
+            toolTip.SetToolTip(pictureBox1, message);
+        }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                button_Confirm_Click(sender, e);
+            }
         }
     }
 }

@@ -1,24 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
-using System.Windows.Forms;
-using System.Xml.Linq;
 using CarService.Objects;
-using System.IO;
-using System.Net.Sockets;
-using System.Security.Cryptography;
-using System.Reflection;
-using System.Drawing;
+using System.Configuration;
 
 namespace CarService
 {
     internal class DB
     {
-        public string connectionString = "Data Source=DESKTOP-UN6IMVL\\SQLEXPRESS;Initial Catalog=CarService;Integrated Security=True";
+        public string connectionString = ConfigurationManager.ConnectionStrings["CarService2"].ConnectionString;
         private SqlConnection sqlConnection;
 
         public DB()
